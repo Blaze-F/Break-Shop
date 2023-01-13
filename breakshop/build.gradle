@@ -29,6 +29,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'io.projectreactor:reactor-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+	// https://mvnrepository.com/artifact/mysql/mysql-connector-java
+	implementation 'mysql:mysql-connector-java:8.0.31'
+
 }
 
 tasks.named('test') {

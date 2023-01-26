@@ -18,7 +18,7 @@ public class Order extends BaseEntity {
 
     private String orderStatus;
     private String address;
-    private int totalPrice;
+    private Long totalPrice;
 
     @ManyToOne
     private User user;

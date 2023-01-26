@@ -32,6 +32,11 @@ dependencies {
 	implementation 'org.springframework.data:spring-data-jpa:2.7.4'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.0'
+	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+	implementation 'org.modelmapper:modelmapper:2.3.7'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	// https://mvnrepository.com/artifact/io.scalajs.npm/bcrypt
+	implementation 'io.scalajs.npm:bcrypt_sjs0.6_2.12:1.0.2-1'
 
 
 

@@ -1,11 +1,48 @@
 package com.project.breakshop.models.DTO;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
+import lombok.Getter;
 
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Getter
-@Setter
+@Builder
 public class StoreDTO {
+
+    private final Long id;
+
+    private final String name;
+
+    private final String phone;
+
+    private final String address;
+
+    private final String ownerId;
+
+    private final String openStatus;
+
+    private final String introduction;
+
+    private final Long categoryId;
+
+    @JsonCreator
+    public StoreDTO(@JsonProperty(value = "id") Long id,
+        @JsonProperty(value = "name") String name,
+        @JsonProperty(value = "phone") String phone,
+        @JsonProperty(value = "address") String address,
+        @JsonProperty(value = "ownerId") String ownerId,
+        @JsonProperty(value = "openStatus") String openStatus,
+        @JsonProperty(value = "introduction") String introduction,
+        @JsonProperty(value = "categoryId") Long categoryId
+    ) {
+        this.id = id;
+        this.name = name;
+        this.phone = phone;
+        this.address = address;
+        this.ownerId = ownerId;
+        this.openStatus = openStatus;
+        this.introduction = introduction;
+        this.categoryId = categoryId;
+    }
+
 }

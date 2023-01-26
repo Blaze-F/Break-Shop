@@ -13,7 +13,7 @@ import java.util.Date;
 */
 
 @MappedSuperclass
-@Data //TODO 나중에 풀기
+@Data //TODO 필요한지 나중에 알아보기
 public class BaseEntity {
 
     @Generated(GenerationTime.ALWAYS)

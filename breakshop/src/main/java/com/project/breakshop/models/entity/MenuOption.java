@@ -15,7 +15,7 @@ import javax.persistence.OneToMany;
 public class MenuOption {
     private Long id;
     private String name;
-    private int price;
+    private Long price;
 
     @OneToMany
     private OrderMenuOption orderMenuOption;

@@ -20,7 +20,7 @@ public class Menu extends BaseEntity {
     private Long id;
 
     private String name;
-    private int price;
+    private Long price;
     private Lob photo; //TODO
     private String description;
 

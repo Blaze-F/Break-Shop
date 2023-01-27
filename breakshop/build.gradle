@@ -37,6 +37,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	// https://mvnrepository.com/artifact/io.scalajs.npm/bcrypt
 	implementation 'io.scalajs.npm:bcrypt_sjs0.6_2.12:1.0.2-1'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.4'
+
 
 
 

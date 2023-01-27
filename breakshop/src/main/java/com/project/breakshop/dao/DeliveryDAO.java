@@ -2,6 +2,8 @@ package com.project.breakshop.dao;
 
 import com.flab.makedel.dto.OrderReceiptDTO;
 import com.flab.makedel.dto.RiderDTO;
+import com.project.breakshop.models.DTO.OrderReceiptDTO;
+import com.project.breakshop.models.DTO.RiderDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.dao.DataAccessException;

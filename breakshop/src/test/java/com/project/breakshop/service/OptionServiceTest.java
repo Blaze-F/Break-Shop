@@ -1,7 +1,7 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.dto.OptionDTO;
-import com.flab.makedel.mapper.OptionMapper;
+import com.project.breakshop.models.DTO.OptionDTO;
+import com.project.breakshop.models.repository.MenuOptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 public class OptionServiceTest {
 
     @Mock
-    OptionMapper optionMapper;
+    MenuOptionRepository menuOptionRepository;
 
     @InjectMocks
     OptionService optionService;

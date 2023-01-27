@@ -5,4 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MenuRepository extends JpaRepository<Menu, Long> {
 
+    boolean existsById(Long id);
+
+    void deleteById(Long id);
+
 }

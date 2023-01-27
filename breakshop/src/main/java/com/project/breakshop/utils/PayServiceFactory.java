@@ -1,10 +1,10 @@
 package com.project.breakshop.utils;
 
-import com.flab.makedel.dto.PayDTO.PayType;
-import com.flab.makedel.service.CardPayService;
-import com.flab.makedel.service.DepositPayService;
-import com.flab.makedel.service.NaverPayService;
-import com.flab.makedel.service.PayService;
+import com.project.breakshop.models.DTO.PayDTO;
+import com.project.breakshop.service.CardPayService;
+import com.project.breakshop.service.DepositPayService;
+import com.project.breakshop.service.NaverPayService;
+import com.project.breakshop.service.PayService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +16,13 @@ public class PayServiceFactory {
     private final NaverPayService naverPayService;
     private final DepositPayService depositPayService;
 
-    public PayService getPayService(PayType payType) {
+    public PayService getPayService(PayDTO.PayType payType) {
 
         PayService payService = null;
 
         switch (payType) {
             case CARD:
-                payService = cardPayService;
+                payService = (PayService) cardPayService;
                 break;
             case NAVER_PAY:
                 payService = naverPayService;

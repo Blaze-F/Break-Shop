@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * TimeStamp 전용 상속 엔티티
+ * 상속 엔티티
 */
 
 @MappedSuperclass

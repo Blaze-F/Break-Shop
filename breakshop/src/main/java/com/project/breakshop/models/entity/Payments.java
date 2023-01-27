@@ -5,6 +5,8 @@ import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -16,4 +18,7 @@ public class Payments extends BaseEntity {
     private Long id;
 
     private String payType;
+
+    @ManyToOne
+    private Order order;
 }

@@ -3,9 +3,8 @@ package com.project.breakshop.models.entity;
 import com.project.breakshop.models.entity.base.BaseEntity;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -20,6 +19,9 @@ public class Order extends BaseEntity {
     private String address;
     private Long totalPrice;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    Set<Payments> payments;
 }

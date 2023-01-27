@@ -21,6 +21,6 @@ public class User extends BaseEntity {
     private String address;
     private String level;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.LAZY)
     private Order order;
 }

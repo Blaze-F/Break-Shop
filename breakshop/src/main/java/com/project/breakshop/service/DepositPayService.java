@@ -14,7 +14,7 @@ public class DepositPayService implements PayService {
     private final PayMapper payMapper;
 
     @Override
-    public void pay(long price, long orderId) {
+    public payDTO pay(long price, long orderId) {
         PayDTO payDTO = PayDTO.builder()
             .payType(PayType.DEPOSIT)
             .price(price)

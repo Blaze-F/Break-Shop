@@ -4,6 +4,7 @@ import com.project.breakshop.models.entity.base.BaseEntity;
 import lombok.*;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import java.util.Date;
@@ -26,7 +27,7 @@ public class Store extends BaseEntity {
     private Date createdDate;
     private Date updatedDate;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
 }

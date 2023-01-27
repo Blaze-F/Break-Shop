@@ -3,6 +3,7 @@ package com.project.breakshop.models.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @Builder
+@Setter
 public class PayDTO {
 
     private final Long id;
@@ -34,7 +36,7 @@ public class PayDTO {
     }
 
     public enum PayStatus {
-        BEFORE_PAY, BEFORE_DEPOSIT, COMPLETE_PAY
+        BEFORE_PAY, BEFORE_DEPOSIT, COMPLETE_PAY, FAILURE, CANCALED
     }
 
 }

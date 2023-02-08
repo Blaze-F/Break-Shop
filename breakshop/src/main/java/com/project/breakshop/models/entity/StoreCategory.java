@@ -3,8 +3,7 @@ package com.project.breakshop.models.entity;
 import com.project.breakshop.models.entity.base.BaseEntity;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -12,8 +11,15 @@ import javax.persistence.Id;
 @Builder
 @Getter
 public class StoreCategory extends BaseEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String name;
+
+    @ManyToOne
+    private Store store;
+
+
 }

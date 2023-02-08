@@ -1,9 +1,8 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.dao.DeliveryDAO;
-import com.flab.makedel.dto.OrderDTO.OrderStatus;
-import com.flab.makedel.dto.RiderDTO;
-import com.flab.makedel.mapper.OrderMapper;
+import com.project.breakshop.Redis.DeliveryDAO;
+import com.project.breakshop.models.DTO.RiderDTO;
+import com.project.breakshop.models.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,7 +26,7 @@ public class RiderServiceTest {
     DeliveryDAO deliveryDAO;
 
     @Mock
-    OrderMapper orderMapper;
+    OrderRepository orderRepository;
     
     RiderDTO riderDTO;
 
@@ -143,12 +142,13 @@ public class RiderServiceTest {
         verify(deliveryDAO).deleteStandbyRiderWhenStopWork(any(RiderDTO.class));
     }
 
+    //TODO
     @Test
     @DisplayName("라이더가 주문완료된 음식에 배차 요청을 하는데 성공한다")
     public void acceptStandbyOrderTest() {
         doNothing().when(deliveryDAO)
             .updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
-        doNothing().when(orderMapper)
+        doNothing().when(orderRepository)
             .updateStandbyOrderToDelivering(anyLong(), any(String.class), any(
                 OrderStatus.class));
 

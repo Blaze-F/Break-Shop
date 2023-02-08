@@ -1,14 +1,13 @@
 package com.project.breakshop.models.DTO;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 @Builder
+@Setter
 public class OrderDTO {
 
     private final Long id;

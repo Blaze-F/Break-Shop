@@ -1,13 +1,12 @@
 package com.project.breakshop.service;
-
-import com.flab.makedel.dao.CartItemDAO;
-import com.flab.makedel.dto.*;
-import com.flab.makedel.dto.OrderDTO.OrderStatus;
-import com.flab.makedel.dto.PayDTO.PayType;
-import com.flab.makedel.mapper.OrderMapper;
-import com.flab.makedel.mapper.StoreMapper;
-import com.flab.makedel.mapper.UserMapper;
+import com.project.breakshop.Redis.CartItemDAO;
+import com.project.breakshop.models.DTO.*;
+import com.project.breakshop.models.repository.OrderRepository;
+import com.project.breakshop.models.repository.StoreRepository;
+import com.project.breakshop.models.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
@@ -20,16 +19,23 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderService {
 
-    private final OrderMapper orderMapper;
-    private final UserMapper userMapper;
+    @Autowired
+    private final OrderRepository orderRepository;
+    @Autowired
+    private final UserRepository userRepository;
+    @Autowired
     private final OrderTransactionService orderTransactionService;
+    @Autowired
     private final CartItemDAO cartItemDAO;
-    private final StoreMapper storeMapper;
+    @Autowired
+    private final StoreRepository storeRepository;
+    @Autowired
+    private final ModelMapper modelMapper;
 
     @Transactional
-    public OrderReceiptDTO registerOrder(String userId, long storeId, PayType payType) {
+    public OrderReceiptDTO registerOrder(String userId, long storeId, PayDTO.PayType payType) {
 
-        UserInfoDTO user = userMapper.selectUserInfo(userId);
+        UserInfoDTO user = userRepository.selectUserInfo(Long.parseLong(userId));
         OrderDTO orderDTO = getOrderDTO(user, storeId);
         List<CartItemDTO> cartList;
         List<OrderMenuDTO> orderMenuList = new ArrayList<>();
@@ -43,7 +49,9 @@ public class OrderService {
         long totalPrice = orderTransactionService
             .order(orderDTO, cartList, orderMenuList, orderMenuOptionList);
         orderTransactionService.pay(payType, totalPrice, orderDTO.getId());
-        orderMapper.completeOrder(totalPrice, orderDTO.getId(), OrderStatus.COMPLETE_ORDER);
+
+
+        orderMapper.completeOrder(totalPrice, orderDTO.getId(), OrderDTO.OrderStatus.COMPLETE_ORDER);
         orderReceipt = getOrderReceipt(orderDTO, cartList, totalPrice, storeId,
             user);
 
@@ -63,13 +71,12 @@ public class OrderService {
     }
 
     private OrderDTO getOrderDTO(UserInfoDTO userInfo, long storeId) {
-        OrderDTO orderDTO = OrderDTO.builder()
+        return OrderDTO.builder()
             .address(userInfo.getAddress())
             .userId(userInfo.getId())
-            .orderStatus(OrderStatus.BEFORE_ORDER)
+            .orderStatus(OrderDTO.OrderStatus.BEFORE_ORDER)
             .storeId(storeId)
             .build();
-        return orderDTO;
     }
 
     private OrderReceiptDTO getOrderReceipt(OrderDTO orderDTO, List<CartItemDTO> cartList,
@@ -78,7 +85,7 @@ public class OrderService {
         StoreInfoDTO storeInfo = storeMapper.selectStoreInfo(storeId);
         return OrderReceiptDTO.builder()
             .orderId(orderDTO.getId())
-            .orderStatus(OrderStatus.COMPLETE_ORDER.toString())
+            .orderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER.toString())
             .userInfo(userInfo)
             .totalPrice(totalPrice)
             .storeInfo(storeInfo)

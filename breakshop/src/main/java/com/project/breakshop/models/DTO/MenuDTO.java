@@ -21,8 +21,6 @@ public class MenuDTO {
 
     private final String description;
 
-    private final Long menuGroupId;
-
     private final Long storeId;
 
     private final LocalDateTime createdAt;

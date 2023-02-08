@@ -1,9 +1,6 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.annotation.LoginCheck.UserLevel;
-import com.flab.makedel.dto.UserDTO;
-import com.flab.makedel.mapper.UserMapper;
-import com.flab.makedel.utils.PasswordEncrypter;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +13,7 @@ import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Matchers.*;
+
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

@@ -1,7 +1,7 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.dto.StoreCategoryDTO;
-import com.flab.makedel.mapper.StoreListMapper;
+
+import com.project.breakshop.models.repository.StoreRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.*;
 class StoreListServiceTest {
 
     @Mock
-    StoreListMapper storeListMapper;
+    StoreRepository storeRepository;
 
     @InjectMocks
     StoreListService storeListService;
@@ -29,7 +29,7 @@ class StoreListServiceTest {
     @Test
     @DisplayName("올바른 카테고리 아이디로 음식점 목록을 조회한다")
     public void getStoreListByCategoryTest() {
-        when(storeListMapper.selectStoreListByCategory(anyLong())).thenReturn(anyList());
+        when(storeRepository.selectStoreListByCategory(anyLong())).thenReturn(anyList());
 
         storeListService.getStoreListByCategory(1L);
 

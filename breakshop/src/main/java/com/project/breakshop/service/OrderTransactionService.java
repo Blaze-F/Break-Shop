@@ -1,16 +1,22 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.dto.*;
-import com.flab.makedel.dto.PayDTO.PayType;
-import com.flab.makedel.mapper.OrderMapper;
-import com.flab.makedel.mapper.OrderMenuMapper;
-import com.flab.makedel.mapper.OrderMenuOptionMapper;
-import com.flab.makedel.utils.PayServiceFactory;
+
+import com.project.breakshop.models.DTO.*;
+import com.project.breakshop.models.entity.Order;
+import com.project.breakshop.models.entity.joinTable.OrderMenu;
+import com.project.breakshop.models.entity.joinTable.OrderMenuOption;
+import com.project.breakshop.models.repository.OrderMenuOptionRepository;
+import com.project.breakshop.models.repository.OrderMenuRepository;
+import com.project.breakshop.models.repository.OrderRepository;
+import com.project.breakshop.utils.PayServiceFactory;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /*
     굳이 OrderTransactionService를 새로 만들은 이유 :
@@ -31,24 +37,32 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderTransactionService {
 
-    private final OrderMapper orderMapper;
-    private final OrderMenuMapper orderMenuMapper;
-    private final OrderMenuOptionMapper orderMenuOptionMapper;
+    @Autowired
+    private final OrderRepository orderRepository;
+
+    @Autowired
+    private final OrderMenuRepository orderMenuRepository;
+
+    @Autowired
+    private final OrderMenuOptionRepository orderMenuOptionRepository;
+    @Autowired
     private final PayServiceFactory payServiceFactory;
+
+    @Autowired
+    ModelMapper modelMapper;
 
     @Transactional
     public long order(OrderDTO orderDTO, List<CartItemDTO> cartList,
-        List<OrderMenuDTO> orderMenuList, List<OrderMenuOptionDTO> orderMenuOptionList) {
+                      List<OrderMenuDTO> orderMenuList, List<OrderMenuOptionDTO> orderMenuOptionList) {
 
-        orderMapper.insertOrder(orderDTO);
-        long totalPrice = registerOrderMenu(cartList, orderDTO.getId(), orderMenuList,
+        orderRepository.save(modelMapper.map(orderDTO, Order.class));
+
+        return registerOrderMenu(cartList, orderDTO.getId(), orderMenuList,
             orderMenuOptionList);
-
-        return totalPrice;
     }
 
     @Transactional
-    public void pay(PayType payType, long totalPrice, long orderId) {
+    public void pay(PayDTO.PayType payType, long totalPrice, long orderId) {
 
         PayService payService = payServiceFactory.getPayService(payType);
         payService.pay(totalPrice, orderId);
@@ -84,8 +98,8 @@ public class OrderTransactionService {
             }
         }
 
-        orderMenuMapper.insertOrderMenu(orderMenuList);
-        orderMenuOptionMapper.insertOrderMenuOption(orderMenuOptionList);
+        orderMenuRepository.saveAll(orderMenuList.stream().map(e-> modelMapper.map(e, OrderMenu.class)).collect(Collectors.toSet()));
+        orderMenuOptionRepository.saveAll(orderMenuOptionList.stream().map(e -> modelMapper.map(e, OrderMenuOption.class)).collect(Collectors.toList()));
 
         return totalPrice;
 

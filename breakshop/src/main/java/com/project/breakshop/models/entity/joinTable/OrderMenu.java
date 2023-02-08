@@ -18,10 +18,10 @@ import java.util.Set;
 public class OrderMenu {
     @Id
     @ManyToOne
-    Set<Order> orderSet = new HashSet<>();
+    Order order;
 
     @ManyToOne
-    Set<Menu> menuSet = new HashSet<>();
+    Menu menu;
 
     private int count;
 }

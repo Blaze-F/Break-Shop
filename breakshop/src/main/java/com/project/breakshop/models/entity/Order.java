@@ -1,6 +1,7 @@
 package com.project.breakshop.models.entity;
 
 import com.project.breakshop.models.entity.base.BaseEntity;
+import com.project.breakshop.models.entity.joinTable.OrderMenuOption;
 import lombok.*;
 
 import javax.persistence.*;
@@ -13,6 +14,7 @@ import java.util.Set;
 @Getter
 public class Order extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private String orderStatus;
@@ -24,4 +26,7 @@ public class Order extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY)
     Set<Payments> payments;
+
+    @OneToMany(fetch = FetchType.LAZY)
+    Set<OrderMenuOption> orderMenuOptions;
 }

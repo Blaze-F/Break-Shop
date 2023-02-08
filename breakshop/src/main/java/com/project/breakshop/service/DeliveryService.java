@@ -1,6 +1,6 @@
 package com.project.breakshop.service;
 
-import com.project.breakshop.dao.DeliveryDAO;
+import com.project.breakshop.Redis.DeliveryDAO;
 import com.project.breakshop.models.DTO.OrderReceiptDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

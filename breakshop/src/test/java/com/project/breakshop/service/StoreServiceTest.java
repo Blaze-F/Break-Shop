@@ -1,9 +1,6 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.dto.*;
-import com.flab.makedel.dto.OrderDTO.OrderStatus;
-import com.flab.makedel.mapper.OrderMapper;
-import com.flab.makedel.mapper.StoreMapper;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,10 +11,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

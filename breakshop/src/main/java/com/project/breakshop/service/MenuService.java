@@ -1,16 +1,17 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.Exception.NotExistIdException;
-import com.flab.makedel.dto.MenuDTO;
-import com.flab.makedel.mapper.MenuMapper;
 import com.project.breakshop.exception.NotExistIdException;
 import com.project.breakshop.models.DTO.MenuDTO;
+import com.project.breakshop.models.entity.Menu;
 import com.project.breakshop.models.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,16 +23,20 @@ public class MenuService {
     public void insertMenu(MenuDTO menu) {
 
     }
-
+    ModelMapper modelMapper = new ModelMapper();
     public MenuDTO setStoreId(MenuDTO menu, long storeId) {
         MenuDTO newMenu = MenuDTO.builder()
             .name(menu.getName())
             .price(menu.getPrice())
             .photo(menu.getPhoto())
             .description(menu.getDescription())
-            .menuGroupId(menu.getMenuGroupId())
             .storeId(storeId)
             .build();
+
+        Menu menuEntity = modelMapper.map(newMenu, Menu.class);
+
+        menuRepository.save(menuEntity);
+
         return newMenu;
     }
 
@@ -43,7 +48,9 @@ public class MenuService {
     }
 
     public List<MenuDTO> loadStoreMenu(long storeId) {
-        return menuMapper.selectStoreMenu(storeId);
+        List<Menu> menuEntityList =  menuRepository.findByStoreId(storeId);
+        //ModelMapper에 List를 바인딩
+        return menuEntityList.stream().map(p -> modelMapper.map(p, MenuDTO.class)).collect(Collectors.toList());
     }
 
 }

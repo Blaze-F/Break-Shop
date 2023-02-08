@@ -1,26 +1,35 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.dto.PayDTO;
-import com.flab.makedel.dto.PayDTO.PayStatus;
-import com.flab.makedel.dto.PayDTO.PayType;
-import com.flab.makedel.mapper.PayMapper;
+
+import com.project.breakshop.models.DTO.PayDTO;
+import com.project.breakshop.models.entity.Payments;
+import com.project.breakshop.models.repository.PaymentsRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class DepositPayService implements PayService {
 
-    private final PayMapper payMapper;
+    ModelMapper modelMapper = new ModelMapper();
+
+    @Autowired
+    PaymentsRepository paymentsRepository;
 
     @Override
-    public payDTO pay(long price, long orderId) {
+    public void pay(long price, long orderId) {
         PayDTO payDTO = PayDTO.builder()
-            .payType(PayType.DEPOSIT)
+            .payType(PayDTO.PayType.DEPOSIT)
             .price(price)
             .orderId(orderId)
-            .status(PayStatus.BEFORE_DEPOSIT)
+            .status(PayDTO.PayStatus.BEFORE_DEPOSIT)
             .build();
-        payMapper.insertPay(payDTO);
+
+        Payments payments = modelMapper.map(payDTO, Payments.class);
+
+        paymentsRepository.save(payments);
+
     }
 }

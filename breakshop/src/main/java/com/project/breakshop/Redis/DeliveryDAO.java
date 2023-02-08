@@ -1,7 +1,6 @@
-package com.project.breakshop.dao;
+package com.project.breakshop.Redis;
 
-import com.flab.makedel.dto.OrderReceiptDTO;
-import com.flab.makedel.dto.RiderDTO;
+
 import com.project.breakshop.models.DTO.OrderReceiptDTO;
 import com.project.breakshop.models.DTO.RiderDTO;
 import lombok.RequiredArgsConstructor;

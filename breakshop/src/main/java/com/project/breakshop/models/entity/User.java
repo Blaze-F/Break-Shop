@@ -13,6 +13,7 @@ import javax.persistence.*;
 @Getter
 public class User extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     //password
     private String email;

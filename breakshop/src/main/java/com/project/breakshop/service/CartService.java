@@ -1,7 +1,7 @@
 package com.project.breakshop.service;
 
 
-import com.project.breakshop.dao.CartItemDAO;
+import com.project.breakshop.Redis.CartItemDAO;
 import com.project.breakshop.models.DTO.CartItemDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

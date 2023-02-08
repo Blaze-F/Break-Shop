@@ -1,4 +1,4 @@
-package com.project.breakshop.dao;
+package com.project.breakshop.Redis;
 
 import com.project.breakshop.models.DTO.CartItemDTO;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +11,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Objects;
 
 /*
     레디스에서의 트랜잭션은 RDB의 트랜잭션과는 다르다. 레디스의 트랜잭션은 rollback기능이 없다.
@@ -42,11 +43,9 @@ public class CartItemDAO {
 
         final String key = generateCartKey(userId);
 
-        List<CartItemDTO> cartList = redisTemplate
+        return redisTemplate
             .opsForList()
             .range(key, 0, -1);
-
-        return cartList;
 
     }
 
@@ -74,9 +73,7 @@ public class CartItemDAO {
             }
         );
 
-        List<CartItemDTO> cartList = (List<CartItemDTO>) cartListObject.get(0);
-
-        return cartList;
+        return (List<CartItemDTO>) cartListObject.get(0);
     }
 
     /*
@@ -91,12 +88,12 @@ public class CartItemDAO {
     public void insertMenuList(String userId, List<CartItemDTO> cartList) {
         final String key = generateCartKey(userId);
 
-        RedisSerializer keySerializer = redisTemplate.getStringSerializer();
-        RedisSerializer valueSerializer = redisTemplate.getValueSerializer();
+        RedisSerializer<String> keySerializer = redisTemplate.getStringSerializer();
+        RedisSerializer<CartItemDTO> valueSerializer = (RedisSerializer<CartItemDTO>) redisTemplate.getValueSerializer();
 
         redisTemplate.executePipelined((RedisCallback<Object>) RedisConnection -> {
             cartList.forEach(cart -> {
-                RedisConnection.rPush(keySerializer.serialize(key),
+                RedisConnection.rPush(Objects.requireNonNull(keySerializer.serialize(key)),
                     valueSerializer.serialize(cart));
             });
             return null;

@@ -3,10 +3,7 @@ package com.project.breakshop.models.entity;
 import com.project.breakshop.models.entity.joinTable.OrderMenuOption;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,6 +11,8 @@ import javax.persistence.OneToMany;
 @Builder
 @Getter
 public class MenuOption {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
     private Long price;

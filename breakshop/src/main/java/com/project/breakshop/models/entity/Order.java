@@ -17,7 +17,9 @@ public class Order extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String orderStatus;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus orderStatus;
+
     private String address;
     private Long totalPrice;
 
@@ -29,4 +31,8 @@ public class Order extends BaseEntity {
 
     @OneToMany(fetch = FetchType.LAZY)
     Set<OrderMenuOption> orderMenuOptions;
+
+    public enum OrderStatus {
+        BEFORE_ORDER, COMPLETE_ORDER, APPROVED_ORDER, DELIVERING, COMPLETE_DELIVERY
+    };
 }

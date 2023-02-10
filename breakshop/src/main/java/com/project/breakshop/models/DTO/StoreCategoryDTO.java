@@ -3,6 +3,7 @@ package com.project.breakshop.models.DTO;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
+import lombok.Setter;
 /*
     Jackson의 메세지 컨버터가 objectMapper를 사용하여 deserialize합니다.
     자바 객체로 deserialize하는 과정에서 자바 객체의 기본 생성자를 이용하기 때문에
@@ -20,11 +21,12 @@ import lombok.Getter;
  */
 
 @Getter
+@Setter
 public class StoreCategoryDTO {
 
-    private final Long id;
+    private  Long id;
 
-    private final String name;
+    private  String name;
 
     @JsonCreator
     public StoreCategoryDTO(@JsonProperty(value = "id") Long id,

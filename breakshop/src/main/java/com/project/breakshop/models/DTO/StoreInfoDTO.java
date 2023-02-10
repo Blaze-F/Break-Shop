@@ -4,18 +4,20 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Builder
+@Setter
 public class StoreInfoDTO {
 
-    private final Long storeId;
+    private Long storeId;
 
-    private final String name;
+    private String name;
 
-    private final String phone;
+    private String phone;
 
-    private final String address;
+    private String address;
 
     @JsonCreator
     public StoreInfoDTO(@JsonProperty(value = "storeId") Long storeId,

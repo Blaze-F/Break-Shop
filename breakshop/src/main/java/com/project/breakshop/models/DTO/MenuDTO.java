@@ -3,28 +3,26 @@ package com.project.breakshop.models.DTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
 @AllArgsConstructor
 @Builder
+@Setter
 public class MenuDTO {
 
-    private final Long id;
+    private  Long id;
 
-    private final String name;
+    private  String name;
 
-    private final Long price;
+    private  Long price;
 
-    private final String photo;
+    private  String photo;
 
-    private final String description;
+    private  String description;
 
-    private final Long storeId;
-
-    private final LocalDateTime createdAt;
-
-    private final LocalDateTime updatedAt;
+    private  Long storeId;
 
 }

@@ -1,13 +1,16 @@
 package com.project.breakshop.service;
-
-import com.flab.makedel.Exception.StoreNameAlreadyExistException;
-import com.flab.makedel.dto.OrderDTO.OrderStatus;
-import com.flab.makedel.dto.OrderReceiptDTO;
-import com.flab.makedel.dto.PushMessageDTO;
-import com.flab.makedel.dto.StoreDTO;
-import com.flab.makedel.mapper.OrderMapper;
-import com.flab.makedel.mapper.StoreMapper;
+import com.project.breakshop.exception.StoreNameAlreadyExistException;
+import com.project.breakshop.models.DTO.OrderDTO;
+import com.project.breakshop.models.DTO.OrderDTO.OrderStatus;
+import com.project.breakshop.models.DTO.OrderReceiptDTO;
+import com.project.breakshop.models.DTO.PushMessageDTO;
+import com.project.breakshop.models.DTO.StoreDTO;
+import com.project.breakshop.models.entity.Order;
+import com.project.breakshop.models.entity.Store;
+import com.project.breakshop.models.repository.OrderRepository;
+import com.project.breakshop.models.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.DuplicateKeyException;
@@ -15,18 +18,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
-
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class StoreService {
 
-    private final StoreMapper storeMapper;
-    private final OrderMapper orderMapper;
+    private final StoreRepository storeRepository;
+    private final OrderRepository orderRepository;
     private final DeliveryService deliveryService;
     private final RiderService riderService;
+    private final ModelMapper modelMapper;
 
 
     @Caching(evict = {
@@ -37,14 +41,14 @@ public class StoreService {
     public void insertStore(StoreDTO store, String ownerId) {
         try {
             StoreDTO newStore = setOwnerID(store, ownerId);
-            storeMapper.insertStore(newStore);
+            storeRepository.save(modelMapper.map(newStore, Store.class));
         } catch (DuplicateKeyException e) {
             throw new StoreNameAlreadyExistException("Same Store Name" + store.getName());
         }
     }
 
     private StoreDTO setOwnerID(StoreDTO store, String ownerId) {
-        StoreDTO newStore = StoreDTO.builder()
+        return StoreDTO.builder()
             .name(store.getName())
             .phone(store.getPhone())
             .address(store.getAddress())
@@ -52,27 +56,29 @@ public class StoreService {
             .introduction(store.getIntroduction())
             .categoryId(store.getCategoryId())
             .build();
-        return newStore;
     }
 
     public List<StoreDTO> getMyAllStore(String ownerId) {
-        return storeMapper.selectStoreList(ownerId);
+        List<Store> storeList = storeRepository.findByUserId(Long.parseLong(ownerId));
+        return storeList.stream().map(e -> modelMapper.map(e, StoreDTO.class)).collect(Collectors.toList());
     }
 
     public StoreDTO getMyStore(long storeId, String ownerId) {
-        return storeMapper.selectStore(storeId, ownerId);
+        Store store =  storeRepository.getByUserIdAndId(storeId, Long.parseLong(ownerId)).get();
+        return modelMapper.map(store, StoreDTO.class);
     }
 
     private boolean isMyStore(long storeId, String ownerId) {
-        return storeMapper.isMyStore(storeId, ownerId);
+        return storeRepository.existByIdAndUserId(storeId, Long.parseLong(ownerId));
     }
 
     public void closeMyStore(long storeId) {
-        storeMapper.closeMyStore(storeId);
+        /* 현재 상점의 상태를 닫음으로 설정합니다. */
+        storeRepository.closeMyStore(storeId);
     }
 
     public void openMyStore(long storeId) {
-        storeMapper.openMyStore(storeId);
+        storeRepository.openMyStore(storeId);
     }
 
     public void validateMyStore(long storeId, String ownerId) throws HttpClientErrorException {
@@ -84,8 +90,14 @@ public class StoreService {
 
     @Transactional
     public void approveOrder(long orderId) {
-        orderMapper.approveOrder(orderId, OrderStatus.APPROVED_ORDER);
-        OrderReceiptDTO orderReceipt = orderMapper.selectOrderReceipt(orderId);
+        //TODO
+        Order orderEntity = orderRepository.findById(orderId).get();
+        OrderDTO orderDTO = modelMapper.map(orderEntity, OrderDTO.class);
+        orderDTO.setOrderStatus(OrderStatus.APPROVED_ORDER);
+        orderRepository.save(modelMapper.map(orderDTO, Order.class));
+
+
+        OrderReceiptDTO orderReceipt = orderRepository.selectOrderReceipt(orderId);
         deliveryService.registerStandbyOrderWhenOrderApprove(orderId, orderReceipt);
         riderService.sendMessageToStandbyRidersInSameArea(orderReceipt.getStoreInfo().getAddress(),
             getPushMessage(orderReceipt));

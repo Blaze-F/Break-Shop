@@ -14,7 +14,7 @@ public class OrderDTO {
 
     private final LocalDateTime createdAt;
 
-    private final OrderStatus orderStatus;
+    private OrderStatus orderStatus;
 
     private final String address;
 
@@ -27,5 +27,7 @@ public class OrderDTO {
     public enum OrderStatus {
         BEFORE_ORDER, COMPLETE_ORDER, APPROVED_ORDER, DELIVERING, COMPLETE_DELIVERY
     }
+
+
 
 }

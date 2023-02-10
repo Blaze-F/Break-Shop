@@ -2,17 +2,19 @@ package com.project.breakshop.models.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @AllArgsConstructor
 public class OptionDTO {
 
-    private final Long id;
+    private Long id;
 
-    private final String name;
+    private String name;
 
-    private final Long price;
+    private Long price;
 
-    private final Long menuId;
+    private  Long menuId;
 
 }

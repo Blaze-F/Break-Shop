@@ -1,6 +1,10 @@
 package com.project.breakshop.service;
 
 
+import com.project.breakshop.annotation.LoginCheck.UserLevel;
+import com.project.breakshop.models.DTO.UserDTO;
+import com.project.breakshop.models.repository.UserRepository;
+import com.project.breakshop.utils.PasswordEncrypter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,7 +24,7 @@ import static org.mockito.Mockito.*;
 class UserServiceTest {
 
     @Mock
-    UserMapper userMapper;
+    UserRepository userRepository;
 
     @InjectMocks
     UserService userService;

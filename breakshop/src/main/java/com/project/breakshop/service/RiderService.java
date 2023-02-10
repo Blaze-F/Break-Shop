@@ -1,11 +1,12 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.dao.DeliveryDAO;
-import com.flab.makedel.dto.OrderDTO.OrderStatus;
-import com.flab.makedel.dto.PushMessageDTO;
-import com.flab.makedel.dto.RiderDTO;
-import com.flab.makedel.mapper.OrderMapper;
+
 import com.google.firebase.messaging.Message;
+import com.project.breakshop.Redis.DeliveryDAO;
+import com.project.breakshop.models.DTO.OrderDTO.OrderStatus;
+import com.project.breakshop.models.DTO.PushMessageDTO;
+import com.project.breakshop.models.DTO.RiderDTO;
+import com.project.breakshop.models.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +20,7 @@ import java.util.stream.Collectors;
 public class RiderService {
 
     private final DeliveryDAO deliveryDAO;
-    private final OrderMapper orderMapper;
+    private final OrderRepository orderRepository;
     private final PushService pushService;
 
     public void registerStandbyRiderWhenStartWork(RiderDTO rider) {
@@ -30,6 +31,7 @@ public class RiderService {
         deliveryDAO.deleteStandbyRiderWhenStopWork(rider);
     }
 
+    //TODO
     @Transactional
     public void acceptStandbyOrder(long orderId, RiderDTO rider) {
         deliveryDAO.updateStandbyOrderToDelivering(orderId, rider);

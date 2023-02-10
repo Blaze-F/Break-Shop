@@ -14,22 +14,22 @@ import java.time.LocalDateTime;
 @Setter
 public class PayDTO {
 
-    private final Long id;
+    private  Long id;
 
     @NotNull
-    private final PayType payType;
+    private  PayType payType;
 
     @NotNull
-    private final Long price;
+    private  Long price;
 
     @NotNull
-    private final LocalDateTime createdAt;
+    private  LocalDateTime createdAt;
 
     @NotNull
-    private final Long orderId;
+    private  Long orderId;
 
     @NotNull
-    private final PayStatus status;
+    private  PayStatus status;
 
     public enum PayType {
         CARD, NAVER_PAY, DEPOSIT

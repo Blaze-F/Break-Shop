@@ -4,30 +4,32 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
+@Setter
 public class RiderDTO {
 
     @NotNull
-    private final String id;
+    private  String id;
 
     @NotNull
-    private final String name;
+    private  String name;
 
     @NotNull
-    private final String phone;
+    private  String phone;
 
     @NotNull
-    private final String address;
+    private  String address;
 
     @NotNull
-    private final String updatedAt;
+    private  String updatedAt;
 
     @NotNull
-    private final String fcmToken;
+    private  String fcmToken;
 
     @JsonCreator
     public RiderDTO(@JsonProperty(value = "id") String id,

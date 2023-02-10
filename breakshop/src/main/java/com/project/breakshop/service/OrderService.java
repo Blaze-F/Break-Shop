@@ -1,6 +1,8 @@
 package com.project.breakshop.service;
 import com.project.breakshop.Redis.CartItemDAO;
 import com.project.breakshop.models.DTO.*;
+import com.project.breakshop.models.entity.Order;
+import com.project.breakshop.models.entity.Store;
 import com.project.breakshop.models.repository.OrderRepository;
 import com.project.breakshop.models.repository.StoreRepository;
 import com.project.breakshop.models.repository.UserRepository;
@@ -14,6 +16,7 @@ import org.springframework.transaction.support.TransactionSynchronizationManager
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -50,8 +53,8 @@ public class OrderService {
             .order(orderDTO, cartList, orderMenuList, orderMenuOptionList);
         orderTransactionService.pay(payType, totalPrice, orderDTO.getId());
 
-
-        orderMapper.completeOrder(totalPrice, orderDTO.getId(), OrderDTO.OrderStatus.COMPLETE_ORDER);
+        orderDTO.setOrderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER);
+        orderRepository.save(modelMapper.map(orderDTO, Order.class));
         orderReceipt = getOrderReceipt(orderDTO, cartList, totalPrice, storeId,
             user);
 
@@ -82,7 +85,8 @@ public class OrderService {
     private OrderReceiptDTO getOrderReceipt(OrderDTO orderDTO, List<CartItemDTO> cartList,
         long totalPrice, long storeId, UserInfoDTO userInfo) {
 
-        StoreInfoDTO storeInfo = storeMapper.selectStoreInfo(storeId);
+        Store store = storeRepository.findById(storeId).get();
+        StoreInfoDTO storeInfo = modelMapper.map(store, StoreInfoDTO.class);
         return OrderReceiptDTO.builder()
             .orderId(orderDTO.getId())
             .orderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER.toString())
@@ -91,18 +95,15 @@ public class OrderService {
             .storeInfo(storeInfo)
             .cartList(cartList)
             .build();
-
     }
 
     public OrderReceiptDTO getOrderInfoByOrderId(long orderId) {
-        OrderReceiptDTO orderReceipt = orderMapper.selectOrderReceipt(orderId);
-        return orderReceipt;
+        Order order = orderRepository.findById(orderId).get();
+        return modelMapper.map(order, OrderReceiptDTO.class);
     }
 
     public List<OrderStoreDetailDTO> getStoreOrderInfoByStoreId(long storeId) {
-        List<OrderStoreDetailDTO> storeOrderDetailList = orderMapper
-            .selectDetailStoreOrder(storeId);
-        return storeOrderDetailList;
+        return orderRepository.findByStoreId(storeId).stream().map(e -> modelMapper.map(e, OrderStoreDetailDTO.class)).collect(Collectors.toList());
     }
 
 }

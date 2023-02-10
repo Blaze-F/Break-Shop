@@ -1,9 +1,11 @@
 package com.project.breakshop.models.DTO;
 
-import com.flab.makedel.annotation.LoginCheck.UserLevel;
+
+import com.project.breakshop.annotation.LoginCheck;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
@@ -16,23 +18,24 @@ import java.time.LocalDateTime;
 @Getter
 @AllArgsConstructor
 @Builder
+@Setter
 public class UserDTO {
 
-    private final String id;
+    private Long id;
 
-    private final String password;
+    private String password;
 
-    private final String email;
+    private String email;
 
-    private final String name;
+    private String name;
 
-    private final String phone;
+    private String phone;
 
-    private final String address;
+    private String address;
 
-    private final UserLevel level;
+    private LoginCheck.UserLevel level;
 
-    private final LocalDateTime createdAt;
+    private LocalDateTime createdAt;
 
-    private final LocalDateTime updatedAt;
+    private LocalDateTime updatedAt;
 }

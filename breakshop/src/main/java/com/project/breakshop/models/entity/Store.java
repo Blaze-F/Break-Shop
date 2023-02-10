@@ -15,6 +15,7 @@ import java.util.Set;
 public class Store extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "store_id")
     private Long id;
 
     private String name;

@@ -2,18 +2,20 @@ package com.project.breakshop.models.DTO;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
 import java.util.List;
 
 @Getter
+@Setter
 @RequiredArgsConstructor
 public class OrderDetailDTO {
 
-    private final Long orderId;
+    private  Long orderId;
 
-    private final String orderStatus;
+    private  String orderStatus;
 
-    private final Long totalPrice;
+    private Long totalPrice;
 
     private UserInfoDTO userInfo;
 

@@ -1,7 +1,12 @@
 package com.project.breakshop.controller;
 
 
+import com.project.breakshop.annotation.LoginCheck;
+import com.project.breakshop.annotation.LoginCheck.UserLevel;
+import com.project.breakshop.models.DTO.RiderDTO;
+import com.project.breakshop.service.RiderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class RiderController {
 
+    @Autowired
     private final RiderService riderService;
 
     @PostMapping("/{riderId}/standby")

@@ -1,8 +1,5 @@
 package com.project.breakshop.service;
 
-import com.flab.makedel.dto.StoreCategoryDTO;
-import com.flab.makedel.dto.StoreDTO;
-import com.flab.makedel.mapper.StoreListMapper;
 import com.project.breakshop.models.DTO.StoreCategoryDTO;
 import com.project.breakshop.models.DTO.StoreDTO;
 import com.project.breakshop.models.repository.StoreRepository;
@@ -18,7 +15,7 @@ public class StoreListService {
 
     private final StoreRepository storeRepository;
 
-    //TODO
+
     @Cacheable(value = "categories", key = "'store_category'")
     public List<StoreCategoryDTO> getAllStoreCategory() {
         return storeListMapper.selectCategoryList();

@@ -2,6 +2,7 @@ package com.project.breakshop.service;
 
 import com.project.breakshop.Redis.DeliveryDAO;
 import com.project.breakshop.models.DTO.RiderDTO;
+import com.project.breakshop.models.entity.Order;
 import com.project.breakshop.models.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -150,13 +151,13 @@ public class RiderServiceTest {
             .updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
         doNothing().when(orderRepository)
             .updateStandbyOrderToDelivering(anyLong(), any(String.class), any(
-                OrderStatus.class));
+                Order.OrderStatus.class));
 
         riderService.acceptStandbyOrder(1L, riderDTO);
 
         verify(deliveryDAO).updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
-        verify(orderMapper).updateStandbyOrderToDelivering(anyLong(), any(String.class), any(
-            OrderStatus.class));
+        verify(orderRepository).updateStandbyOrderToDelivering(anyLong(), any(String.class), any(
+            Order.OrderStatus.class));
     }
 
     @Test

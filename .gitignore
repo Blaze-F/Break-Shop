@@ -160,5 +160,6 @@ fabric.properties
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij
 breakshop/src/main/resources/application.properties
-breakshop/build
+.build
+.idea
 

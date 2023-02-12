@@ -3,9 +3,9 @@ package com.project.breakshop.service;
 
 import com.google.firebase.messaging.Message;
 import com.project.breakshop.Redis.DeliveryDAO;
-import com.project.breakshop.models.DTO.OrderDTO.OrderStatus;
 import com.project.breakshop.models.DTO.PushMessageDTO;
 import com.project.breakshop.models.DTO.RiderDTO;
+import com.project.breakshop.models.entity.Order;
 import com.project.breakshop.models.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,12 +35,12 @@ public class RiderService {
     @Transactional
     public void acceptStandbyOrder(long orderId, RiderDTO rider) {
         deliveryDAO.updateStandbyOrderToDelivering(orderId, rider);
-        orderMapper.updateStandbyOrderToDelivering(orderId, rider.getId(), OrderStatus.DELIVERING);
+        orderRepository.updateStandbyOrderToDelivering(orderId, rider.getId(), Order.OrderStatus.DELIVERING);
     }
 
     @Transactional
     public void finishDeliveringOrder(long orderId, RiderDTO rider) {
-        orderMapper.finishDeliveringOrder(orderId, OrderStatus.COMPLETE_DELIVERY);
+        orderRepository.finishDeliveringOrder(Order.OrderStatus.COMPLETE_DELIVERY, orderId);
         deliveryDAO.insertStandbyRiderWhenStartWork(rider);
     }
 

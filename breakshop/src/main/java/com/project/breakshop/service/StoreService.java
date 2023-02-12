@@ -58,8 +58,8 @@ public class StoreService {
             .build();
     }
 
-    public List<StoreDTO> getMyAllStore(String ownerId) {
-        List<Store> storeList = storeRepository.findByUserId(Long.parseLong(ownerId));
+    public List<StoreDTO> findMyAllStore(String email) {
+        List<Store> storeList = storeRepository.findByUserEmail(email);
         return storeList.stream().map(e -> modelMapper.map(e, StoreDTO.class)).collect(Collectors.toList());
     }
 
@@ -90,7 +90,6 @@ public class StoreService {
 
     @Transactional
     public void approveOrder(long orderId) {
-        //TODO
         Order orderEntity = orderRepository.findById(orderId).get();
         OrderDTO orderDTO = modelMapper.map(orderEntity, OrderDTO.class);
         orderDTO.setOrderStatus(OrderStatus.APPROVED_ORDER);

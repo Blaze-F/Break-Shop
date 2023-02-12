@@ -1,13 +1,15 @@
 package com.project.breakshop.models.repository;
 
-import com.project.breakshop.models.DTO.OrderDTO;
 import com.project.breakshop.models.DTO.OrderReceiptDTO;
 import com.project.breakshop.models.entity.Order;
+import com.project.breakshop.models.entity.Order.OrderStatus;
+import com.sun.istack.NotNull;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.security.core.parameters.P;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 public interface OrderRepository extends JpaRepository<Order, Long> {
@@ -46,6 +48,21 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
             "            join user on ord.user_id=user.id\n" +
             "        where ord.id = #{orderId};")
     OrderReceiptDTO selectOrderReceipt(long orderId);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE `ORDER` SET order_status = :orderStatus, rider_id = :riderId WHERE id = :orderId")
+    int updateStandbyOrderToDelivering(@Param("orderId") Long orderId,
+                                       @Param("riderId") @NotNull String riderId,
+                                       @Param("orderStatus") OrderStatus orderStatus);
+
+    @Modifying
+    @Transactional
+    @Query("UPDATE Order SET orderStatus = :orderStatus WHERE id = :orderId")
+    int finishDeliveringOrder(@Param("orderStatus") OrderStatus orderStatus, @Param("orderId") long orderId);
+
+
+
 
 
 }

@@ -8,6 +8,7 @@ import com.project.breakshop.models.repository.UserRepository;
 import com.project.breakshop.utils.PasswordEncrypter;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
@@ -19,9 +20,12 @@ import java.util.Optional;
 */
 
 @Service
-@RequiredArgsConstructor
 public class UserService {
-
+    @Autowired
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+        this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
+    }
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
 
@@ -61,9 +65,9 @@ public class UserService {
         userRepository.deleteByEmail(email);
     }
 
-    public void changeUserPassword(String id, String newPassword) {
-        //TODO
-        userRepository.updateUserPassword(Long.parseLong(id), PasswordEncrypter.encrypt(newPassword));
+    public void changeUserPassword(String email, String newPassword) {
+
+        userRepository.updateUserPassword(email, PasswordEncrypter.encrypt(newPassword));
     }
 
     public Optional<UserDTO> findUserByEmailAndPassword(String email, String password) {
@@ -84,6 +88,7 @@ public class UserService {
 
         return modelMapper.map(user.get(), (Type) UserDTO.class);
     }
+
 
 }
 

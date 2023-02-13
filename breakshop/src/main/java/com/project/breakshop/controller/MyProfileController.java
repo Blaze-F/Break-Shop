@@ -1,6 +1,7 @@
 package com.project.breakshop.controller;
 
 
+import com.project.breakshop.annotation.CurrentUserId;
 import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.service.LoginService;
 import com.project.breakshop.service.UserService;
@@ -11,7 +12,8 @@ import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.flab.makedel.utils.ResponseEntityConstants.RESPONSE_OK;
+import static com.project.breakshop.utils.ResponseEntityConstants.RESPONSE_OK;
+
 
 @RestController
 @RequestMapping("/my-profiles")
@@ -22,7 +24,7 @@ public class MyProfileController {
     private final UserService userService;
 
     @DeleteMapping
-    @LoginCheck(userLevel = UserLevel.USER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.USER)
     public ResponseEntity<Void> deleteUser(@CurrentUserId String userId) {
         userService.deleteUser(userId);
         loginService.logoutUser();
@@ -30,7 +32,7 @@ public class MyProfileController {
     }
 
     @PatchMapping("/password")
-    @LoginCheck(userLevel = UserLevel.USER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.USER)
     public ResponseEntity<Void> changeUserPassword(@CurrentUserId String userId,
         String password) {
         userService.changeUserPassword(userId, password);

@@ -19,7 +19,7 @@ public class StoreDTO {
 
     private String address;
 
-    private String ownerId;
+    private Long ownerId;
 
     private String openStatus;
 
@@ -32,7 +32,7 @@ public class StoreDTO {
         @JsonProperty(value = "name") String name,
         @JsonProperty(value = "phone") String phone,
         @JsonProperty(value = "address") String address,
-        @JsonProperty(value = "ownerId") String ownerId,
+        @JsonProperty(value = "ownerId") Long ownerId,
         @JsonProperty(value = "openStatus") String openStatus,
         @JsonProperty(value = "introduction") String introduction,
         @JsonProperty(value = "categoryId") Long categoryId

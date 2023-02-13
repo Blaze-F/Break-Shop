@@ -5,6 +5,7 @@ import com.project.breakshop.models.entity.joinTable.OrderMenuOption;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,15 +24,17 @@ public class Order extends BaseEntity {
     private String address;
     private Long totalPrice;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY)
-    Set<Payments> payments;
+    List<Payments> payments;
 
     @OneToMany(fetch = FetchType.LAZY)
     Set<OrderMenuOption> orderMenuOptions;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    Store store;
     public enum OrderStatus {
         BEFORE_ORDER, COMPLETE_ORDER, APPROVED_ORDER, DELIVERING, COMPLETE_DELIVERY
     };

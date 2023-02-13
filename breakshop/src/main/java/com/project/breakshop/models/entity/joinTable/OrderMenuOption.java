@@ -4,9 +4,7 @@ import com.project.breakshop.models.entity.MenuOption;
 import com.project.breakshop.models.entity.Order;
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -14,6 +12,9 @@ import javax.persistence.ManyToOne;
 @Builder
 @Getter
 public class OrderMenuOption {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    Long id;
 
     @ManyToOne
     MenuOption menuOption;

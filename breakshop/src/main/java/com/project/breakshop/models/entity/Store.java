@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -24,13 +25,14 @@ public class Store extends BaseEntity {
     private String openStatus;
     private String introduction;
 
-    private Date createdDate;
-    private Date updatedDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    StoreCategory storeCategory;
+
     @OneToMany(fetch = FetchType.LAZY)
-    Set<StoreCategory> storeCategorySet;
+    List<Order> orderList;
 
 }

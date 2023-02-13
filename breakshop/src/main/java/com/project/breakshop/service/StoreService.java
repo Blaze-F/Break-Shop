@@ -9,8 +9,8 @@ import com.project.breakshop.models.entity.Order;
 import com.project.breakshop.models.entity.Store;
 import com.project.breakshop.models.repository.OrderRepository;
 import com.project.breakshop.models.repository.StoreRepository;
-import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.dao.DuplicateKeyException;
@@ -23,9 +23,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class StoreService {
 
+    @Autowired
+    public StoreService(StoreRepository storeRepository, OrderRepository orderRepository, DeliveryService deliveryService, RiderService riderService, ModelMapper modelMapper){
+        this.storeRepository = storeRepository;
+        this.orderRepository = orderRepository;
+        this.deliveryService = deliveryService;
+        this.riderService = riderService;
+        this.modelMapper = modelMapper;
+    }
     private final StoreRepository storeRepository;
     private final OrderRepository orderRepository;
     private final DeliveryService deliveryService;
@@ -38,7 +45,7 @@ public class StoreService {
         @CacheEvict(value = "stores", key = "#store.address"),
         @CacheEvict(value = "stores", key = "#store.address+#store.categoryId")
     })
-    public void insertStore(StoreDTO store, String ownerId) {
+    public void insertStore(StoreDTO store, Long ownerId) {
         try {
             StoreDTO newStore = setOwnerID(store, ownerId);
             storeRepository.save(modelMapper.map(newStore, Store.class));
@@ -47,7 +54,7 @@ public class StoreService {
         }
     }
 
-    private StoreDTO setOwnerID(StoreDTO store, String ownerId) {
+    private StoreDTO setOwnerID(StoreDTO store, Long ownerId) {
         return StoreDTO.builder()
             .name(store.getName())
             .phone(store.getPhone())
@@ -63,13 +70,13 @@ public class StoreService {
         return storeList.stream().map(e -> modelMapper.map(e, StoreDTO.class)).collect(Collectors.toList());
     }
 
-    public StoreDTO getMyStore(long storeId, String ownerId) {
-        Store store =  storeRepository.getByUserIdAndId(storeId, Long.parseLong(ownerId)).get();
+    public StoreDTO getMyStore(long userId, long storeId) {
+        Store store =  storeRepository.getByUserIdAndId(userId , storeId).get();
         return modelMapper.map(store, StoreDTO.class);
     }
 
-    private boolean isMyStore(long storeId, String ownerId) {
-        return storeRepository.existByIdAndUserId(storeId, Long.parseLong(ownerId));
+    private boolean isMyStore(long storeId, long ownerId) {
+        return storeRepository.existsByIdAndUserId(storeId, ownerId);
     }
 
     public void closeMyStore(long storeId) {
@@ -81,7 +88,7 @@ public class StoreService {
         storeRepository.openMyStore(storeId);
     }
 
-    public void validateMyStore(long storeId, String ownerId) throws HttpClientErrorException {
+    public void validateMyStore(long storeId, long ownerId) throws HttpClientErrorException {
         boolean isMyStore = isMyStore(storeId, ownerId);
         if (!isMyStore) {
             throw new HttpClientErrorException(HttpStatus.UNAUTHORIZED);

@@ -7,7 +7,7 @@ import com.project.breakshop.models.DTO.PushMessageDTO;
 import com.project.breakshop.models.DTO.RiderDTO;
 import com.project.breakshop.models.entity.Order;
 import com.project.breakshop.models.repository.OrderRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,9 +16,14 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class RiderService {
 
+    @Autowired
+    public RiderService(DeliveryDAO deliveryDAO, OrderRepository orderRepository, PushService pushService) {
+        this.orderRepository = orderRepository;
+        this.deliveryDAO = deliveryDAO;
+        this.pushService = pushService;
+    }
     private final DeliveryDAO deliveryDAO;
     private final OrderRepository orderRepository;
     private final PushService pushService;

@@ -4,6 +4,7 @@ import com.project.breakshop.models.entity.base.BaseEntity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,8 +19,8 @@ public class StoreCategory extends BaseEntity {
 
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Store store;
+    @OneToMany(fetch = FetchType.LAZY)
+    List<Store> storeList;
 
 
 }

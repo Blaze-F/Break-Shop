@@ -5,15 +5,39 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e52d8c7e-0ca4-4fa7-9669-dba4366c9d75" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../.gitattributes" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/accounts/controller/AccountController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/accounts/models/UserDTO.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/accounts/models/entity/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/accounts/repository/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/example-application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/executionHistory/executionHistory.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/fileHashes.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/7.6/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.6/fileHashes/resourceHashesCache.bin" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/MenuController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/MyProfileController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/MyProfileController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/OptionController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/OptionController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/StoreController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/StoreController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/StoreListController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/StoreListController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/DTO/StoreDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/DTO/StoreDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/Menu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/Menu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/MenuOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/MenuOption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/Order.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/Order.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/joinTable/OrderMenu.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/joinTable/OrderMenu.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/joinTable/OrderMenuOption.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/entity/joinTable/OrderMenuOption.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/repository/OrderRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/repository/OrderRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/repository/StoreRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/repository/StoreRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/models/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/service/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/service/StoreListService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/service/StoreListService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/service/StoreService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/service/StoreService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/project/breakshop/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/project/breakshop/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/example-application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/example-application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/project/breakshop/service/OptionServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/project/breakshop/service/OptionServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/project/breakshop/service/StoreListServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/project/breakshop/service/StoreListServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/project/breakshop/service/StoreServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/project/breakshop/service/StoreServiceTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/project/breakshop/service/UserServiceTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/project/breakshop/service/UserServiceTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,17 +97,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/lionk/Documents/github/food-delivery-develop",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.17",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settingsdialog.project.gradle"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/lionk/Documents/github/food-delivery-develop&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.17&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settingsdialog.project.gradle&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Application.BreakshopApplication">
     <configuration name="BreakshopApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.project.breakshop.BreakshopApplication" />

@@ -1,7 +1,9 @@
 package com.project.breakshop.service;
 
 
-import com.project.breakshop.models.DTO.StoreDTO;
+import com.project.breakshop.models.DTO.*;
+import com.project.breakshop.models.entity.Order.OrderStatus;
+import com.project.breakshop.models.entity.Order;
 import com.project.breakshop.models.entity.Store;
 import com.project.breakshop.models.repository.OrderRepository;
 import com.project.breakshop.models.repository.StoreRepository;
@@ -16,6 +18,7 @@ import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
@@ -39,6 +42,8 @@ public class StoreServiceTest {
 
     StoreDTO store;
 
+    Optional<Store> storeOptional;
+
     @BeforeEach
     public void makeStore() {
         store = StoreDTO.builder()
@@ -55,7 +60,7 @@ public class StoreServiceTest {
     public void insertStoreTestSuccess() {
         doNothing().when(storeRepository).save(any(Store.class));
 
-        storeService.insertStore(store, "60owners");
+        storeService.insertStore(store, 1L);
 
         verify(storeRepository).save(any(Store.class));
     }
@@ -66,7 +71,7 @@ public class StoreServiceTest {
         doThrow(RuntimeException.class).when(storeRepository).save(any(Store.class));
 
         assertThrows(RuntimeException.class,
-            () -> storeService.insertStore(store, "60owners"));
+            () -> storeService.insertStore(store, 3L));
 
         verify(storeRepository).save(any(Store.class));
     }
@@ -96,34 +101,34 @@ public class StoreServiceTest {
     @Test
     @DisplayName("사장이 내 특정 가게 목록을 조회하는데 성공합니다")
     public void getMyStoreTestSuccess() {
-        when(storeRepository.getByUserEmailAndId(anyLong(), any(String.class)))
-            .thenReturn(store);
+        when(storeRepository.getByUserIdAndId(anyLong(), anyLong()))
+            .thenReturn(storeOptional);
 
-        storeService.getMyStore(43, "owner");
+        storeService.getMyStore(43, 1L);
 
-        verify(storeMapper).selectStore(anyLong(), any(String.class));
+        verify(storeRepository).getByUserIdAndId(anyLong(), anyLong());
     }
 
 
     @Test
     @DisplayName("자신의 가게가 맞는지 확인하는데 성공합니다.")
     public void validateMyStoreTestSuccess() {
-        when(storeMapper.isMyStore(anyLong(), any(String.class))).thenReturn(true);
+        when(storeRepository.existsByIdAndUserEmail(anyLong(), any(String.class))).thenReturn(true);
 
-        storeService.validateMyStore(3, "owner");
+        storeService.validateMyStore(3, 1L);
 
-        verify(storeMapper).isMyStore(anyLong(), any(String.class));
+        verify(storeRepository).existsByIdAndUserEmail(anyLong(), any(String.class));
     }
 
     @Test
     @DisplayName("자신의 가게가 맞는지 확인하는데 실패합니다 : 본인 소유의 가게가 아님")
     public void validateMyStoreTestFail() {
-        when(storeMapper.isMyStore(anyLong(), any(String.class))).thenReturn(false);
+        when(storeRepository.existsByIdAndUserEmail(anyLong(), any(String.class))).thenReturn(false);
 
         assertThrows(HttpClientErrorException.class,
-            () -> storeService.validateMyStore(3, "owner1"));
+            () -> storeService.validateMyStore(3, 1L));
 
-        verify(storeMapper).isMyStore(anyLong(), any(String.class));
+        verify(storeRepository).existsByIdAndUserEmail(anyLong(), any(String.class));
     }
 
     @Test
@@ -155,8 +160,8 @@ public class StoreServiceTest {
             .cartList(cartList)
             .build();
 
-        doNothing().when(orderMapper).approveOrder(anyLong(), any(OrderStatus.class));
-        when(orderMapper.selectOrderReceipt(anyLong())).thenReturn(orderReceiptDTO);
+        doNothing().when(orderRepository).approveOrder(any(Order.OrderStatus.class), anyLong());
+        when(orderRepository.selectOrderReceipt(anyLong())).thenReturn(orderReceiptDTO);
         doNothing().when(deliveryService)
             .registerStandbyOrderWhenOrderApprove(anyLong(), any(OrderReceiptDTO.class));
         doNothing().when(riderService)
@@ -164,8 +169,8 @@ public class StoreServiceTest {
 
         storeService.approveOrder(1);
 
-        verify(orderMapper).approveOrder(anyLong(), any(OrderStatus.class));
-        verify(orderMapper).selectOrderReceipt(anyLong());
+        verify(orderRepository).approveOrder(any(OrderStatus.class), anyLong());
+        verify(orderRepository).selectOrderReceipt(anyLong());
         verify(deliveryService)
             .registerStandbyOrderWhenOrderApprove(anyLong(), any(OrderReceiptDTO.class));
         verify(riderService)

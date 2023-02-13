@@ -24,7 +24,7 @@ public class StoreController {
 
     @PostMapping
     @LoginCheck(userLevel = UserLevel.OWNER)
-    public ResponseEntity<Void> insertStore(StoreDTO store, @CurrentUserId String ownerId) {
+    public ResponseEntity<Void> insertStore(StoreDTO store, @CurrentUserId Long ownerId) {
 
         storeService.insertStore(store, ownerId);
         return RESPONSE_OK;
@@ -33,9 +33,9 @@ public class StoreController {
 
     @GetMapping
     @LoginCheck(userLevel = UserLevel.OWNER)
-    public ResponseEntity<List<StoreDTO>> getMyAllStore(@CurrentUserId String ownerId) {
+    public ResponseEntity<List<StoreDTO>> getMyAllStore(@CurrentUserId String ownerEmail) {
 
-        List<StoreDTO> stores = storeService.getMyAllStore(ownerId);
+        List<StoreDTO> stores = storeService.findMyAllStore(ownerEmail);
         return ResponseEntity.ok().body(stores);
 
     }
@@ -43,7 +43,7 @@ public class StoreController {
     @GetMapping("/{storeId}")
     @LoginCheck(userLevel = UserLevel.OWNER)
     public ResponseEntity<StoreDTO> getMyStore(@PathVariable long storeId,
-        @CurrentUserId String ownerId) {
+        @CurrentUserId Long ownerId) {
 
         storeService.validateMyStore(storeId, ownerId);
         StoreDTO store = storeService.getMyStore(storeId, ownerId);
@@ -54,7 +54,7 @@ public class StoreController {
     @PatchMapping("/{storeId}/closed")
     @LoginCheck(userLevel = UserLevel.OWNER)
     public ResponseEntity<Void> closeMyStore(@PathVariable long storeId,
-        @CurrentUserId String ownerId) {
+        @CurrentUserId Long ownerId) {
 
         storeService.validateMyStore(storeId, ownerId);
         storeService.closeMyStore(storeId);
@@ -65,7 +65,7 @@ public class StoreController {
     @PatchMapping("/{storeId}/opened")
     @LoginCheck(userLevel = UserLevel.OWNER)
     public ResponseEntity<Void> openMyStore(@PathVariable long storeId,
-        @CurrentUserId String ownerId) {
+        @CurrentUserId Long ownerId) {
 
         storeService.validateMyStore(storeId, ownerId);
         storeService.openMyStore(storeId);
@@ -76,7 +76,7 @@ public class StoreController {
     @PostMapping("/{storeId}/orders/{orderId}/approve")
     @LoginCheck(userLevel = UserLevel.OWNER)
     public void approveOrder(@PathVariable long orderId, @PathVariable long storeId,
-        @CurrentUserId String ownerId) {
+        @CurrentUserId Long ownerId) {
         storeService.validateMyStore(storeId, ownerId);
         storeService.approveOrder(orderId);
     }

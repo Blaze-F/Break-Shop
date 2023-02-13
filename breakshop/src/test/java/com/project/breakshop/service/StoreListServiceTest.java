@@ -34,31 +34,31 @@ class StoreListServiceTest {
     @Test
     @DisplayName("올바른 카테고리 아이디로 음식점 목록을 조회한다")
     public void getStoreListByCategoryTest() {
-        when(storeRepository.findByStoreCategoryId(anyLong())).thenReturn(anyList());
+        when(storeRepository.findStoreByStoreCategoryId(anyLong())).thenReturn(anyList());
 
         storeListService.getStoreListByCategory(1L);
 
-        verify(storeRepository).findByStoreCategoryId(anyLong());
+        verify(storeRepository).findStoreByStoreCategoryId(anyLong());
     }
 
     @Test
     @DisplayName("올바른 카테고리 아이디로 음식점 목록을 조회했는데 음식점 목록이 없다면 빈 리스트를 리턴한다")
     public void getStoreListByCategoryTestReturnEmptyList() {
-        when(storeRepository.findByStoreCategoryId(anyLong())).thenReturn(new ArrayList<>());
+        when(storeRepository.findStoreByStoreCategoryId(anyLong())).thenReturn(new ArrayList<>());
 
         assertEquals(storeListService.getStoreListByCategory(2L).isEmpty(), true);
 
-        verify(storeRepository).findByStoreCategoryId(anyLong());
+        verify(storeRepository).findStoreByStoreCategoryId(anyLong());
     }
 
     @Test
     @DisplayName("잘못된 카테고리 아이디로 음식점 목록을 조회하면 RuntimeException을 던진다")
     public void getStoreListByCategoryTestFailBecauseWrongId() {
-        doThrow(RuntimeException.class).when(storeRepository).findByStoreCategoryId(anyLong());
+        doThrow(RuntimeException.class).when(storeRepository).findStoreByStoreCategoryId(anyLong());
 
         assertThrows(RuntimeException.class, () -> storeListService.getStoreListByCategory(100L));
 
-        verify(storeRepository).findByStoreCategoryId(anyLong());
+        verify(storeRepository).findStoreByStoreCategoryId(anyLong());
     }
 
     @Test

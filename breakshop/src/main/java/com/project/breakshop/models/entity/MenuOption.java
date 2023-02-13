@@ -4,6 +4,7 @@ import com.project.breakshop.models.entity.joinTable.OrderMenuOption;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -18,7 +19,7 @@ public class MenuOption {
     private Long price;
 
     @OneToMany(fetch = FetchType.LAZY)
-    private OrderMenuOption orderMenuOption;
+    Set<OrderMenuOption> orderMenuOptionSet;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Menu menu;

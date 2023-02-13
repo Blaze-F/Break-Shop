@@ -1,6 +1,11 @@
 package com.project.breakshop.controller;
 
 
+import com.project.breakshop.annotation.CurrentUserId;
+import com.project.breakshop.annotation.LoginCheck;
+import com.project.breakshop.models.DTO.OptionDTO;
+import com.project.breakshop.service.OptionService;
+import com.project.breakshop.service.StoreService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +21,9 @@ public class OptionController {
     private final StoreService storeService;
 
     @PostMapping
-    @LoginCheck(userLevel = UserLevel.OWNER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.OWNER)
     public void registerOptionList(@RequestBody List<OptionDTO> optionList,
-        @PathVariable long storeId, @CurrentUserId String ownerId) {
+        @PathVariable long storeId, @CurrentUserId Long ownerId) {
 
         storeService.validateMyStore(storeId, ownerId);
         optionService.registerOptionList(optionList);
@@ -32,9 +37,9 @@ public class OptionController {
     }
 
     @DeleteMapping
-    @LoginCheck(userLevel = UserLevel.OWNER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.OWNER)
     public void deleteOptionList(@RequestBody List<OptionDTO> optionList,
-        @PathVariable long storeId, @CurrentUserId String ownerId) {
+        @PathVariable long storeId, @CurrentUserId Long ownerId) {
 
         storeService.validateMyStore(storeId, ownerId);
         optionService.deleteOptionList(optionList);

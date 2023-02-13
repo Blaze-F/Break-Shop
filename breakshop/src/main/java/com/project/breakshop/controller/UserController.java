@@ -1,5 +1,6 @@
 package com.project.breakshop.controller;
 
+import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.models.DTO.UserDTO;
 import com.project.breakshop.service.LoginService;
 import com.project.breakshop.service.UserService;
@@ -7,8 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.project.breakshop.utils.ResponseEntityConstants.RESPONSE_CONFLICT;
-import static com.project.breakshop.utils.ResponseEntityConstants.RESPONSE_OK;
+import java.util.Optional;
+
+import static com.project.breakshop.utils.ResponseEntityConstants.*;
 
 
 
@@ -37,8 +39,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}/exists")
-    public ResponseEntity<Void> checkUniqueId(@PathVariable String id) {
-        boolean isUniqueId = userService.isExistsId(id);
+    public ResponseEntity<Void> checkUniqueId(@PathVariable String email) {
+        boolean isUniqueId = userService.isExistsEmail(email);
         if (isUniqueId) {
             return RESPONSE_OK;
         } else {
@@ -47,12 +49,12 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(String id, String password) {
+    public ResponseEntity<Void> login(String email, String password) {
 
-        Optional<UserDTO> user = userService.findUserByIdAndPassword(id, password);
+        Optional<UserDTO> user = userService.findUserByEmailAndPassword(email, password);
 
         if (user.isPresent()) {
-            loginService.loginUser(user.get().getId());
+            loginService.loginUser(user.get().getEmail());
             return RESPONSE_OK;
         } else {
             return RESPONSE_NOT_FOUND;
@@ -61,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    @LoginCheck(userLevel = UserLevel.USER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.USER)
     public ResponseEntity<Void> logout() {
         loginService.logoutUser();
         return RESPONSE_OK;

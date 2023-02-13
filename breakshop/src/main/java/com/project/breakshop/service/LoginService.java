@@ -9,7 +9,7 @@ package com.project.breakshop.service;
 
 public interface LoginService {
 
-    void loginUser(String id);
+    void loginUser(String email);
 
     void logoutUser();
 

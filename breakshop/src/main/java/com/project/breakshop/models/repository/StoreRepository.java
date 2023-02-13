@@ -10,11 +10,12 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+
 public interface StoreRepository extends JpaRepository<Store, Long> {
 
     List<Store> findByUserId(long userId);
     Optional<Store> getByUserIdAndId(long userId, long storeId);
-    boolean existByIdAndUserId(long id, long userId);
+    boolean existsByIdAndUserId(long id, long userId);
 
     @Modifying
     @Transactional
@@ -27,12 +28,15 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     void openMyStore(@Param("id") long id);
 
 
-    @Query("SELECT s FROM Store s WHERE s.storeCategorySet.id = :id")
-    List<Store> findByStoreCategoryId(@Param("id") long id);
 
-    @Query("SELECT s FROM Store s WHERE s.storeCategorySet.id = :categoryId AND s.address = :address")
-    List<Store> findStoreListByCategoryAndAddress(@Param("categoryId") long categoryId, @Param("address") String address);
+    List<Store> findStoreByStoreCategoryId(@Param("id") Long id);
+
+
+    @Query("SELECT s FROM Store s WHERE s.storeCategory.id = :categoryId AND s.address = :address")
+    List<Store> findStoreByStoreCategoryIdAndAddress(@Param("categoryId") long categoryId, @Param("address") String address);
 
     List<Store> findByUserEmail(String email);
+
+    boolean existsByIdAndUserEmail(long id, String email);
 }
 

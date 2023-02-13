@@ -24,10 +24,10 @@ public interface UserRepository extends JpaRepository<User, Long> {
             "SELECT" + "user.id, user.name, user.phone, user.address"+" FROM"+ " USER"+" WHERE "+ "id = :#{#id}" )
     UserInfoDTO selectUserInfo(@Param("id") Long id);
 
-    @Query(value = "update USER set password = :#{#password} where id = :#{#id}")
+    @Query(value = "update USER set password = :#{#password} where id = :#{#email}")
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
-    public void updateUserPassword(@Param(value = "id") Long id,@Param(value = "password") String password );
+    public void updateUserPassword(@Param(value = "email") String email,@Param(value = "password") String password );
 
 
 

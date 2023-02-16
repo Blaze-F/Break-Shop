@@ -48,8 +48,8 @@ public class OrderTransactionService {
     @Autowired
     private final PayServiceFactory payServiceFactory;
 
-    @Autowired
-    ModelMapper modelMapper;
+
+    private ModelMapper modelMapper;
 
     @Transactional
     public long order(OrderDTO orderDTO, List<CartItemDTO> cartList,

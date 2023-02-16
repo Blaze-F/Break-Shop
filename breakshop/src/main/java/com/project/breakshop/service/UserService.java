@@ -22,12 +22,11 @@ import java.util.Optional;
 @Service
 public class UserService {
     @Autowired
-    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
+    public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-        this.modelMapper = modelMapper;
     }
     private final UserRepository userRepository;
-    private final ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     public void signUp(UserDTO user) {
         if (isExistsEmail(user.getEmail())) {

@@ -1,5 +1,4 @@
 package com.project.breakshop.models.repository;
-import com.project.breakshop.models.DTO.UserInfoDTO;
 import com.project.breakshop.models.entity.User;
 import io.lettuce.core.dynamic.annotation.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -20,11 +19,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     void deleteByEmail(String email);
 
-    @Query(value =
-            "SELECT" + "user.id, user.name, user.phone, user.address"+" FROM"+ " USER"+" WHERE "+ "id = :#{#id}" )
-    UserInfoDTO selectUserInfo(@Param("id") Long id);
 
-    @Query(value = "update USER set password = :#{#password} where id = :#{#email}")
+    @Query(value = "update USER set password = :#{#password} where id = :#{#email}", nativeQuery = true)
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     public void updateUserPassword(@Param(value = "email") String email,@Param(value = "password") String password );

@@ -21,7 +21,8 @@ public class MenuService {
     private MenuRepository menuRepository;
 
     public void insertMenu(MenuDTO menu) {
-
+        Menu menuEntity = modelMapper.map(menu, Menu.class);
+        menuRepository.save(menuEntity);
     }
     ModelMapper modelMapper = new ModelMapper();
     public MenuDTO setStoreId(MenuDTO menu, long storeId) {

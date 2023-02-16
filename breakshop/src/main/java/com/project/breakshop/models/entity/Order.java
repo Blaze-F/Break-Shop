@@ -5,6 +5,7 @@ import com.project.breakshop.models.entity.joinTable.OrderMenuOption;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -28,10 +29,10 @@ public class Order extends BaseEntity {
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY)
-    List<Payments> payments;
+    List<Payments> payments = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
-    Set<OrderMenuOption> orderMenuOptions;
+    List<OrderMenuOption> orderMenuOptions = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     Store store;

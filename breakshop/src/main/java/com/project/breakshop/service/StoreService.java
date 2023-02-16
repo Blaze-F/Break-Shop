@@ -26,18 +26,17 @@ import java.util.stream.Collectors;
 public class StoreService {
 
     @Autowired
-    public StoreService(StoreRepository storeRepository, OrderRepository orderRepository, DeliveryService deliveryService, RiderService riderService, ModelMapper modelMapper){
+    public StoreService(StoreRepository storeRepository, OrderRepository orderRepository, DeliveryService deliveryService, RiderService riderService){
         this.storeRepository = storeRepository;
         this.orderRepository = orderRepository;
         this.deliveryService = deliveryService;
         this.riderService = riderService;
-        this.modelMapper = modelMapper;
     }
     private final StoreRepository storeRepository;
     private final OrderRepository orderRepository;
     private final DeliveryService deliveryService;
     private final RiderService riderService;
-    private final ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
 
     @Caching(evict = {

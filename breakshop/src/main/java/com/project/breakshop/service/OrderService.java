@@ -3,6 +3,7 @@ import com.project.breakshop.Redis.CartItemDAO;
 import com.project.breakshop.models.DTO.*;
 import com.project.breakshop.models.entity.Order;
 import com.project.breakshop.models.entity.Store;
+import com.project.breakshop.models.entity.User;
 import com.project.breakshop.models.repository.OrderRepository;
 import com.project.breakshop.models.repository.StoreRepository;
 import com.project.breakshop.models.repository.UserRepository;
@@ -22,23 +23,23 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OrderService {
 
-    @Autowired
     private final OrderRepository orderRepository;
-    @Autowired
+
     private final UserRepository userRepository;
-    @Autowired
+
     private final OrderTransactionService orderTransactionService;
-    @Autowired
+
     private final CartItemDAO cartItemDAO;
-    @Autowired
+
     private final StoreRepository storeRepository;
-    @Autowired
-    private final ModelMapper modelMapper;
+
+    private ModelMapper modelMapper;
 
     @Transactional
     public OrderReceiptDTO registerOrder(String userId, long storeId, PayDTO.PayType payType) {
 
-        UserInfoDTO user = userRepository.selectUserInfo(Long.parseLong(userId));
+        User userEntity = userRepository.findById(Long.parseLong(userId)).get();
+        UserInfoDTO user = modelMapper.map(userEntity, UserInfoDTO.class);
         OrderDTO orderDTO = getOrderDTO(user, storeId);
         List<CartItemDTO> cartList;
         List<OrderMenuDTO> orderMenuList = new ArrayList<>();

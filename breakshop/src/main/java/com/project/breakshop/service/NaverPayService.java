@@ -16,7 +16,7 @@ public class NaverPayService implements PayService {
     @Autowired
     private final PaymentsRepository paymentsRepository;
 
-    private final ModelMapper modelMapper;
+    private ModelMapper modelMapper;
 
     @Override
     public void pay(long price, long orderId) {

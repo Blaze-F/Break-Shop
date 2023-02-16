@@ -16,10 +16,12 @@ import java.util.List;
 
 @Service
 @Log4j2
+@Deprecated
 public class PushService {
 
     @PostConstruct
     public void init() throws IOException {
+/*
         InputStream fileStream = new FileInputStream("firebaseSDK.json");
         FirebaseOptions options = new FirebaseOptions.Builder()
             .setCredentials(GoogleCredentials
@@ -28,11 +30,14 @@ public class PushService {
         if (FirebaseApp.getApps().isEmpty()) {
             FirebaseApp.initializeApp(options);
         }
+*/
     }
 
+/*
     public void sendMessages(List<Message> messages) {
         FirebaseMessaging.getInstance().sendAllAsync(messages);
     }
+*/
 
 
 }

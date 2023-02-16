@@ -20,9 +20,7 @@ import java.util.stream.Collectors;
 public class StoreListService {
 
     private final StoreRepository storeRepository;
-    private final ModelMapper modelMapper;
-
-    @Autowired
+    private ModelMapper modelMapper;
     private final StoreCategoryRepository storeCategoryRepository;
 
 

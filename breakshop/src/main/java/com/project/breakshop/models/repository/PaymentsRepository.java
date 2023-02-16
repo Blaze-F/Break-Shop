@@ -7,7 +7,6 @@ import javax.swing.text.html.Option;
 import java.util.Optional;
 
 public interface PaymentsRepository extends JpaRepository<Payments, Long> {
-    boolean isExists(Long id);
 
     Optional<Payments> findById(Long id);
 

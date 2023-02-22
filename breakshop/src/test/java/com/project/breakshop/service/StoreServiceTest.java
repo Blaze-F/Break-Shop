@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -42,7 +43,6 @@ public class StoreServiceTest {
 
     StoreDTO store;
 
-    Optional<Store> storeOptional;
 
     @BeforeEach
     public void makeStore() {
@@ -58,7 +58,9 @@ public class StoreServiceTest {
     @Test
     @DisplayName("가게 생성에 성공합니다")
     public void insertStoreTestSuccess() {
-        doNothing().when(storeRepository).save(any(Store.class));
+        //optional 객체 thenreturn
+        Optional<Object> returnValue = Optional.of(any(Store.class));
+        Mockito.<Optional<Object>>when(Optional.of(storeRepository.save(any(Store.class)))).thenReturn(returnValue);
 
         storeService.insertStore(store, 1L);
 
@@ -101,8 +103,8 @@ public class StoreServiceTest {
     @Test
     @DisplayName("사장이 내 특정 가게 목록을 조회하는데 성공합니다")
     public void getMyStoreTestSuccess() {
-        when(storeRepository.getByUserIdAndId(anyLong(), anyLong()))
-            .thenReturn(storeOptional);
+        Optional<Object> returnValue = Optional.of((Object) any(Store.class));
+        Mockito.<Optional<Object>>when(Optional.of(storeRepository.getByUserIdAndId(anyLong(), anyLong()))).thenReturn(returnValue);
 
         storeService.getMyStore(43, 1L);
 

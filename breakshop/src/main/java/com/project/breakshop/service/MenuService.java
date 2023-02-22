@@ -42,7 +42,7 @@ public class MenuService {
     }
 
     public void deleteMenu(long menuId) {
-        if (menuRepository.existsById(menuId)) {
+        if (!menuRepository.existsById(menuId)) {
             throw new NotExistIdException("존재하지 않는 메뉴 아이디 입니다 " + menuId);
         }
         menuRepository.deleteById(menuId);

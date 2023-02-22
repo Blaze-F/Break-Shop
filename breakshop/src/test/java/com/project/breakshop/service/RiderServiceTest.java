@@ -149,14 +149,13 @@ public class RiderServiceTest {
     public void acceptStandbyOrderTest() {
         doNothing().when(deliveryDAO)
             .updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
-        doNothing().when(orderRepository)
-            .updateStandbyOrderToDelivering(anyLong(), any(String.class), any(
-                Order.OrderStatus.class));
+        when(orderRepository.updateStandbyOrderToDelivering(anyLong(), any(String.class), any(
+                Order.OrderStatus.class))).thenReturn(anyInt());
 
         riderService.acceptStandbyOrder(1L, riderDTO);
 
         verify(deliveryDAO).updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
-        verify(orderRepository).updateStandbyOrderToDelivering(anyLong(), any(String.class), any(
+        verify(orderRepository).updateStandbyOrderToDelivering(eq(anyLong()), any(String.class), any(
             Order.OrderStatus.class));
     }
 

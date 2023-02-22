@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -23,9 +24,9 @@ public class OptionService {
     private final MenuOptionRepository menuOptionRepository;
 
     public void registerOptionList(List<OptionDTO> optionList) {
-        Set<MenuOption> menuOptionSet = new HashSet<>();
-        menuOptionSet = optionList.stream().map(p -> modelMapper.map(p, MenuOption.class)).collect(Collectors.toSet());
-        menuOptionRepository.saveAll(menuOptionSet);
+        List<MenuOption> menuOptionList = new ArrayList<>();
+        menuOptionList = optionList.stream().map(p -> modelMapper.map(p, MenuOption.class)).collect(Collectors.toList());
+        menuOptionRepository.saveAll(menuOptionList);
     }
 
     public List<OptionDTO> loadOptionList(long menuId) {

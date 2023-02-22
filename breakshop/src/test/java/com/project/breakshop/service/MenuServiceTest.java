@@ -52,7 +52,7 @@ public class MenuServiceTest {
     @Test
     @DisplayName("사장님이 가게 메뉴를 추가한다")
     public void insertMenuTest() {
-        doNothing().when(menuRepository).save(any(Menu.class));
+        when(menuRepository.save(any())).thenReturn(any(Menu.class));
 
         menuService.insertMenu(menuDTO);
 
@@ -63,6 +63,7 @@ public class MenuServiceTest {
     @DisplayName("사장님이 가게 메뉴를 삭제한다")
     public void deleteMenuTest() {
         doNothing().when(menuRepository).deleteById(anyLong());
+        when(menuRepository.existsById(anyLong())).thenReturn(true);
 
         menuService.deleteMenu(12L);
 

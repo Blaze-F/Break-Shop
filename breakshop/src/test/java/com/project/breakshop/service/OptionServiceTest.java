@@ -1,6 +1,7 @@
 package com.project.breakshop.service;
 
 import com.project.breakshop.models.DTO.OptionDTO;
+import com.project.breakshop.models.entity.Menu;
 import com.project.breakshop.models.entity.MenuOption;
 import com.project.breakshop.models.repository.MenuOptionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ public class OptionServiceTest {
     @Test
     @DisplayName("사장님이 음식 옵션을 추가한다")
     public void registerOptionListTest() {
-        doNothing().when(menuOptionRepository).saveAll(anyList());
+        when(menuOptionRepository.saveAll(anyList())).thenReturn(anyList());
 
         optionService.registerOptionList(optionList);
 
@@ -83,10 +84,10 @@ public class OptionServiceTest {
     @Test
     @DisplayName("가게 사장님이 메뉴에 대한 옵션을 삭제한다")
     public void deleteOptionListTest() {
-        doNothing().when(menuOptionRepository).deleteAll(anyList());
+        doNothing().when(menuOptionRepository).deleteAll(anySet());
 
         optionService.deleteOptionList(optionList);
 
-        verify(menuOptionRepository).deleteAll(anyList());
+        verify(menuOptionRepository).deleteAll(anySet());
     }
 }

@@ -8,21 +8,22 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Setter
+@NoArgsConstructor
 public class OrderDTO {
 
-    private final Long id;
+    private  Long id;
 
-    private final LocalDateTime createdAt;
+    private  LocalDateTime createdAt;
 
     private OrderStatus orderStatus;
 
-    private final String address;
+    private String address;
 
-    private final String userId;
+    private String userId;
 
-    private final Long storeId;
+    private  Long storeId;
 
-    private final Long totalPrice;
+    private Long totalPrice;
 
     public enum OrderStatus {
         BEFORE_ORDER, COMPLETE_ORDER, APPROVED_ORDER, DELIVERING, COMPLETE_DELIVERY

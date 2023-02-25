@@ -11,6 +11,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -42,7 +43,7 @@ public class StoreServiceTest {
     StoreService storeService;
 
     StoreDTO store;
-
+    Store storeEntity;
 
     @BeforeEach
     public void makeStore() {
@@ -53,17 +54,21 @@ public class StoreServiceTest {
             .introduction("고추 치킨이 맛있습니다")
             .categoryId(1L)
             .build();
+
+        storeEntity = Store.builder()
+                .id(1L)
+                .name("아무치킨")
+                .address("경기도 성남시 판교로")
+                .introduction("엄청 맛있습니다.")
+                .build();
     }
 
     @Test
     @DisplayName("가게 생성에 성공합니다")
     public void insertStoreTestSuccess() {
-        //optional 객체 thenreturn
-        Optional<Object> returnValue = Optional.of(any(Store.class));
-        Mockito.<Optional<Object>>when(Optional.of(storeRepository.save(any(Store.class)))).thenReturn(returnValue);
 
+        when(storeRepository.save(any(Store.class))).then(AdditionalAnswers.returnsFirstArg());
         storeService.insertStore(store, 1L);
-
         verify(storeRepository).save(any(Store.class));
     }
 
@@ -103,8 +108,7 @@ public class StoreServiceTest {
     @Test
     @DisplayName("사장이 내 특정 가게 목록을 조회하는데 성공합니다")
     public void getMyStoreTestSuccess() {
-        Optional<Object> returnValue = Optional.of((Object) any(Store.class));
-        Mockito.<Optional<Object>>when(Optional.of(storeRepository.getByUserIdAndId(anyLong(), anyLong()))).thenReturn(returnValue);
+        when(storeRepository.getByUserIdAndId(anyLong(), anyLong())).thenReturn(Optional.of(storeEntity));
 
         storeService.getMyStore(43, 1L);
 
@@ -115,22 +119,22 @@ public class StoreServiceTest {
     @Test
     @DisplayName("자신의 가게가 맞는지 확인하는데 성공합니다.")
     public void validateMyStoreTestSuccess() {
-        when(storeRepository.existsByIdAndUserEmail(anyLong(), any(String.class))).thenReturn(true);
+        when(storeRepository.existsByIdAndUserId(anyLong(), anyLong())).thenReturn(true);
 
         storeService.validateMyStore(3, 1L);
 
-        verify(storeRepository).existsByIdAndUserEmail(anyLong(), any(String.class));
+        verify(storeRepository).existsByIdAndUserId(anyLong(), anyLong());
     }
 
     @Test
     @DisplayName("자신의 가게가 맞는지 확인하는데 실패합니다 : 본인 소유의 가게가 아님")
     public void validateMyStoreTestFail() {
-        when(storeRepository.existsByIdAndUserEmail(anyLong(), any(String.class))).thenReturn(false);
+        when(storeRepository.existsByIdAndUserId(anyLong(), anyLong())).thenReturn(false);
 
         assertThrows(HttpClientErrorException.class,
             () -> storeService.validateMyStore(3, 1L));
 
-        verify(storeRepository).existsByIdAndUserEmail(anyLong(), any(String.class));
+        verify(storeRepository).existsByIdAndUserId(anyLong(), anyLong());
     }
 
     @Test
@@ -162,12 +166,18 @@ public class StoreServiceTest {
             .cartList(cartList)
             .build();
 
+        Order orderEntity = Order.builder()
+                .id(1L)
+                .address("address")
+                .build();
+
         doNothing().when(orderRepository).approveOrder(any(Order.OrderStatus.class), anyLong());
         when(orderRepository.selectOrderReceipt(anyLong())).thenReturn(orderReceiptDTO);
         doNothing().when(deliveryService)
             .registerStandbyOrderWhenOrderApprove(anyLong(), any(OrderReceiptDTO.class));
         doNothing().when(riderService)
             .sendMessageToStandbyRidersInSameArea(any(String.class), any(PushMessageDTO.class));
+        when(orderRepository.findById(anyLong())).thenReturn(Optional.of(orderEntity));
 
         storeService.approveOrder(1);
 

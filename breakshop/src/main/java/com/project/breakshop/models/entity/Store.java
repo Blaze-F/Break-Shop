@@ -19,9 +19,12 @@ public class Store extends BaseEntity {
     @Column(name = "store_id")
     private Long id;
 
+    @Column(nullable = false)
     private String name;
     private String phone;
+    @Column(nullable = false)
     private String address;
+    @Column(nullable = false,columnDefinition = "closed")
     private String openStatus;
     private String introduction;
 

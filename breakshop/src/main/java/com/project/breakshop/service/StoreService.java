@@ -36,8 +36,8 @@ public class StoreService {
     private final OrderRepository orderRepository;
     private final DeliveryService deliveryService;
     private final RiderService riderService;
-    private ModelMapper modelMapper;
 
+    ModelMapper modelMapper = new ModelMapper();
 
     @Caching(evict = {
         @CacheEvict(value = "stores", key = "#store.categoryId"),

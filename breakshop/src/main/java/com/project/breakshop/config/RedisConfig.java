@@ -2,6 +2,7 @@ package com.project.breakshop.config;
 
 
 import com.project.breakshop.models.DTO.CartItemDTO;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -41,6 +42,7 @@ import java.time.Duration;
  */
 
 @Configuration
+@RequiredArgsConstructor
 public class RedisConfig {
 
     @Value("${spring.redis.host}")

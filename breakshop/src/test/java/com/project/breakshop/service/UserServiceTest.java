@@ -134,7 +134,7 @@ class UserServiceTest {
     @Test
     @DisplayName("아이디와 비밀번호로 유저 찾기에 실패합니다 : 주어진 유저 아이디 존재하지 않음")
     public void findUserByIdAndPasswordTestWhenFailBecauseNotExistId() {
-        when(userRepository.findById(user.getId())).thenReturn(null);
+        when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
 
         assertEquals(userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword()),
             Optional.empty());

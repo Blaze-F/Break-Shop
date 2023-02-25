@@ -26,7 +26,7 @@ public class UserService {
         this.userRepository = userRepository;
     }
     private final UserRepository userRepository;
-    private ModelMapper modelMapper;
+    ModelMapper modelMapper = new ModelMapper();
 
     public void signUp(UserDTO user) {
         if (isExistsEmail(user.getEmail())) {

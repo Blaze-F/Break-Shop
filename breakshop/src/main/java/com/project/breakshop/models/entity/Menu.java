@@ -10,6 +10,7 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 @Getter
 public class Menu extends BaseEntity {
     @Id

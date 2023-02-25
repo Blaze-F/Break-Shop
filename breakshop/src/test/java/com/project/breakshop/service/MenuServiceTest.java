@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.AdditionalAnswers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -19,6 +20,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
@@ -34,9 +36,8 @@ public class MenuServiceTest {
     MenuService menuService;
 
     MenuDTO menuDTO;
-    Store store;
+    Menu menuEntity;
 
-    ModelMapper modelMapper;
 
     @BeforeEach
     public void init() {
@@ -47,12 +48,20 @@ public class MenuServiceTest {
             .description("맛있습니다")
             .storeId(3L)
             .build();
+
+        menuEntity = Menu.builder()
+                .name("뿌링클")
+                .price(12300L)
+                .photo("34.jpg")
+                .description("맛있습니다")
+                .build();
     }
 
     @Test
     @DisplayName("사장님이 가게 메뉴를 추가한다")
     public void insertMenuTest() {
-        when(menuRepository.save(any())).thenReturn(any(Menu.class));
+
+        when(menuRepository.save(any(Menu.class))).then(AdditionalAnswers.returnsFirstArg());
 
         menuService.insertMenu(menuDTO);
 

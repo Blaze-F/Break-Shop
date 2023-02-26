@@ -103,11 +103,11 @@ class UserServiceTest {
     @Test
     @DisplayName("유저 삭제에 실패합니다 : 삭제할 아이디 존재하지 않음")
     public void deleteUserTestWhenFail() {
-        when(userRepository.existsById(user.getId())).thenReturn(false);
+        when(userRepository.existsByEmail(user.getEmail())).thenReturn(false);
 
         assertThrows(RuntimeException.class, () -> userService.deleteUser(user.getEmail()));
 
-        verify(userRepository).existsById(user.getId());
+        verify(userRepository).existsByEmail(user.getEmail());
     }
 
     @Test
@@ -134,7 +134,7 @@ class UserServiceTest {
     @Test
     @DisplayName("아이디와 비밀번호로 유저 찾기에 실패합니다 : 주어진 유저 아이디 존재하지 않음")
     public void findUserByIdAndPasswordTestWhenFailBecauseNotExistId() {
-        when(userRepository.findById(user.getId())).thenReturn(Optional.empty());
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
 
         assertEquals(userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword()),
             Optional.empty());

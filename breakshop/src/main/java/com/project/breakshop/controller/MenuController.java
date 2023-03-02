@@ -6,12 +6,13 @@ import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.models.DTO.MenuDTO;
 import com.project.breakshop.service.MenuService;
 import com.project.breakshop.service.StoreService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name = "/stores", description = "가게 정보 관련 API")
 @RestController
 @RequestMapping("/stores/{storeId}/menus")
 @RequiredArgsConstructor

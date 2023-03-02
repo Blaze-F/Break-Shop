@@ -5,6 +5,7 @@ import com.project.breakshop.annotation.CurrentUserId;
 import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.service.LoginService;
 import com.project.breakshop.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -14,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import static com.project.breakshop.utils.ResponseEntityConstants.RESPONSE_OK;
 
-
+@Tag(name = "/my-profiles", description = "프로필 정보 관련 API")
 @RestController
 @RequestMapping("/my-profiles")
 @RequiredArgsConstructor

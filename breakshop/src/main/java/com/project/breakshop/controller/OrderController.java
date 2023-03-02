@@ -8,12 +8,13 @@ import com.project.breakshop.models.DTO.OrderReceiptDTO;
 import com.project.breakshop.models.DTO.OrderStoreDetailDTO;
 import com.project.breakshop.models.DTO.PayDTO.PayType;
 import com.project.breakshop.service.OrderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@Tag(name = "/stores/{storeId}/orders", description = "주문 관련 API")
 @RestController
 @RequestMapping("/stores/{storeId}/orders")
 @RequiredArgsConstructor

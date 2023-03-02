@@ -6,6 +6,7 @@ import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.annotation.LoginCheck.UserLevel;
 import com.project.breakshop.models.DTO.StoreDTO;
 import com.project.breakshop.service.StoreService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,7 @@ import java.util.List;
 
 import static com.project.breakshop.utils.ResponseEntityConstants.RESPONSE_OK;
 
-
+@Tag(name = "/stores", description = "상점관리 관련 API")
 @RestController
 @RequestMapping("/stores")
 @RequiredArgsConstructor

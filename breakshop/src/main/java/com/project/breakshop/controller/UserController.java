@@ -4,6 +4,7 @@ import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.models.DTO.UserDTO;
 import com.project.breakshop.service.LoginService;
 import com.project.breakshop.service.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -23,7 +24,7 @@ import static com.project.breakshop.utils.ResponseEntityConstants.*;
     request.getRequest은 해당 클라이언트의 세션이 없다면 생성해주고 있으면 반환해줍니다.
     메소드의 파라미터로 HttpSession을 받아온다면 위 과정을 스프링이 해줍니다.
 */
-
+@Tag(name = "/users", description = "유저관리 관련 API")
 @RestController
 @RequestMapping("/users")
 @RequiredArgsConstructor

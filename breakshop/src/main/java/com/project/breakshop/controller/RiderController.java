@@ -5,10 +5,11 @@ import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.annotation.LoginCheck.UserLevel;
 import com.project.breakshop.models.DTO.RiderDTO;
 import com.project.breakshop.service.RiderService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+@Tag(name = "/riders", description = "라이더 배차 관련 API")
 @RestController
 @RequestMapping("/riders")
 @RequiredArgsConstructor

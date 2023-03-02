@@ -4,6 +4,7 @@ package com.project.breakshop.controller;
 import com.project.breakshop.models.DTO.StoreCategoryDTO;
 import com.project.breakshop.models.DTO.StoreDTO;
 import com.project.breakshop.service.StoreListService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@Tag(name = "/stores", description = "상점관리 리스트 관련 API")
 @RestController
 @RequestMapping("/stores")
 @RequiredArgsConstructor

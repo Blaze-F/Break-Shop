@@ -34,7 +34,7 @@ public class UserController {
     private final LoginService loginService;
 
 
-    @PostMapping
+    @PostMapping("/signup")
     public void signUp(UserDTO user) {
         userService.signUp(user);
     }

@@ -33,7 +33,7 @@ public class RiderController {
     @PatchMapping("/{riderId}/orders/{orderId}/accept")
     @LoginCheck(userLevel = UserLevel.RIDER)
     public void acceptStandbyOrder(@PathVariable long orderId,
-        RiderDTO rider) {
+                                   RiderDTO rider) {
         riderService.acceptStandbyOrder(orderId, rider);
     }
 
@@ -42,5 +42,5 @@ public class RiderController {
     public void finishDeliveringOrder(@PathVariable long orderId, RiderDTO rider) {
         riderService.finishDeliveringOrder(orderId, rider);
     }
-    
+
 }

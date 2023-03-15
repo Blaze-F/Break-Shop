@@ -5,10 +5,12 @@ import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.annotation.LoginCheck.UserLevel;
 import com.project.breakshop.models.DTO.OrderReceiptDTO;
 import com.project.breakshop.service.DeliveryService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,15 +24,18 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
 
+    @Operation(summary = "특정 주문 조회 API")
     @GetMapping(params = "orderId")
     @LoginCheck(userLevel = UserLevel.RIDER)
-    public OrderReceiptDTO loadStandbyOrder(long orderId, String riderAddress) {
+    public OrderReceiptDTO loadStandbyOrder(@RequestParam long orderId,
+                                            @RequestParam String riderAddress) {
         return deliveryService.loadStandbyOrder(orderId, riderAddress);
     }
 
+    @Operation(summary = "대기 중인 주문 리스트 조회 API")
     @GetMapping
     @LoginCheck(userLevel = UserLevel.RIDER)
-    public List<String> loadStandbyOrderList(String riderAddress) {
+    public List<String> loadStandbyOrderList(@RequestParam String riderAddress) {
         return deliveryService.loadStandbyOrderList(riderAddress);
     }
 

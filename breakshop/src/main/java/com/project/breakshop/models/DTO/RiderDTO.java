@@ -14,22 +14,22 @@ import javax.validation.constraints.NotNull;
 public class RiderDTO {
 
     @NotNull
-    private  String id;
+    public  String id;
 
     @NotNull
-    private  String name;
+    public  String name;
 
     @NotNull
-    private  String phone;
+    public  String phone;
 
     @NotNull
-    private  String address;
+    public  String address;
 
     @NotNull
-    private  String updatedAt;
+    public  String updatedAt;
 
     @NotNull
-    private  String fcmToken;
+    public  String fcmToken;
 
     @JsonCreator
     public RiderDTO(@JsonProperty(value = "id") String id,

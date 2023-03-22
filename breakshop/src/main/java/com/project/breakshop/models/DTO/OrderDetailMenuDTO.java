@@ -11,14 +11,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderDetailMenuDTO {
 
-    private final Long menuId;
+    public  Long menuId;
 
-    private final String menuName;
+    public  String menuName;
 
-    private final Long menuPrice;
+    public  Long menuPrice;
 
-    private final Long menuCount;
+    public Long menuCount;
 
-    private List<OrderDetailOptionDTO> optionList;
+    public List<OrderDetailOptionDTO> optionList;
 
 }

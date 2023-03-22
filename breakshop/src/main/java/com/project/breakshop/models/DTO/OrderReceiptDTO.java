@@ -13,17 +13,17 @@ import java.util.List;
 @Setter
 public class OrderReceiptDTO {
 
-    private Long orderId;
+    public Long orderId;
 
-    private String orderStatus;
+    public String orderStatus;
 
-    private UserInfoDTO userInfo;
+    public UserInfoDTO userInfo;
 
-    private Long totalPrice;
+    public Long totalPrice;
 
-    private StoreInfoDTO storeInfo;
+    public StoreInfoDTO storeInfo;
 
-    private List<CartItemDTO> cartList;
+    public List<CartItemDTO> cartList;
 
     @JsonCreator
     public OrderReceiptDTO(@JsonProperty(value = "orderId") Long orderId,

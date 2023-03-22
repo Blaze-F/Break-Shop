@@ -10,8 +10,8 @@ import java.util.Set;
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Builder
 @Getter
+@Builder
 public class Menu extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -19,7 +19,7 @@ public class Menu extends BaseEntity {
 
     private String name;
     private Long price;
-    private String photo; //TODO
+    private String photo;
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY)

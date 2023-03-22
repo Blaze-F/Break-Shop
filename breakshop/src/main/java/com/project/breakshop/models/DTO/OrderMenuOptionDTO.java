@@ -11,10 +11,10 @@ import lombok.Setter;
 @Setter
 public class OrderMenuOptionDTO {
 
-    private final Long menuId;
+    public  Long menuId;
 
-    private final Long orderId;
+    public  Long orderId;
 
-    private final Long optionId;
+    public  Long optionId;
 
 }

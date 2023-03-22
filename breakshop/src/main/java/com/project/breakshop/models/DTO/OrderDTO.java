@@ -11,19 +11,19 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class OrderDTO {
 
-    private  Long id;
+    public  Long id;
 
-    private  LocalDateTime createdAt;
+    public  LocalDateTime createdAt;
 
-    private OrderStatus orderStatus;
+    public OrderStatus orderStatus;
 
-    private String address;
+    public String address;
 
-    private String userId;
+    public String userId;
 
-    private  Long storeId;
+    public  Long storeId;
 
-    private Long totalPrice;
+    public Long totalPrice;
 
     public enum OrderStatus {
         BEFORE_ORDER, COMPLETE_ORDER, APPROVED_ORDER, DELIVERING, COMPLETE_DELIVERY

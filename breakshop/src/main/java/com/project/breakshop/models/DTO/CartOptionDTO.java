@@ -11,11 +11,11 @@ import lombok.Setter;
 @Setter
 public class CartOptionDTO {
 
-    private Long optionId;
+    public Long optionId;
 
-    private String name;
+    public String name;
 
-    private Long price;
+    public Long price;
 
     @JsonCreator
     public CartOptionDTO(

@@ -4,7 +4,9 @@ package com.project.breakshop.models.DTO;
 import com.project.breakshop.annotation.LoginCheck;
 import lombok.*;
 
-import java.time.LocalDateTime;
+import javax.validation.constraints.NotNull;
+import java.util.Date;
+
 
 /*
 @Builder는 DTO 생성 시, 빌더 클래스를 자동으로 추가해준다. 빌더 클래스는 멤버변수별 메소드가 있고
@@ -19,21 +21,21 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class UserDTO {
 
-    private Long id;
+    public Long id;
+    public String password;
 
-    private String password;
+    @NotNull
+    public String email;
 
-    private String email;
+    public String name;
 
-    private String name;
+    public String phone;
 
-    private String phone;
+    public String address;
 
-    private String address;
+    public LoginCheck.UserLevel level;
 
-    private LoginCheck.UserLevel level;
+    public Date createdAt;
 
-    private LocalDateTime createdAt;
-
-    private LocalDateTime updatedAt;
+    public Date updatedAt;
 }

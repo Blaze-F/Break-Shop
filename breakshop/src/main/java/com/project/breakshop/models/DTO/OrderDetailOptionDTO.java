@@ -9,10 +9,10 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class OrderDetailOptionDTO {
 
-    private final Long optionId;
+    public  Long optionId;
 
-    private final String optionName;
+    public  String optionName;
 
-    private final Long optionPrice;
+    public  Long optionPrice;
 
 }

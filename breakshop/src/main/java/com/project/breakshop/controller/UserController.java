@@ -2,6 +2,7 @@ package com.project.breakshop.controller;
 
 import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.models.DTO.UserDTO;
+import com.project.breakshop.models.DTO.requests.SignupRequest;
 import com.project.breakshop.service.LoginService;
 import com.project.breakshop.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -35,8 +36,8 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    public void signUp(UserDTO user) {
-        userService.signUp(user);
+    public void signUp(SignupRequest request) {
+        userService.signUp(request);
     }
 
     @GetMapping("/{id}/exists")

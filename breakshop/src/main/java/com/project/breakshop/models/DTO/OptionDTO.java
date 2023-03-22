@@ -9,12 +9,12 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OptionDTO {
 
-    private Long id;
+    public Long id;
 
-    private String name;
+    public String name;
 
-    private Long price;
+    public Long price;
 
-    private  Long menuId;
+    public  Long menuId;
 
 }

@@ -11,16 +11,16 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class MenuDTO {
 
-    private  Long id;
+    public  Long id;
 
-    private  String name;
+    public  String name;
 
-    private  Long price;
+    public  Long price;
 
-    private  String photo;
+    public  String photo;
 
-    private  String description;
+    public  String description;
 
-    private  Long storeId;
+    public  Long storeId;
 
 }

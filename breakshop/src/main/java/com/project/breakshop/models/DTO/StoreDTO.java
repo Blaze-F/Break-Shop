@@ -10,21 +10,21 @@ import lombok.*;
 @NoArgsConstructor
 public class StoreDTO {
 
-    private  Long id;
+    public  Long id;
 
-    private  String name;
+    public  String name;
 
-    private  String phone;
+    public  String phone;
 
-    private String address;
+    public String address;
 
-    private Long ownerId;
+    public Long ownerId;
 
-    private String openStatus;
+    public String openStatus;
 
-    private String introduction;
+    public String introduction;
 
-    private Long categoryId;
+    public Long categoryId;
 
     @JsonCreator
     public StoreDTO(@JsonProperty(value = "id") Long id,

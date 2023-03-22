@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 public class StoreInfoDTO {
 
-    private Long storeId;
+    public Long storeId;
 
     private String name;
 

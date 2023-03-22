@@ -3,6 +3,8 @@ package com.project.breakshop.service;
 import com.project.breakshop.exception.DuplicatedIdException;
 import com.project.breakshop.exception.NotExistIdException;
 import com.project.breakshop.models.DTO.UserDTO;
+import com.project.breakshop.models.DTO.UserInfoDTO;
+import com.project.breakshop.models.DTO.requests.SignupRequest;
 import com.project.breakshop.models.entity.User;
 import com.project.breakshop.models.repository.UserRepository;
 import com.project.breakshop.utils.PasswordEncrypter;
@@ -11,6 +13,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.Option;
 import java.lang.reflect.Type;
 import java.util.Optional;
 
@@ -22,18 +25,20 @@ import java.util.Optional;
 @Service
 public class UserService {
     @Autowired
-    public UserService(UserRepository userRepository) {
+    public UserService(UserRepository userRepository, ModelMapper modelMapper) {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
     private final UserRepository userRepository;
-    ModelMapper modelMapper = new ModelMapper();
+    final ModelMapper modelMapper;
 
-    public void signUp(UserDTO user) {
-        if (isExistsEmail(user.getEmail())) {
-            throw new DuplicatedIdException("Same id exists id: " + user.getId());
+    public void signUp(SignupRequest request) {
+        if (isExistsEmail(request.getEmail())) {
+            throw new DuplicatedIdException("Same id exists email: " + request.getEmail());
         }
-        UserDTO encryptedUser = encryptUser(user);
-        userRepository.save(modelMapper.map(user, User.class));
+        UserDTO encryptedUser = encryptUser(request);
+        User userTemp = modelMapper.map(encryptedUser, User.class);
+        userRepository.save(userTemp);
     }
 
     public boolean isExistsEmail(String email) {
@@ -44,10 +49,9 @@ public class UserService {
         return modelMapper.map(userRepository.findById(Long.parseLong(id)), UserDTO.class);
     }
 
-    public UserDTO encryptUser(UserDTO user) {
+    public UserDTO encryptUser(SignupRequest user) {
         String encryptedPassword = PasswordEncrypter.encrypt(user.getPassword());
         return UserDTO.builder()
-            .id(user.getId())
             .password(encryptedPassword)
             .email(user.getEmail())
             .name(user.getName())
@@ -56,6 +60,7 @@ public class UserService {
             .level(user.getLevel())
             .build();
     }
+
 
     public void deleteUser(String email) {
         if (!isExistsEmail(email)) {
@@ -83,9 +88,7 @@ public class UserService {
             return Optional.empty();
         }
 
-
-
-        return modelMapper.map(user.get(), (Type) UserDTO.class);
+        return Optional.of(modelMapper.map(user.get(), UserDTO.class));
     }
 
 

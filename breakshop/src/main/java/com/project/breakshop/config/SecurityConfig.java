@@ -12,13 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
@@ -29,8 +22,25 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/static/js/**","/static/css/**","/static/img/**"
-                        ,"/swagger-ui/**","/api-docs/**").permitAll()    // LoadBalancer Chk
+                        ,"/swagger-ui/**","/api-docs/**", "/users/signup", "/users/login", "/users/logout", "/users/").permitAll()    // LoadBalancer Chk
                 .anyRequest().authenticated();
+
+        http.formLogin()
+                .loginPage("/user/login")
+                .loginProcessingUrl("/user/login") //Post 요청
+                .defaultSuccessUrl("/")
+                .failureUrl("/user/login?error")
+                .permitAll();
+
+        //로그아웃 설정
+        http.logout()
+                .logoutUrl("/user/logout")
+                .logoutSuccessUrl("/");
+
+        //비인가자 요청시 보낼 Api URI
+        http.exceptionHandling().accessDeniedPage("/forbidden");
+
+
 //                .and().antMatchers("/manage").hasAuthority("ROLE_ADMIN")
 //                .formLogin()
 //                .loginPage("/view/login")

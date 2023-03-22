@@ -3,6 +3,7 @@ package com.project.breakshop.service;
 
 import com.project.breakshop.annotation.LoginCheck.UserLevel;
 import com.project.breakshop.models.DTO.UserDTO;
+import com.project.breakshop.models.DTO.requests.SignupRequest;
 import com.project.breakshop.models.entity.User;
 import com.project.breakshop.models.repository.UserRepository;
 import com.project.breakshop.utils.PasswordEncrypter;
@@ -33,6 +34,8 @@ class UserServiceTest {
 
     User userEntity;
 
+    SignupRequest request;
+
     Optional<User> userOptional;
 
     @BeforeEach
@@ -54,7 +57,7 @@ class UserServiceTest {
         when(userRepository.existsByEmail(user.getEmail())).thenReturn(false);
         doNothing().when(userRepository).save(any(User.class));
 
-        userService.signUp(user);
+        userService.signUp(request);
 
         verify(userRepository).save(any(User.class));
     }
@@ -64,7 +67,7 @@ class UserServiceTest {
     public void signUpTestWhenFail() {
         when(userRepository.existsByEmail(user.getEmail())).thenReturn(true);
 
-        assertThrows(RuntimeException.class, () -> userService.signUp(user));
+        assertThrows(RuntimeException.class, () -> userService.signUp(request));
 
         verify(userRepository).existsByEmail(user.getEmail());
     }

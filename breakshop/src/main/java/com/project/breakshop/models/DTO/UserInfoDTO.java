@@ -11,13 +11,13 @@ import lombok.Setter;
 @Setter
 public class UserInfoDTO {
 
-    private String id;
+    public String id;
 
-    private String name;
+    public String name;
 
-    private String phone;
+    public String phone;
 
-    private String address;
+    public String address;
 
     @JsonCreator
     public UserInfoDTO(@JsonProperty(value = "id") String id,

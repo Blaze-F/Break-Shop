@@ -25,7 +25,7 @@ public class Order extends BaseEntity {
     private String address;
     private Long totalPrice;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @OneToMany(fetch = FetchType.LAZY)

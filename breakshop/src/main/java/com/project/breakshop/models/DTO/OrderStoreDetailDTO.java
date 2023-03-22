@@ -12,16 +12,16 @@ import java.util.List;
 @Setter
 public class OrderStoreDetailDTO {
 
-    private  Long orderId;
+    public  Long orderId;
 
-    private  LocalDateTime orderCreatedAt;
+    public  LocalDateTime orderCreatedAt;
 
-    private  String orderStatus;
+    public  String orderStatus;
 
-    private  Long totalPrice;
+    public  Long totalPrice;
 
-    private UserInfoDTO userInfo;
+    public UserInfoDTO userInfo;
 
-    private List<OrderDetailMenuDTO> menuList;
+    public List<OrderDetailMenuDTO> menuList;
 
 }

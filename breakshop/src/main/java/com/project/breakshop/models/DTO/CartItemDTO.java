@@ -13,22 +13,22 @@ import java.util.List;
 public class CartItemDTO {
 
     @NotNull
-    private String name;
+    public String name;
 
     @NotNull
-    private Long price;
+    public Long price;
 
     @NotNull
-    private Long menuId;
+    public Long menuId;
 
     @NotNull
-    private Long storeId;
+    public Long storeId;
 
     @NotNull
-    private Long count;
+    public Long count;
 
     @NotNull
-    private List<CartOptionDTO> optionList;
+    public List<CartOptionDTO> optionList;
 
     @JsonCreator
     public CartItemDTO(@JsonProperty(value = "name") String name,

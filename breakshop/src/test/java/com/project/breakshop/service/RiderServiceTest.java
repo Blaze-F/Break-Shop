@@ -38,7 +38,7 @@ public class RiderServiceTest {
             .name("이성국")
             .phone("010-1111-1111")
             .address("경기도 고양시 일산동")
-            .fcmToken("sdkfjkclxvwer1234")
+            .fcmToken("JH1234")
             .build();
     }
 
@@ -114,7 +114,7 @@ public class RiderServiceTest {
             .name("이성국")
             .phone("010-1111-1111")
             .address("경기도 고양시 일산동")
-            .fcmToken("sdkfjkclxvwer1234")
+            .fcmToken("JH1234")
             .build();
         doThrow(IllegalArgumentException.class).when(deliveryDAO)
             .deleteStandbyRiderWhenStopWork(any(RiderDTO.class));
@@ -132,7 +132,7 @@ public class RiderServiceTest {
             .id("rider")
             .name("이성국")
             .phone("010-1111-1111")
-            .fcmToken("sdkfjkclxvwer1234")
+            .fcmToken("JH1234")
             .build();
         doThrow(IllegalArgumentException.class).when(deliveryDAO)
             .deleteStandbyRiderWhenStopWork(any(RiderDTO.class));
@@ -160,7 +160,7 @@ public class RiderServiceTest {
     }
 
     @Test
-    @DisplayName("라이더가 잘못된 주문 아이디로 배차 요청을 하면 IllegalArgumentException을 던진다")
+    @DisplayName("라이더가 잘못된 주문 아이디로 배차 요청을 하면 IllegalArgumentException 을 던진다")
     public void acceptStandbyOrderTestFailBecauseWrongOrderId() {
         doThrow(IllegalArgumentException.class).when(deliveryDAO)
             .updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
@@ -172,7 +172,7 @@ public class RiderServiceTest {
     }
 
     @Test
-    @DisplayName("라이더가 잘못된 라이더 아이디로 배차 요청을 하면 IllegalArgumentException을 던진다")
+    @DisplayName("라이더가 잘못된 라이더 아이디로 배차 요청을 하면 IllegalArgumentException 을 던진다")
     public void acceptStandbyOrderTestFailBecauseWrongRiderId() {
         doThrow(IllegalArgumentException.class).when(deliveryDAO)
             .updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
@@ -184,7 +184,7 @@ public class RiderServiceTest {
     }
 
     @Test
-    @DisplayName("라이더가 잘못된 주소값으로 배차 요청을 하면 IllegalArgumentException을 던진다")
+    @DisplayName("라이더가 잘못된 주소값으로 배차 요청을 하면 IllegalArgumentException 을 던진다")
     public void acceptStandbyOrderTestFailBecauseWrongAddress() {
         doThrow(IllegalArgumentException.class).when(deliveryDAO)
             .updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));

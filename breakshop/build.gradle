@@ -22,7 +22,8 @@ dependencies {
 
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	compileOnly 'org.projectlombok:lombok'
+    implementation 'org.jetbrains:annotations:20.1.0'
+    compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
@@ -38,16 +39,16 @@ dependencies {
 	// https://mvnrepository.com/artifact/io.scalajs.npm/bcrypt
 	implementation 'io.scalajs.npm:bcrypt_sjs0.6_2.12:1.0.2-1'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.4'
-
 	implementation 'com.google.firebase:firebase-admin:6.8.1'
-
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.6.0'
 
+	// https://mvnrepository.com/artifact/org.springframework.session/spring-session-data-redis
+	implementation 'org.springframework.session:spring-session-data-redis:2.7.0'
 
-	implementation "org.springframework.boot:spring-boot-starter-data-redis-reactive"
-	}
+}
 
 
 

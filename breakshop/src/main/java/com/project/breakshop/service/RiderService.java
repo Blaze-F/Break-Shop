@@ -35,7 +35,6 @@ public class RiderService {
         deliveryDAO.deleteStandbyRiderWhenStopWork(rider);
     }
 
-    //TODO
     @Transactional
     public void acceptStandbyOrder(long orderId, RiderDTO rider) {
         deliveryDAO.updateStandbyOrderToDelivering(orderId, rider);

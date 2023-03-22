@@ -4,6 +4,9 @@ package com.project.breakshop.models.entity;
 import com.project.breakshop.models.entity.base.BaseEntity;
 import lombok.*;
 import javax.persistence.*;
+import java.io.Serializable;
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -11,7 +14,7 @@ import javax.persistence.*;
 @Builder
 @Getter
 @Table(name = "USER", indexes = @Index(name = "i_email", columnList = "email"))
-public class User extends BaseEntity {
+public class User extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "user_id")
@@ -27,6 +30,6 @@ public class User extends BaseEntity {
     private String address;
     private String level;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Order order;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> orderList;
 }

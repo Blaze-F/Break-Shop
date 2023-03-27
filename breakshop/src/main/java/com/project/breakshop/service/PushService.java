@@ -16,7 +16,7 @@ import java.util.List;
 
 @Service
 @Log4j2
-@Deprecated
+//TODO Firebase 관련 설정
 public class PushService {
 
     @PostConstruct

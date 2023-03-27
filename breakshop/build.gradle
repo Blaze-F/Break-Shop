@@ -27,26 +27,28 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
-	implementation 'org.springframework:spring-jdbc:5.3.7'
-	implementation 'mysql:mysql-connector-java:8.0.28'
-	// https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa
-	implementation 'org.springframework.data:spring-data-jpa:2.7.4'
+
+	// https://mvnrepository.com/artifact/org.springframework/spring-jdbc
+	implementation 'org.springframework:spring-jdbc:5.3.14'
+	implementation 'mysql:mysql-connector-java:8.0.32'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.0'
 	// https://mvnrepository.com/artifact/org.modelmapper/modelmapper
-	implementation 'org.modelmapper:modelmapper:2.3.7'
+	implementation 'org.modelmapper:modelmapper:3.1.1'
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	// https://mvnrepository.com/artifact/io.scalajs.npm/bcrypt
-	implementation 'io.scalajs.npm:bcrypt_sjs0.6_2.12:1.0.2-1'
+	implementation 'io.scalajs.npm:bcrypt_sjs0.6_2.12:1.0.2-4'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
-	implementation 'com.google.firebase:firebase-admin:6.8.1'
+	implementation 'com.google.firebase:firebase-admin:9.1.1'
 	// https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
-	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.6.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.5'
+
 
 	// https://mvnrepository.com/artifact/org.springframework.session/spring-session-data-redis
 	implementation 'org.springframework.session:spring-session-data-redis:2.7.0'
+
 
 }
 

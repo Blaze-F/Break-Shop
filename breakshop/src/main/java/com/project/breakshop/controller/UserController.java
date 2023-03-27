@@ -1,15 +1,19 @@
 package com.project.breakshop.controller;
 
+import com.google.api.Http;
 import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.models.DTO.UserDTO;
 import com.project.breakshop.models.DTO.requests.SignupRequest;
 import com.project.breakshop.service.LoginService;
+import com.project.breakshop.service.SessionLoginService;
 import com.project.breakshop.service.UserService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 import static com.project.breakshop.utils.ResponseEntityConstants.*;

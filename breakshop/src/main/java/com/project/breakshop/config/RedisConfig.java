@@ -5,6 +5,7 @@ import com.project.breakshop.models.DTO.CartItemDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
@@ -64,6 +65,22 @@ public class RedisConfig {
     @Value("${spring.redis.password}")
     private String redisPassword;
 
+    private final RedisProperties redisProperties;
+
+    // lettuce
+    @Bean
+    public RedisConnectionFactory redisConnectionFactory() {
+        return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
+    }
+
+    @Bean
+    public RedisTemplate<String, Object> redisTemplate() {
+        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory());
+        redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setValueSerializer(new StringRedisSerializer());
+        return redisTemplate;
+    }
 
     @Bean({"redisConnectionFactory", "redisSessionConnectionFactory"})
     public RedisConnectionFactory redisSessionConnectionFactory() {
@@ -73,16 +90,7 @@ public class RedisConfig {
         redisStandaloneConfiguration.setPassword(redisPassword);
 
         return new LettuceConnectionFactory(
-            redisStandaloneConfiguration);
-    }
-    //Lettuce 사용
-
-
-    @Bean
-    public RedisTemplate<?, ?> redisTemplate() {
-        RedisTemplate<byte[], byte[]> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(redisSessionConnectionFactory());
-        return redisTemplate;
+                redisStandaloneConfiguration);
     }
 
     @Bean
@@ -92,10 +100,9 @@ public class RedisConfig {
         redisStandaloneConfiguration.setHostName(redisHost);
         redisStandaloneConfiguration.setPort(redisCachePort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
-            redisStandaloneConfiguration);
 
-        return lettuceConnectionFactory;
+        return new LettuceConnectionFactory(
+                redisStandaloneConfiguration);
     }
 
     @Bean
@@ -105,10 +112,9 @@ public class RedisConfig {
         redisStandaloneConfiguration.setHostName(redisHost);
         redisStandaloneConfiguration.setPort(redisCartPort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
-            redisStandaloneConfiguration);
 
-        return lettuceConnectionFactory;
+        return new LettuceConnectionFactory(
+                redisStandaloneConfiguration);
     }
 
     @Bean
@@ -118,16 +124,15 @@ public class RedisConfig {
         redisStandaloneConfiguration.setHostName(redisHost);
         redisStandaloneConfiguration.setPort(redisDeliveryPort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
-            redisStandaloneConfiguration);
 
-        return lettuceConnectionFactory;
+        return new LettuceConnectionFactory(
+                redisStandaloneConfiguration);
     }
 
     @Bean
     public RedisTemplate<String, CartItemDTO> cartItemDTORedisTemplate() {
         GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer =
-            new GenericJackson2JsonRedisSerializer();
+                new GenericJackson2JsonRedisSerializer();
 
         RedisTemplate<String, CartItemDTO> redisTemplate = new RedisTemplate<>();
 
@@ -142,7 +147,7 @@ public class RedisConfig {
     @Qualifier("deliveryRedisTemplate")
     public RedisTemplate<String, Object> deliveryRedisTemplate() {
         GenericJackson2JsonRedisSerializer genericJackson2JsonRedisSerializer =
-            new GenericJackson2JsonRedisSerializer();
+                new GenericJackson2JsonRedisSerializer();
 
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
 
@@ -159,22 +164,21 @@ public class RedisConfig {
     public RedisCacheManager redisCacheManager() {
 
         RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration
-            .defaultCacheConfig()
-            .disableCachingNullValues()
-            .serializeKeysWith(
-                RedisSerializationContext.SerializationPair
-                    .fromSerializer(new StringRedisSerializer()))
-            .serializeValuesWith(
-                RedisSerializationContext.SerializationPair
-                    .fromSerializer(new GenericJackson2JsonRedisSerializer())
-            )
-            .entryTtl(Duration.ofDays(1L));
+                .defaultCacheConfig()
+                .disableCachingNullValues()
+                .serializeKeysWith(
+                        RedisSerializationContext.SerializationPair
+                                .fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(
+                        RedisSerializationContext.SerializationPair
+                                .fromSerializer(new GenericJackson2JsonRedisSerializer())
+                )
+                .entryTtl(Duration.ofDays(1L));
 
         return RedisCacheManager.RedisCacheManagerBuilder
-            .fromConnectionFactory(redisCacheConnectionFactory())
-            .cacheDefaults(redisCacheConfiguration)
-            .build();
+                .fromConnectionFactory(redisCacheConnectionFactory())
+                .cacheDefaults(redisCacheConfiguration)
+                .build();
     }
-
 
 }

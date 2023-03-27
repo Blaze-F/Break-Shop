@@ -13,13 +13,14 @@ import javax.servlet.http.HttpSession;
  *  이러한 스코프 차이 때문에 Spring이 HttpSession 인스턴스를 동적 프록시로 생성하여 주입합니다.
  *  이러한 기법은 Scoped Proxy라고 합니다.
  * */
-
+//TODO
 @Service
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService {
 
     private static final String USER_ID = "USER_ID";
     private final HttpSession session;
+
 
     @Override
     public void loginUser(String id) {

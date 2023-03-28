@@ -18,27 +18,22 @@ import java.util.stream.Collectors;
 public class MenuService {
 
     @Autowired
-    private MenuRepository menuRepository;
+    private final MenuRepository menuRepository;
+    private final ModelMapper modelMapper;
 
     public void insertMenu(MenuDTO menu) {
         Menu menuEntity = modelMapper.map(menu, Menu.class);
         menuRepository.save(menuEntity);
     }
-    ModelMapper modelMapper = new ModelMapper();
+
     public MenuDTO setStoreId(MenuDTO menu, long storeId) {
-        MenuDTO newMenu = MenuDTO.builder()
+        return MenuDTO.builder()
             .name(menu.getName())
             .price(menu.getPrice())
             .photo(menu.getPhoto())
             .description(menu.getDescription())
             .storeId(storeId)
             .build();
-
-        Menu menuEntity = modelMapper.map(newMenu, Menu.class);
-
-        menuRepository.save(menuEntity);
-
-        return newMenu;
     }
 
     public void deleteMenu(long menuId) {

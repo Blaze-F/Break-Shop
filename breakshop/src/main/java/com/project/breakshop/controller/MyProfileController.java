@@ -26,7 +26,7 @@ public class MyProfileController {
     private final UserService userService;
 
     @DeleteMapping
-    @LoginCheck(userLevel = LoginCheck.UserLevel.USER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.ROLE_USER)
     @Operation(summary = "회원 탈퇴", description = "회원을 탈퇴시키고, 세션에서 삭제합니다.")
     public ResponseEntity<Void> deleteUser(@CurrentUserId String userId) {
         userService.deleteUser(userId);
@@ -35,7 +35,7 @@ public class MyProfileController {
     }
 
     @PatchMapping("/password")
-    @LoginCheck(userLevel = LoginCheck.UserLevel.USER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.ROLE_USER)
     @Operation(summary = "비밀번호 변경", description = "유저의 비밀번호를 변경합니다.")
     public ResponseEntity<Void> changeUserPassword(@CurrentUserId String userId,
         String password) {

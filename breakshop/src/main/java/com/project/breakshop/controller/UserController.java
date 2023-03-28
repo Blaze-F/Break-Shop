@@ -29,9 +29,9 @@ import static com.project.breakshop.utils.ResponseEntityConstants.*;
     request.getRequest은 해당 클라이언트의 세션이 없다면 생성해주고 있으면 반환해줍니다.
     메소드의 파라미터로 HttpSession을 받아온다면 위 과정을 스프링이 해줍니다.
 */
-@Tag(name = "/users", description = "유저관리 관련 API")
+@Tag(name = "/user", description = "유저관리 관련 API")
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 @RequiredArgsConstructor
 public class UserController {
 
@@ -69,9 +69,10 @@ public class UserController {
     }
 
     @GetMapping("/logout")
-    @LoginCheck(userLevel = LoginCheck.UserLevel.USER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.ROLE_USER)
     public ResponseEntity<Void> logout() {
         loginService.logoutUser();
+
         return RESPONSE_OK;
     }
 

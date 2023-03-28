@@ -16,6 +16,7 @@ public interface StoreRepository extends JpaRepository<Store, Long> {
     List<Store> findByUserId(long userId);
     Optional<Store> getByUserIdAndId(long userId, long storeId);
     boolean existsByIdAndUserId(long id, long userId);
+    Optional<Store> getByUserEmailAndId(String userEmail, long storeId);
 
     @Modifying
     @Transactional

@@ -1,4 +1,4 @@
-package com.project.breakshop.Redis;
+package com.project.breakshop.DAO;
 
 import com.project.breakshop.models.DTO.CartItemDTO;
 import lombok.RequiredArgsConstructor;

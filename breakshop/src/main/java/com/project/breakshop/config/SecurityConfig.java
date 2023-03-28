@@ -14,19 +14,21 @@ class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/static/js/**","/static/css/**","/static/img/**"
                         ,"/swagger-ui/**","/api-docs/**", "/users/signup", "/users/login", "/users/logout", "/users/").permitAll()    // LoadBalancer Chk
+                //@Secured("ROLE_ADMIN")으로 대체   .antMatchers("/api/admin").hasRole("ADMIN")
+                .antMatchers("/**").permitAll()
                 .anyRequest().authenticated();
 
-        http.formLogin()
-                .loginPage("/user/login")
-                .loginProcessingUrl("/user/login") //Post 요청
-                .defaultSuccessUrl("/")
-                .failureUrl("/user/login?error")
-                .permitAll();
+//        http.formLogin()
+//                .loginPage("/user/login")
+//                .loginProcessingUrl("/user/login") //Post 요청
+//                .defaultSuccessUrl("/")
+//                .failureUrl("/user/login?error")
+//                .permitAll();
 
-        //로그아웃 설정
-        http.logout()
-                .logoutUrl("/user/logout")
-                .logoutSuccessUrl("/");
+//        //로그아웃 설정
+//        http.logout()
+//                .logoutUrl("/user/logout")
+//                .logoutSuccessUrl("/");
 
         //비인가자 요청시 보낼 Api URI
         http.exceptionHandling().accessDeniedPage("/forbidden");

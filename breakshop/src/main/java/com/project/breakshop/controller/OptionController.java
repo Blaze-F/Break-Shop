@@ -28,15 +28,15 @@ public class OptionController {
     private final StoreService storeService;
 
     @PostMapping
-    @LoginCheck(userLevel = LoginCheck.UserLevel.OWNER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.ROLE_OWNER)
     @Operation(summary = "옵션 리스트 등록", description = "메뉴 옵션 리스트를 등록합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public void registerOptionList(
             @Parameter(description = "옵션 리스트", required = true) @RequestBody List<OptionDTO> optionList,
             @Parameter(description = "가게 ID", required = true) @PathVariable long storeId,
-            @Parameter(description = "소유자 ID", required = true) @CurrentUserId Long ownerId) {
+            @Parameter(description = "소유자 ID", required = true) @CurrentUserId String ownerEmail) {
 
-        storeService.validateMyStore(storeId, ownerId);
+        storeService.validateMyStore(storeId, ownerEmail);
         optionService.registerOptionList(optionList);
     }
 
@@ -49,15 +49,15 @@ public class OptionController {
     }
 
     @DeleteMapping
-    @LoginCheck(userLevel = LoginCheck.UserLevel.OWNER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.ROLE_OWNER)
     @Operation(summary = "옵션 리스트 삭제", description = "메뉴 옵션 리스트를 삭제합니다.")
     @SecurityRequirement(name = "bearerAuth")
     public void deleteOptionList(
             @Parameter(description = "옵션 리스트", required = true) @RequestBody List<OptionDTO> optionList,
             @Parameter(description = "가게 ID", required = true) @PathVariable long storeId,
-            @Parameter(description = "소유자 ID", required = true) @CurrentUserId Long ownerId) {
+            @Parameter(description = "소유자 ID", required = true) @CurrentUserId String ownerEmail) {
 
-        storeService.validateMyStore(storeId, ownerId);
+        storeService.validateMyStore(storeId, ownerEmail);
         optionService.deleteOptionList(optionList);
     }
 }

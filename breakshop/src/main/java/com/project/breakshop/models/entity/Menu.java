@@ -15,15 +15,18 @@ import java.util.Set;
 public class Menu extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "menu_id")
     private Long id;
 
+    @Column(nullable = false)
     private String name;
+    @Column(nullable = false)
     private Long price;
     private String photo;
     private String description;
 
     @OneToMany(fetch = FetchType.LAZY)
-    Set<MenuOption> menuOptionSet = new HashSet<>();
+    Set<MenuOption> menuOptionSet;
 
     @ManyToOne(fetch = FetchType.LAZY)
     Store store;

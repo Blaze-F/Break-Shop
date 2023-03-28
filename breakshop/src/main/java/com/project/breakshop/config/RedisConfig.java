@@ -76,22 +76,11 @@ public class RedisConfig {
     @Bean
     public RedisTemplate<String, Object> redisTemplate() {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
+        redisTemplate.setDefaultSerializer(new GenericJackson2JsonRedisSerializer());
         redisTemplate.setConnectionFactory(redisConnectionFactory());
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setValueSerializer(new StringRedisSerializer());
         return redisTemplate;
     }
 
-    @Bean({"redisConnectionFactory", "redisSessionConnectionFactory"})
-    public RedisConnectionFactory redisSessionConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName(redisHost);
-        redisStandaloneConfiguration.setPort(redisSessionPort);
-        redisStandaloneConfiguration.setPassword(redisPassword);
-
-        return new LettuceConnectionFactory(
-                redisStandaloneConfiguration);
-    }
 
     @Bean
     public RedisConnectionFactory redisCacheConnectionFactory() {
@@ -100,9 +89,10 @@ public class RedisConfig {
         redisStandaloneConfiguration.setHostName(redisHost);
         redisStandaloneConfiguration.setPort(redisCachePort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-
-        return new LettuceConnectionFactory(
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
                 redisStandaloneConfiguration);
+
+        return lettuceConnectionFactory;
     }
 
     @Bean
@@ -112,9 +102,10 @@ public class RedisConfig {
         redisStandaloneConfiguration.setHostName(redisHost);
         redisStandaloneConfiguration.setPort(redisCartPort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-
-        return new LettuceConnectionFactory(
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
                 redisStandaloneConfiguration);
+
+        return lettuceConnectionFactory;
     }
 
     @Bean
@@ -124,9 +115,10 @@ public class RedisConfig {
         redisStandaloneConfiguration.setHostName(redisHost);
         redisStandaloneConfiguration.setPort(redisDeliveryPort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-
-        return new LettuceConnectionFactory(
+        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
                 redisStandaloneConfiguration);
+
+        return lettuceConnectionFactory;
     }
 
     @Bean
@@ -180,5 +172,5 @@ public class RedisConfig {
                 .cacheDefaults(redisCacheConfiguration)
                 .build();
     }
-
 }
+

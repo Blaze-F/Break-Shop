@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import scala.reflect.internal.Mode;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,8 +20,14 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class StoreListService {
 
+    @Autowired
+    public StoreListService(ModelMapper modelMapper, StoreRepository storeRepository, StoreCategoryRepository storeCategoryRepository) {
+        this.modelMapper = modelMapper;
+        this.storeCategoryRepository = storeCategoryRepository;
+        this.storeRepository = storeRepository;
+    }
     private final StoreRepository storeRepository;
-    ModelMapper modelMapper = new ModelMapper();
+    private final ModelMapper modelMapper;
     private final StoreCategoryRepository storeCategoryRepository;
 
 

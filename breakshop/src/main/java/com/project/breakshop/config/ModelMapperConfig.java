@@ -17,7 +17,7 @@ public class ModelMapperConfig {
         *
         * */
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STANDARD).setFieldMatchingEnabled(true).setSkipNullEnabled(true)
-                .setFieldAccessLevel(AccessLevel.PRIVATE);;
+                .setFieldAccessLevel(AccessLevel.PRIVATE);
         return modelMapper;
     }
 }

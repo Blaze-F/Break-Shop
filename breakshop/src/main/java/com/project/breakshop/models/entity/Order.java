@@ -17,6 +17,7 @@ import java.util.Set;
 public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "order_id")
     private Long id;
 
     @Enumerated(EnumType.STRING)

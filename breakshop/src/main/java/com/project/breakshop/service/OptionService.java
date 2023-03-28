@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import scala.reflect.internal.Mode;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,9 +20,10 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class OptionService {
 
-    ModelMapper modelMapper = new ModelMapper();
+
     @Autowired
     private final MenuOptionRepository menuOptionRepository;
+    private final ModelMapper modelMapper;
 
     public void registerOptionList(List<OptionDTO> optionList) {
         List<MenuOption> menuOptionList = new ArrayList<>();

@@ -22,24 +22,24 @@ public class MenuController {
     private final StoreService storeService;
 
     @PostMapping
-    @LoginCheck(userLevel = LoginCheck.UserLevel.OWNER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.ROLE_OWNER)
     @Operation(summary = "메뉴 추가", description = "가게의 메뉴를 추가합니다.")
     public void insertMenu(@RequestBody MenuDTO menu, @PathVariable long storeId,
-                           @CurrentUserId Long ownerId) {
+                           @CurrentUserId String ownerEmail) {
 
-        storeService.validateMyStore(storeId, ownerId);
+        storeService.validateMyStore(storeId, ownerEmail);
         MenuDTO newMenu = menuService.setStoreId(menu, storeId);
         menuService.insertMenu(newMenu);
 
     }
 
     @DeleteMapping("/{menuId}")
-    @LoginCheck(userLevel = LoginCheck.UserLevel.OWNER)
+    @LoginCheck(userLevel = LoginCheck.UserLevel.ROLE_OWNER)
     @Operation(summary = "메뉴 삭제", description = "가게의 메뉴를 삭제합니다.")
     public void deleteMenu(@PathVariable Long menuId, @PathVariable long storeId,
-                           @CurrentUserId Long ownerId) {
+                           @CurrentUserId String ownerEmail) {
 
-        storeService.validateMyStore(storeId, ownerId);
+        storeService.validateMyStore(storeId, ownerEmail);
         menuService.deleteMenu(menuId);
 
     }

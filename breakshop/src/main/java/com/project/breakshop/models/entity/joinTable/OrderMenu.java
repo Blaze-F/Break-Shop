@@ -15,6 +15,7 @@ public class OrderMenu {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
+
     @ManyToOne
     Order order;
 

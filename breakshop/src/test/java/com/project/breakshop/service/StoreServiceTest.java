@@ -2,6 +2,7 @@ package com.project.breakshop.service;
 
 
 import com.project.breakshop.models.DTO.*;
+import com.project.breakshop.models.DTO.requests.CreateStoreRequest;
 import com.project.breakshop.models.entity.Order.OrderStatus;
 import com.project.breakshop.models.entity.Order;
 import com.project.breakshop.models.entity.Store;
@@ -44,6 +45,7 @@ public class StoreServiceTest {
 
     StoreDTO store;
     Store storeEntity;
+    CreateStoreRequest createStoreRequest;
 
     @BeforeEach
     public void makeStore() {
@@ -68,7 +70,7 @@ public class StoreServiceTest {
     public void insertStoreTestSuccess() {
 
         when(storeRepository.save(any(Store.class))).then(AdditionalAnswers.returnsFirstArg());
-        storeService.insertStore(store, 1L);
+        storeService.insertStore(createStoreRequest, "1L");
         verify(storeRepository).save(any(Store.class));
     }
 
@@ -78,7 +80,7 @@ public class StoreServiceTest {
         doThrow(RuntimeException.class).when(storeRepository).save(any(Store.class));
 
         assertThrows(RuntimeException.class,
-            () -> storeService.insertStore(store, 3L));
+            () -> storeService.insertStore(createStoreRequest, "3L"));
 
         verify(storeRepository).save(any(Store.class));
     }
@@ -110,7 +112,7 @@ public class StoreServiceTest {
     public void getMyStoreTestSuccess() {
         when(storeRepository.getByUserIdAndId(anyLong(), anyLong())).thenReturn(Optional.of(storeEntity));
 
-        storeService.getMyStore(43, 1L);
+        storeService.getMyStore(43, "N");
 
         verify(storeRepository).getByUserIdAndId(anyLong(), anyLong());
     }
@@ -121,7 +123,7 @@ public class StoreServiceTest {
     public void validateMyStoreTestSuccess() {
         when(storeRepository.existsByIdAndUserId(anyLong(), anyLong())).thenReturn(true);
 
-        storeService.validateMyStore(3, 1L);
+        storeService.validateMyStore(3, "1L");
 
         verify(storeRepository).existsByIdAndUserId(anyLong(), anyLong());
     }
@@ -132,7 +134,7 @@ public class StoreServiceTest {
         when(storeRepository.existsByIdAndUserId(anyLong(), anyLong())).thenReturn(false);
 
         assertThrows(HttpClientErrorException.class,
-            () -> storeService.validateMyStore(3, 1L));
+            () -> storeService.validateMyStore(3, "1L"));
 
         verify(storeRepository).existsByIdAndUserId(anyLong(), anyLong());
     }

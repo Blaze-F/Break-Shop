@@ -26,7 +26,7 @@ public class DeliveryController {
 
     @Operation(summary = "특정 주문 조회 API")
     @GetMapping(params = "orderId")
-    @LoginCheck(userLevel = UserLevel.RIDER)
+    @LoginCheck(userLevel = UserLevel.ROLE_RIDER)
     public OrderReceiptDTO loadStandbyOrder(@RequestParam long orderId,
                                             @RequestParam String riderAddress) {
         return deliveryService.loadStandbyOrder(orderId, riderAddress);
@@ -34,7 +34,7 @@ public class DeliveryController {
 
     @Operation(summary = "대기 중인 주문 리스트 조회 API")
     @GetMapping
-    @LoginCheck(userLevel = UserLevel.RIDER)
+    @LoginCheck(userLevel = UserLevel.ROLE_RIDER)
     public List<String> loadStandbyOrderList(@RequestParam String riderAddress) {
         return deliveryService.loadStandbyOrderList(riderAddress);
     }

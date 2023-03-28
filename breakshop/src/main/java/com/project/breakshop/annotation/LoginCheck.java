@@ -22,7 +22,7 @@ public @interface LoginCheck {
 
     enum UserLevel {
 
-        USER, OWNER, RIDER;
+        ROLE_USER, ROLE_OWNER, ROLE_RIDER, ROLE_ADMIN;
 
         public static UserLevel getEnumLevel(String level) {
             return Enum.valueOf(UserLevel.class, level);

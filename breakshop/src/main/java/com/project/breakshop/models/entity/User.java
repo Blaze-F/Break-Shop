@@ -1,6 +1,7 @@
 package com.project.breakshop.models.entity;
 
 
+import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.models.entity.base.BaseEntity;
 import lombok.*;
 import javax.persistence.*;
@@ -28,7 +29,7 @@ public class User extends BaseEntity implements Serializable {
     private String name;
     private String phone;
     private String address;
-    private String level;
+    private LoginCheck.UserLevel level;
 
     @OneToMany(fetch = FetchType.LAZY)
     private List<Order> orderList;

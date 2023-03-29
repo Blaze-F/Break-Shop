@@ -6,14 +6,18 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
-
+/*
+테이블 자동생성 오류로 인해 테이블명을 STORES으로 변경하였음.
+ */
 @Entity
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
 @DynamicInsert
+@Table(name = "STORES")
 public class Store extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -25,18 +29,15 @@ public class Store extends BaseEntity {
     private String phone;
     @Column(nullable = false)
     private String address;
-    @Column(nullable = false)
-    @ColumnDefault("closed")
-    private String openStatus;
+
+    public enum OpenStatus {
+        OPENED,CLOSED
+    }
+
+    @Column(nullable = true)
+    @Enumerated(EnumType.STRING)
+    private OpenStatus openStatus;
     private String introduction;
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-    public void setStoreCategory(StoreCategory storeCategory) {
-        this.storeCategory = storeCategory;
-    }
-
 
     @ManyToOne(fetch = FetchType.LAZY)
     User user;
@@ -45,6 +46,6 @@ public class Store extends BaseEntity {
     StoreCategory storeCategory;
 
     @OneToMany(fetch = FetchType.LAZY)
-    List<Order> orderList;
+    List<Order> orderList = new ArrayList<>();
 
 }

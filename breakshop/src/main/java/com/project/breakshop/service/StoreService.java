@@ -29,17 +29,20 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+
+/**
+ * 원칙 : 부모, 자식 엔티티 매핑은 빌더패턴으로 하는 것으로. 부모 자식간 엔티티 매핑이 필요 없을경우는 모델매퍼 사용.
+ */
 @Service
 public class StoreService {
 
     @Autowired
     public StoreService(StoreRepository storeRepository, OrderRepository orderRepository, DeliveryService deliveryService, RiderService riderService,
-                        UserService userService, ModelMapper modelMapper, UserRepository userRepository, StoreCategoryRepository storeCategoryRepository){
+                         ModelMapper modelMapper, UserRepository userRepository, StoreCategoryRepository storeCategoryRepository){
         this.storeRepository = storeRepository;
         this.orderRepository = orderRepository;
         this.deliveryService = deliveryService;
         this.riderService = riderService;
-        this.userService = userService;
         this.modelMapper = modelMapper;
         this.userRepository = userRepository;
         this.storeCategoryRepository = storeCategoryRepository;
@@ -48,7 +51,6 @@ public class StoreService {
     private final OrderRepository orderRepository;
     private final DeliveryService deliveryService;
     private final RiderService riderService;
-    private final UserService userService;
     private final ModelMapper modelMapper;
     private final UserRepository userRepository;
     private final StoreCategoryRepository storeCategoryRepository;
@@ -73,26 +75,20 @@ public class StoreService {
             if (!storeCategoryRepository.existsById(store.getCategoryId())){
                 storeCategoryRepository.save(storeCategory);
             }
-
-            StoreDTO newStore = setOwnerID(store, userEntity.getId());
-            Store storeEntity = modelMapper.map(newStore, Store.class);
-            storeEntity.setUser(userEntity);
-            storeEntity.setStoreCategory(storeCategory);
+            //TODO 나중에 빌더패턴 다른 메서드로 분리 createNewStore()
+            StoreDTO newStore = modelMapper.map(store,StoreDTO.class);
+            Store storeEntity = Store.builder()
+                    .storeCategory(storeCategory)
+                    .address(newStore.getAddress())
+                    .introduction(newStore.getIntroduction())
+                    .openStatus(newStore.getOpenStatus())
+                    .phone(newStore.getPhone())
+                    .user(userEntity)
+                    .build();
             storeRepository.save(storeEntity);
         } catch (DuplicateKeyException e) {
             throw new StoreNameAlreadyExistException("Same Store Name" + store.getName());
         }
-    }
-
-    private StoreDTO setOwnerID(CreateStoreRequest store, Long ownerId) {
-        return StoreDTO.builder()
-            .name(store.getName())
-            .phone(store.getPhone())
-            .address(store.getAddress())
-            .ownerId(ownerId)
-            .introduction(store.getIntroduction())
-            .categoryId(store.getCategoryId())
-            .build();
     }
 
     public List<StoreDTO> findMyAllStore(String email) {
@@ -132,6 +128,7 @@ public class StoreService {
         orderDTO.setOrderStatus(OrderStatus.APPROVED_ORDER);
         orderRepository.save(modelMapper.map(orderDTO, Order.class));
 
+        //TODO 해당 로직 정상 작동여부 확인할 것. 의심됨
 
         OrderReceiptDTO orderReceipt = orderRepository.selectOrderReceipt(orderId);
         deliveryService.registerStandbyOrderWhenOrderApprove(orderId, orderReceipt);

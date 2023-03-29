@@ -50,6 +50,7 @@ public class OrderService {
 
         cartList = cartItemDAO.getCartAndDelete(userId);
 
+        //오더 캔슬시 카트 아이템을 롤백하는 로직
         restoreCartListOnOrderRollback(userId, cartList);
 
         long totalPrice = orderTransactionService
@@ -57,6 +58,7 @@ public class OrderService {
         orderTransactionService.pay(payType, totalPrice, orderDTO.getId());
 
         orderDTO.setOrderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER);
+        //TODO 이부분도 USER 엔티티 부분 제대로 매핑되었는지 확인해야할듯
         orderRepository.save(modelMapper.map(orderDTO, Order.class));
         orderReceipt = getOrderReceipt(orderDTO, cartList, totalPrice, storeId,
             user);

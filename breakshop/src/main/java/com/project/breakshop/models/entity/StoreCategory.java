@@ -11,6 +11,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
+@Table(name = "STORE_CATEGORY")
 public class StoreCategory extends BaseEntity {
 
     @Id

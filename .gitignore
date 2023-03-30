@@ -166,3 +166,6 @@ build/
 .build
 .idea/compiler.xml
 .idea/misc.xml
+.idea/**
+/breakshop/.idea/
+/.idea/

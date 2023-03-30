@@ -2,45 +2,49 @@ server:
   address: localhost
   port: 8090
 
-# MySQL
-datasource:
-  driver-class-name: com.mysql.cj.jdbc.Driver
-  url: jdbc:mysql://localhost:3306/breakshop?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
-  username: root
-  password: test1234
-
-# JPA
-jpa:
-  show-sql: true
-  hibernate:
-    ddl-auto: update
-  properties:
-    hibernate:
-      format_sql: true
-      dialect: org.hibernate.dialect.MySQL8Dialect
-      globally_quoted_identifiers: true
-  database: mysql
-
-# Redis
-redis:
-  host: localhost
-  password: 1234
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/breakshop?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: test1234
+  #Redis
+  redis:
+    host: localhost
+    password: 1234
+    session:
+      port: 6379
+    cache:
+      port: 6389
+    cart:
+      port: 6399
+    rider:
+      port: 6409
+  fcm:
+    rider:
+      expire:
+        second: 86400
   session:
-    port: 6379
-  cache:
-    port: 6389
-  cart:
-    port: 6399
-  rider:
-    port: 6409
-fcm:
-  rider:
-    expire:
-      second: 86400
-session:
-  store-type: redis
+    store-type: redis
+  #JPA
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        globally_quoted_identifiers: true
+    database: mysql
+  # Miscellaneous
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 
-# Swagger
 springdoc:
   packages-to-scan: com.project.breakshop.controller
   swagger-ui:
@@ -55,7 +59,3 @@ springdoc:
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
 
-# Miscellaneous
-mvc:
-  pathmatch:
-    matching-strategy: ant_path_matcher

@@ -3,9 +3,11 @@ package com.project.breakshop.controller;
 import com.project.breakshop.annotation.CurrentUserId;
 import com.project.breakshop.annotation.LoginCheck;
 import com.project.breakshop.models.DTO.MenuDTO;
+import com.project.breakshop.models.DTO.requests.CreateMenuRequest;
 import com.project.breakshop.service.MenuService;
 import com.project.breakshop.service.StoreService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +26,12 @@ public class MenuController {
     @PostMapping
     @LoginCheck(userLevel = LoginCheck.UserLevel.ROLE_OWNER)
     @Operation(summary = "메뉴 추가", description = "가게의 메뉴를 추가합니다.")
-    public void insertMenu(@RequestBody MenuDTO menu, @PathVariable long storeId,
-                           @CurrentUserId String ownerEmail) {
+    public void insertMenu(@RequestBody CreateMenuRequest menu, @PathVariable long storeId,
+                           @Parameter(required = false,allowEmptyValue = true) @CurrentUserId String ownerEmail) {
 
         storeService.validateMyStore(storeId, ownerEmail);
-        MenuDTO newMenu = menuService.setStoreId(menu, storeId);
-        menuService.insertMenu(newMenu);
+        menuService.insertMenu(menu, storeId);
+
 
     }
 

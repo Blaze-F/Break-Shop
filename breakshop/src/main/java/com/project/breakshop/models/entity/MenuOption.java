@@ -11,7 +11,6 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@Table(name = "MENU_OPTION")
 public class MenuOption {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

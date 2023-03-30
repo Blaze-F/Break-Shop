@@ -2,6 +2,7 @@ package com.project.breakshop.service;
 
 import com.project.breakshop.exception.NotExistIdException;
 import com.project.breakshop.models.DTO.MenuDTO;
+import com.project.breakshop.models.DTO.requests.CreateMenuRequest;
 import com.project.breakshop.models.entity.Menu;
 import com.project.breakshop.models.entity.Store;
 import com.project.breakshop.models.repository.MenuRepository;
@@ -37,6 +38,7 @@ public class MenuServiceTest {
 
     MenuDTO menuDTO;
     Menu menuEntity;
+    CreateMenuRequest createMenuRequest;
 
 
     @BeforeEach
@@ -63,7 +65,7 @@ public class MenuServiceTest {
 
         when(menuRepository.save(any(Menu.class))).then(AdditionalAnswers.returnsFirstArg());
 
-        menuService.insertMenu(menuDTO);
+        menuService.insertMenu(createMenuRequest, anyLong());
 
         verify(menuRepository).save(any(Menu.class));
     }

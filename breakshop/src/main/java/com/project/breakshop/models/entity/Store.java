@@ -17,7 +17,7 @@ import java.util.List;
 @Builder
 @Getter
 @DynamicInsert
-@Table(name = "STORES")
+@Table(name = "stores")
 public class Store extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -26,17 +26,20 @@ public class Store extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
+
     private String phone;
+
     @Column(nullable = false)
     private String address;
 
     public enum OpenStatus {
-        OPENED,CLOSED
+        OPEN,CLOSED
     }
 
-    @Column(nullable = true)
-    @Enumerated(EnumType.STRING)
-    private OpenStatus openStatus;
+    @Column(nullable = false)
+    @Enumerated(EnumType.ORDINAL)
+    private OpenStatus openStatus = OpenStatus.CLOSED; //Default Value = CLOSED
+
     private String introduction;
 
     @ManyToOne(fetch = FetchType.LAZY)

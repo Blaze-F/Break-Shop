@@ -2,6 +2,7 @@ package com.project.breakshop.models.DTO;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.project.breakshop.models.entity.Store;
 import lombok.*;
 
 @Getter
@@ -20,7 +21,7 @@ public class StoreDTO {
 
     public Long ownerId;
 
-    public String openStatus;
+    public Store.OpenStatus openStatus;
 
     public String introduction;
 
@@ -32,7 +33,7 @@ public class StoreDTO {
         @JsonProperty(value = "phone") String phone,
         @JsonProperty(value = "address") String address,
         @JsonProperty(value = "ownerId") Long ownerId,
-        @JsonProperty(value = "openStatus") String openStatus,
+        @JsonProperty(value = "openStatus") Store.OpenStatus openStatus,
         @JsonProperty(value = "introduction") String introduction,
         @JsonProperty(value = "categoryId") Long categoryId
     ) {

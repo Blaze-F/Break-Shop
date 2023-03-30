@@ -31,7 +31,7 @@ import java.util.stream.Collectors;
 
 
 /**
- * 원칙 : 부모, 자식 엔티티 매핑은 빌더패턴으로 하는 것으로. 부모 자식간 엔티티 매핑이 필요 없을경우는 모델매퍼 사용.
+ * 컨벤션 : 부모, 자식 엔티티 매핑은 빌더패턴으로 하는 것으로. 부모 자식간 엔티티 매핑이 필요 없을경우는 modelMapper 사용.
  */
 @Service
 public class StoreService {
@@ -62,7 +62,7 @@ public class StoreService {
         @CacheEvict(value = "stores", key = "#store.address"),
         @CacheEvict(value = "stores", key = "#store.address+#store.categoryId")
     })
-    public void insertStore(CreateStoreRequest store, String ownerEmail) {
+    public void insertStore(CreateStoreRequest storeCreateRequest, String ownerEmail) {
         try {
             Optional<User> userOptional = userRepository.getByEmail(ownerEmail);
             if (userOptional.isEmpty()){
@@ -70,24 +70,28 @@ public class StoreService {
             }
             User userEntity = userOptional.get();
 
-            StoreCategory storeCategory = StoreCategory.builder().id(store.getCategoryId()).build();
             //카테고리가 존재하지 않을경우 새로운 카테고리를 생성
-            if (!storeCategoryRepository.existsById(store.getCategoryId())){
+            if (!storeCategoryRepository.existsByName(storeCreateRequest.getCategoryName())){
+                StoreCategory storeCategory = StoreCategory.builder()
+                        .name(storeCreateRequest.getCategoryName())
+                        .build();
                 storeCategoryRepository.save(storeCategory);
             }
-            //TODO 나중에 빌더패턴 다른 메서드로 분리 createNewStore()
-            StoreDTO newStore = modelMapper.map(store,StoreDTO.class);
+            StoreCategory storeCategory = storeCategoryRepository.getByName(storeCreateRequest.getCategoryName()).get();
+            //TODO 다른 부분도 modelmapper가 orm에 맞게 객체 매핑이 안될시 해당 코드처럼 빌더형태로 변경할 것.
             Store storeEntity = Store.builder()
                     .storeCategory(storeCategory)
-                    .address(newStore.getAddress())
-                    .introduction(newStore.getIntroduction())
-                    .openStatus(newStore.getOpenStatus())
-                    .phone(newStore.getPhone())
+                    .address(storeCreateRequest.getAddress())
+                    .introduction(storeCreateRequest.getIntroduction())
+                    .phone(storeCreateRequest.getPhone())
+                    .name(storeCreateRequest.getName())
+                    .introduction(storeCreateRequest.getIntroduction())
+                    .openStatus(Store.OpenStatus.CLOSED)
                     .user(userEntity)
                     .build();
             storeRepository.save(storeEntity);
         } catch (DuplicateKeyException e) {
-            throw new StoreNameAlreadyExistException("Same Store Name" + store.getName());
+            throw new StoreNameAlreadyExistException("Same Store Name" + storeCreateRequest.getName());
         }
     }
 

@@ -42,6 +42,7 @@ public class OrderService {
 
         User userEntity = userRepository.findById(Long.parseLong(userId)).get();
         UserInfoDTO user = modelMapper.map(userEntity, UserInfoDTO.class);
+        Store store = storeRepository.findById(storeId).get();
         OrderDTO orderDTO = getOrderDTO(user, storeId);
         List<CartItemDTO> cartList;
         List<OrderMenuDTO> orderMenuList = new ArrayList<>();
@@ -59,15 +60,27 @@ public class OrderService {
 
         orderDTO.setOrderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER);
         //TODO 이부분도 USER 엔티티 부분 제대로 매핑되었는지 확인해야할듯
-        orderRepository.save(modelMapper.map(orderDTO, Order.class));
+        //TODO Redis Cluster 부분 해결되어야 제대로 작동될 로직임.
+        //TODO payments 옵션 어디로 가는지 나중에 확인 바람.
+        Order order = Order.builder()
+                .orderStatus(Order.OrderStatus.APPROVED_ORDER)
+                .address(orderDTO.getAddress())
+                //.orderMenuOptions()
+                .totalPrice(totalPrice)
+                .user(userEntity)
+                .address(orderDTO.getAddress())
+                .store(store)
+                .build();
+        orderRepository.save(order);
+
         orderReceipt = getOrderReceipt(orderDTO, cartList, totalPrice, storeId,
             user);
 
         return orderReceipt;
     }
-
     private void restoreCartListOnOrderRollback(String userId, List<CartItemDTO> cartList) {
         TransactionSynchronizationManager.registerSynchronization(
+                //TODO Deprecated
             new TransactionSynchronizationAdapter() {
                 @Override
                 public void afterCompletion(int status) {

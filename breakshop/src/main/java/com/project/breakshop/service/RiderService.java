@@ -45,7 +45,7 @@ public class RiderService {
         deliveryDAO.insertStandbyRiderWhenStartWork(rider);
     }
 
-    //TODO
+    //
     public void sendMessageToStandbyRidersInSameArea(String address, PushMessageDTO pushMessage) {
         Set<String> tokenSet = deliveryDAO.selectStandbyRiderTokenList(address);
 //        List<Message> messages = tokenSet.stream().map(token -> Message.builder()

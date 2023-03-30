@@ -16,7 +16,7 @@ ORDER 는 예약어라 테이블 자동 생성이 안되기때문에 테이블 �
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@Table(name = "ORDERS")
+@Table(name = "Orders")
 public class Order extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,9 +31,6 @@ public class Order extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
-
-    @OneToMany(fetch = FetchType.LAZY)
-    List<Payments> payments = new ArrayList<>();
 
     @OneToMany(fetch = FetchType.LAZY)
     List<OrderMenuOption> orderMenuOptions = new ArrayList<>();

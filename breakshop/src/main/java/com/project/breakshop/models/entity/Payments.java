@@ -10,7 +10,6 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@Table(name = "PAYMENTS")
 public class Payments extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

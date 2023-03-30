@@ -12,7 +12,6 @@ import java.util.Set;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-@Table(name = "MENU")
 public class Menu extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

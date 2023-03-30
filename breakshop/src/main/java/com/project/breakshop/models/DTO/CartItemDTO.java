@@ -27,7 +27,6 @@ public class CartItemDTO {
     @NotNull
     public Long count;
 
-    @NotNull
     public List<CartOptionDTO> optionList;
 
     @JsonCreator

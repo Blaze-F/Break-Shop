@@ -20,7 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     void deleteByEmail(String email);
 
 
-    @Query(value = "update USER set password = :#{#password} where id = :#{#email}", nativeQuery = true)
+    @Query(value = "update user set password = :#{#password} where email = :#{#email}", nativeQuery = true)
     @Modifying(clearAutomatically = true, flushAutomatically = true)
     @Transactional
     public void updateUserPassword(@Param(value = "email") String email,@Param(value = "password") String password );

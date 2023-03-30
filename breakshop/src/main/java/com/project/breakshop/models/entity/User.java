@@ -14,7 +14,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @Getter
-@Table(name = "USER", indexes = @Index(name = "i_email", columnList = "email"))
+@Table( indexes = @Index(name = "i_email", columnList = "email"))
 public class User extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -29,6 +29,8 @@ public class User extends BaseEntity implements Serializable {
     private String name;
     private String phone;
     private String address;
+
+    @Enumerated(EnumType.ORDINAL)
     private LoginCheck.UserLevel level;
 
     @OneToMany(fetch = FetchType.LAZY)

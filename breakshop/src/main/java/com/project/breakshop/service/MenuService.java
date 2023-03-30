@@ -2,8 +2,11 @@ package com.project.breakshop.service;
 
 import com.project.breakshop.exception.NotExistIdException;
 import com.project.breakshop.models.DTO.MenuDTO;
+import com.project.breakshop.models.DTO.requests.CreateMenuRequest;
 import com.project.breakshop.models.entity.Menu;
+import com.project.breakshop.models.entity.Store;
 import com.project.breakshop.models.repository.MenuRepository;
+import com.project.breakshop.models.repository.StoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
@@ -20,9 +23,17 @@ public class MenuService {
     @Autowired
     private final MenuRepository menuRepository;
     private final ModelMapper modelMapper;
+    private final StoreRepository storeRepository;
 
-    public void insertMenu(MenuDTO menu) {
-        Menu menuEntity = modelMapper.map(menu, Menu.class);
+    public void insertMenu(CreateMenuRequest createMenuRequest,Long storeId) {
+        Store store = storeRepository.findById(storeId).get();
+        Menu menuEntity = Menu.builder()
+                .description(createMenuRequest.getDescription())
+                .name(createMenuRequest.getName())
+                .photo(createMenuRequest.getPhoto())
+                .price(createMenuRequest.getPrice())
+                .store(store)
+                .build();
         menuRepository.save(menuEntity);
     }
 

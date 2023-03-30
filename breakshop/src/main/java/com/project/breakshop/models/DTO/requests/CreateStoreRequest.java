@@ -19,9 +19,7 @@ public class CreateStoreRequest {
 
     public Long ownerId;
 
-    public String openStatus;
-
     public String introduction;
 
-    public Long categoryId;
+    public String categoryName;
 }

@@ -13,9 +13,9 @@ import org.springframework.stereotype.Service;
 public class CardPayService implements PayService {
 
     @Autowired
-    private PaymentsRepository paymentsRepository;
+    private final PaymentsRepository paymentsRepository;
+    private final ModelMapper modelMapper;
 
-    ModelMapper modelMapper = new ModelMapper();
     @Override
     public void pay(long price, long orderId) {
         PayDTO payDTO = PayDTO.builder()

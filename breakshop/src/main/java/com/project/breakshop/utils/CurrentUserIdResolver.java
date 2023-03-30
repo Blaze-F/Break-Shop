@@ -26,7 +26,6 @@ public class CurrentUserIdResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter methodParameter,
         ModelAndViewContainer modelAndViewContainer, NativeWebRequest nativeWebRequest,
         WebDataBinderFactory webDataBinderFactory) throws Exception {
-        String currentUserId = loginService.getCurrentUser();
-        return currentUserId;
+        return loginService.getCurrentUser();
     }
 }

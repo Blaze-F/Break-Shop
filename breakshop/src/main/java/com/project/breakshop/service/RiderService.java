@@ -1,7 +1,7 @@
 package com.project.breakshop.service;
 
 
-import com.project.breakshop.DAO.DeliveryDAO;
+import com.project.breakshop.models.DAO.DeliveryDAO;
 import com.project.breakshop.models.DTO.PushMessageDTO;
 import com.project.breakshop.models.DTO.RiderDTO;
 import com.project.breakshop.models.entity.Order;

@@ -159,7 +159,6 @@ fabric.properties
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/visualstudiocode,intellij
-breakshop/src/main/resources/application.properties
 build/
 .idea
 .gradle

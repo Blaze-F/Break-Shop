@@ -1,4 +1,4 @@
-package com.project.breakshop.DAO;
+package com.project.breakshop.models.DAO;
 
 
 import com.project.breakshop.models.DTO.OrderReceiptDTO;

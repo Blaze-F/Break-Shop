@@ -1,3 +1,4 @@
+#배포용 설정
 server:
   address: localhost
   port: 8090

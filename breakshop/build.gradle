@@ -46,9 +46,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.5'
 
 
-	// https://mvnrepository.com/artifact/org.springframework.session/spring-session-data-redis
-	implementation 'org.springframework.session:spring-session-data-redis:2.7.0'
-
 
 }
 
@@ -62,4 +59,4 @@ dependencies {
 tasks.named('test') {
 
 }
-targetCompatibility = JavaVersion.VERSION_16
+targetCompatibility = JavaVersion.VERSION_11

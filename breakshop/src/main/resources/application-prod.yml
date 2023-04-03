@@ -1,6 +1,6 @@
 #배포용 설정
 server:
-  address: localhost
+  address: breakshop
   port: 8090
 
 spring:
@@ -9,20 +9,25 @@ spring:
       on-profile: prod
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/breakshop?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://mysql:3306/breakshop?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
     username: root
     password: test1234
   #Redis
   redis:
-    host: localhost
+    host: redis-session
     password: 1234
+    departHost: true
     session:
+      host: redis-session
       port: 6379
     cache:
+      host: redis-cache
       port: 6389
     cart:
+      host: redis-cart
       port: 6399
     rider:
+      host: redis-rider
       port: 6409
   fcm:
     rider:
@@ -59,4 +64,5 @@ springdoc:
   show-actuator: true
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+
 

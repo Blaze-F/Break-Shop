@@ -62,14 +62,35 @@ public class RedisConfig {
     @Value("${spring.redis.rider.port}")
     private int redisDeliveryPort;
 
+    @Value("${spring.redis.departHost}")
+    private boolean redisDepartHost;
+
+    @Value("${spring.redis.session.host}")
+    private String redisSessionHost;
+
+    @Value("${spring.redis.cache.host}")
+    private String redisCacheHost;
+
+    @Value("${spring.redis.cart.host}")
+    private String redisCartHost;
+
+    @Value("${spring.redis.rider.host}")
+    private String redisRiderHost;
+
     @Value("${spring.redis.password}")
     private String redisPassword;
 
-    private final RedisProperties redisProperties;
+    private RedisProperties redisProperties;
+
+    private String hostUrl = redisHost;
 
     // lettuce
     @Bean
     public RedisConnectionFactory redisConnectionFactory() {
+        if (redisDepartHost) {
+            hostUrl = redisSessionHost;
+        }
+        redisProperties.setHost(hostUrl);
         return new LettuceConnectionFactory(redisProperties.getHost(), redisProperties.getPort());
     }
 
@@ -81,44 +102,80 @@ public class RedisConfig {
         return redisTemplate;
     }
 
+    @Bean
+    public RedisConnectionFactory redisSessionConnectionFactory() {
+        if (redisDepartHost) {
+            hostUrl = redisSessionHost;
+        }
+
+        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+        redisStandaloneConfiguration.setHostName(hostUrl);
+        redisStandaloneConfiguration.setPort(redisSessionPort);
+        redisStandaloneConfiguration.setPassword(redisPassword);
+
+        return new LettuceConnectionFactory(
+                redisStandaloneConfiguration);
+    }
+
+//    @Bean
+//    public RedisConnectionFactory redisConnectionFactory() {
+//        if (redisDepartHost) {
+//            hostUrl = redisSessionHost;
+//        }
+//
+//        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
+//        redisStandaloneConfiguration.setHostName(hostUrl);
+//        redisStandaloneConfiguration.setPort(redisSessionPort);
+//        redisStandaloneConfiguration.setPassword(redisPassword);
+//
+//        return new LettuceConnectionFactory(
+//                redisStandaloneConfiguration);
+//    }
+
 
     @Bean
     public RedisConnectionFactory redisCacheConnectionFactory() {
 
+        if (redisDepartHost) {
+            hostUrl = redisCacheHost;
+        }
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName(redisHost);
+        redisStandaloneConfiguration.setHostName(hostUrl);
         redisStandaloneConfiguration.setPort(redisCachePort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
-                redisStandaloneConfiguration);
 
-        return lettuceConnectionFactory;
+        return new LettuceConnectionFactory(
+                redisStandaloneConfiguration);
     }
 
     @Bean
     public RedisConnectionFactory redisCartConnectionFactory() {
-
+        hostUrl = redisHost;
+        if (redisDepartHost) {
+            hostUrl = redisCartHost;
+        }
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName(redisHost);
+        redisStandaloneConfiguration.setHostName(hostUrl);
         redisStandaloneConfiguration.setPort(redisCartPort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
-                redisStandaloneConfiguration);
 
-        return lettuceConnectionFactory;
+        return new LettuceConnectionFactory(
+                redisStandaloneConfiguration);
     }
 
     @Bean
     public RedisConnectionFactory redisDeliveryConnectionFactory() {
 
+        if (redisDepartHost) {
+            hostUrl = redisRiderHost;
+        }
         RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration();
-        redisStandaloneConfiguration.setHostName(redisHost);
+        redisStandaloneConfiguration.setHostName(hostUrl);
         redisStandaloneConfiguration.setPort(redisDeliveryPort);
         redisStandaloneConfiguration.setPassword(redisPassword);
-        LettuceConnectionFactory lettuceConnectionFactory = new LettuceConnectionFactory(
-                redisStandaloneConfiguration);
 
-        return lettuceConnectionFactory;
+        return new LettuceConnectionFactory(
+                redisStandaloneConfiguration);
     }
 
     @Bean

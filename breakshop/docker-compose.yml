@@ -10,25 +10,68 @@ services:
       MYSQL_PASSWORD: test1234
     ports:
       - "3306:3306"
-  redis:
+    # Redis - session
+  redis-session:
     image: redis:latest
-    container_name: redis
-    command: redis-server --requirepass 1234
+    container_name: redis-session
+    command: redis-server --port 6379
+    environment:
+      - REDIS_PASSWORD=1234
     ports:
       - "6379:6379"
+
+  # Redis - cache
+  redis-cache:
+    image: redis:latest
+    container_name: redis-cache
+    command: redis-server --port 6389
+    environment:
+      - REDIS_PASSWORD=1234
+    ports:
       - "6389:6389"
+
+
+  # Redis - cart
+  redis-cart:
+    image: redis:latest
+    container_name: redis-cart
+    command: redis-server --port 6399
+    environment:
+      - REDIS_PASSWORD=1234
+    ports:
       - "6399:6399"
+
+
+  # Redis - rider
+  redis-rider:
+    image: redis:latest
+    container_name: redis-rider
+    command: redis-server --port 6409
+    environment:
+      - REDIS_PASSWORD=1234
+    ports:
       - "6409:6409"
+
   breakshop:
-    image: openjdk:17-jdk-alpine
+    build: .
+    image: deda766/breakshop
     container_name: breakshop
     ports:
       - "8090:8090"
+    links:
+      - mysql
+    restart: on-failure
+
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/breakshop?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
       SPRING_DATASOURCE_USERNAME: host
       SPRING_DATASOURCE_PASSWORD: test1234
-      SPRING_REDIS_HOST: redis
+      MYSQL_USERNAME: host
+      MYSQL_PASSWORD: test1234
+      MYSQL_DATABASE: breakshop
+      REDIS_HOST: redis-session
+      REDIS_PASSWORD: 1234
+      SPRING_REDIS_HOST: redis-session
       SPRING_REDIS_PASSWORD: 1234
       SPRING_REDIS_SESSION_PORT: 6379
       SPRING_REDIS_CACHE_PORT: 6389
@@ -36,17 +79,20 @@ services:
       SPRING_REDIS_RIDER_PORT: 6409
       FCM_RIDER_EXPIRE_SECOND: 86400
       SPRING_SESSION_STORE_TYPE: redis
-#      SPRINGDOCS_PACKAGES-TO-SCAN: com.project.breakshop.controller
-#      SPRINGDOCS_SWAGGER-UI_PATH: /index.html
-#      SPRINGDOCS_SWAGGER-UI_GROUPS-ORDER: DESC
-#      SPRINGDOCS_SWAGGER-UI_OPERATIONSSORTER: method
-#      SPRINGDOCS_SWAGGER-UI_DISABLE-SWAGGER-DEFAULT-URL: true
-#      SPRINGDOCS_SWAGGER-UI_DISPLAY-REQUEST-DURATION: true
-#      SPRINGDOCS_API-DOCS_PATH: /api-docs
-#      SPRINGDOCS_SHOW-ACTUATOR: true
-#      SPRINGDOC_DEFAULT-CONSUMES-MEDIA-TYPE: application/json
-#      SPRINGDOC_DEFAULT-PRODUCES-MEDIA-TYPE: application/json
-#      SPRING_MVC_PATHMATCH_MATCHING-STRATEGY: ant_path_matcher
+      SPRINGDOCS_PACKAGES-TO-SCAN: com.project.breakshop.controller
+      SPRINGDOCS_SWAGGER-UI_PATH: /index.html
+      SPRINGDOCS_SWAGGER-UI_GROUPS-ORDER: DESC
+      SPRINGDOCS_SWAGGER-UI_OPERATIONSSORTER: method
+      SPRINGDOCS_SWAGGER-UI_DISABLE-SWAGGER-DEFAULT-URL: true
+      SPRINGDOCS_SWAGGER-UI_DISPLAY-REQUEST-DURATION: true
+      SPRINGDOCS_API-DOCS_PATH: /api-docs
+      SPRINGDOCS_SHOW-ACTUATOR: true
+      SPRINGDOC_DEFAULT-CONSUMES-MEDIA-TYPE: application/json
+      SPRINGDOC_DEFAULT-PRODUCES-MEDIA-TYPE: application/json
+      SPRING_MVC_PATHMATCH_MATCHING-STRATEGY: ant_path_matcher
     depends_on:
       - mysql
-      - redis
+      - redis-session
+      - redis-cache
+      - redis-cart
+      - redis-rider

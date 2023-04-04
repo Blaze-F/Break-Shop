@@ -1,0 +1,69 @@
+#배포용 설정
+#Docker 내부 로컬호스트와 통신하기 위한
+server:
+  address: 0.0.0.0
+  port: 8090
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://mysql:3306/breakshop?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
+    username: root
+    password: test1234
+  #Redis
+  redis:
+    host: redis-session
+    password: 1234
+    departHost: true
+    session:
+      host: redis-session
+      port: 6379
+    cache:
+      host: redis-cache
+      port: 6389
+    cart:
+      host: redis-cart
+      port: 6399
+    rider:
+      host: redis-rider
+      port: 6409
+  fcm:
+    rider:
+      expire:
+        second: 86400
+  session:
+    store-type: redis
+  #JPA
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        globally_quoted_identifiers: true
+    database: mysql
+  # Miscellaneous
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+springdoc:
+  packages-to-scan: com.project.breakshop.controller
+  swagger-ui:
+    path: /index.html
+    groups-order: DESC
+    operationsSorter: method
+    disable-swagger-default-url: true
+    display-request-duration: true
+  api-docs:
+    path: /api-docs
+  show-actuator: true
+  default-consumes-media-type: application/json
+  default-produces-media-type: application/json
+
+

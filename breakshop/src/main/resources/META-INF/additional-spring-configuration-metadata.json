@@ -1,0 +1,13 @@
+{
+  "properties": [
+    {
+      "name": "spring.redis.session.port",
+      "type": "java.lang.String",
+      "description": "Description for spring.redis.session.port."
+    },
+    {
+      "name": "pring.jpa.hibernate.naming.physical-strategy",
+      "type": "java.lang.String",
+      "description": "Description for pring.jpa.hibernate.naming.physical-strategy."
+    }
+  ] }

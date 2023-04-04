@@ -80,7 +80,7 @@ public class RedisConfig {
     @Value("${spring.redis.password}")
     private String redisPassword;
 
-    private RedisProperties redisProperties;
+    public RedisProperties redisProperties = new RedisProperties();
 
     private String hostUrl = redisHost;
 

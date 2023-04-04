@@ -1,6 +1,7 @@
 #배포용 설정
+#Docker 내부 로컬호스트와 통신하기 위한
 server:
-  address: breakshop
+  address: 0.0.0.0
   port: 8090
 
 spring:

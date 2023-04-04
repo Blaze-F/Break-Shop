@@ -53,14 +53,15 @@ services:
       - "6409:6409"
 
   breakshop:
-    build: .
-    image: deda766/breakshop
+    image: breakshop
     container_name: breakshop
     ports:
       - "8090:8090"
     links:
       - mysql
     restart: on-failure
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/breakshop?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
@@ -77,19 +78,19 @@ services:
       SPRING_REDIS_CACHE_PORT: 6389
       SPRING_REDIS_CART_PORT: 6399
       SPRING_REDIS_RIDER_PORT: 6409
-      FCM_RIDER_EXPIRE_SECOND: 86400
-      SPRING_SESSION_STORE_TYPE: redis
-      SPRINGDOCS_PACKAGES-TO-SCAN: com.project.breakshop.controller
-      SPRINGDOCS_SWAGGER-UI_PATH: /index.html
-      SPRINGDOCS_SWAGGER-UI_GROUPS-ORDER: DESC
-      SPRINGDOCS_SWAGGER-UI_OPERATIONSSORTER: method
-      SPRINGDOCS_SWAGGER-UI_DISABLE-SWAGGER-DEFAULT-URL: true
-      SPRINGDOCS_SWAGGER-UI_DISPLAY-REQUEST-DURATION: true
-      SPRINGDOCS_API-DOCS_PATH: /api-docs
-      SPRINGDOCS_SHOW-ACTUATOR: true
-      SPRINGDOC_DEFAULT-CONSUMES-MEDIA-TYPE: application/json
-      SPRINGDOC_DEFAULT-PRODUCES-MEDIA-TYPE: application/json
-      SPRING_MVC_PATHMATCH_MATCHING-STRATEGY: ant_path_matcher
+#      FCM_RIDER_EXPIRE_SECOND: 86400
+#      SPRING_SESSION_STORE_TYPE: redis
+#      SPRINGDOCS_PACKAGES-TO-SCAN: com.project.breakshop.controller
+#      SPRINGDOCS_SWAGGER-UI_PATH: /index.html
+#      SPRINGDOCS_SWAGGER-UI_GROUPS-ORDER: DESC
+#      SPRINGDOCS_SWAGGER-UI_OPERATIONSSORTER: method
+#      SPRINGDOCS_SWAGGER-UI_DISABLE-SWAGGER-DEFAULT-URL: true
+#      SPRINGDOCS_SWAGGER-UI_DISPLAY-REQUEST-DURATION: true
+#      SPRINGDOCS_API-DOCS_PATH: /api-docs
+#      SPRINGDOCS_SHOW-ACTUATOR: true
+#      SPRINGDOC_DEFAULT-CONSUMES-MEDIA-TYPE: application/json
+#      SPRINGDOC_DEFAULT-PRODUCES-MEDIA-TYPE: application/json
+#      SPRING_MVC_PATHMATCH_MATCHING-STRATEGY: ant_path_matcher
     depends_on:
       - mysql
       - redis-session

@@ -10,8 +10,7 @@ COPY . /app
 ## Install MySQL client and Redis server
 #RUN apk add --no-cache mysql-client redis
 
-# Expose ports for MySQL and Redis servers
-EXPOSE 3306 6379 6389 6399 6409
+EXPOSE 8090
 
 ## Set environment variables
 #ENV SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/breakshop?useSSL=false&allowPublicKeyRetrieval=true&useUnicode=true&serverTimezone=Asia/Seoul
@@ -30,4 +29,4 @@ EXPOSE 3306 6379 6389 6399 6409
 RUN ./gradlew build -x test
 
 # Start the application
-CMD ["java", "-jar", "build/libs/breakshop.jar"]
+CMD ["java", "-jar", "build/libs/breakshop-0.0.1-SNAPSHOT.jar"]

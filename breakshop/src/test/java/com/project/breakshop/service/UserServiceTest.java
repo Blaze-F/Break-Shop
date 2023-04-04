@@ -47,7 +47,7 @@ class UserServiceTest {
             .name("이성국")
             .phone("010-1234-1234")
             .address("서울시")
-            .level(UserLevel.USER)
+            .level(UserLevel.ROLE_USER)
             .build();
     }
 

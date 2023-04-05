@@ -16,13 +16,11 @@
 1인 개발 / 2023-01-13 ~
 
 ## 프로젝트 구성 
----
 ### ERD
 ![image](https://user-images.githubusercontent.com/101803254/230019582-34e2f982-dfb4-483b-8d7e-95dbdd967dab.png)
 
 
 ## 어떻게 실행하나요?
---- 
 ```
 cd breakshop
 
@@ -34,7 +32,6 @@ docker compose up -d
 ```
 
 ## 사용 기술
----
 - JAVA 11
 - SpringBoot
     - modelmapper
@@ -56,7 +53,6 @@ docker compose up -d
 localhost:8090/swagger-ui/index.html
 ```
 에서 확인 가능합니다.
----
 #### 회원가입 후 로그인하여 세션에 정보 생성 후 이용가능합니다.
 #### 상점 관리 API는 가입시 입력한 ROLE_OWNER 권한만 가능합니다.
 

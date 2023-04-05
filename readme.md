@@ -31,7 +31,7 @@ cd breakshop
 
 ./gradlew build
 
-docker build breakshop .
+docker build -t breakshop .
 
 docker compose up -d
 ```

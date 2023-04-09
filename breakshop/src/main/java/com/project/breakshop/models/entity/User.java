@@ -18,7 +18,6 @@ import java.util.List;
 public class User extends BaseEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id")
     private Long id;
     //password
     @Column(nullable = false)
@@ -33,6 +32,7 @@ public class User extends BaseEntity implements Serializable {
     @Enumerated(EnumType.ORDINAL)
     private LoginCheck.UserLevel level;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id")
     private List<Order> orderList;
 }

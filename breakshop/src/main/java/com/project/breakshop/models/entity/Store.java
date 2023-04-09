@@ -7,7 +7,10 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 /*
 테이블 자동생성 오류로 인해 테이블명을 STORES으로 변경하였음.
  */
@@ -21,7 +24,6 @@ import java.util.List;
 public class Store extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "store_id")
     private Long id;
 
     @Column(nullable = false)
@@ -46,9 +48,11 @@ public class Store extends BaseEntity {
     User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_category_id")
     StoreCategory storeCategory;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    List<Order> orderList = new ArrayList<>();
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "order_id")
+    Set<Order> orderSet = new HashSet<>();
 
 }

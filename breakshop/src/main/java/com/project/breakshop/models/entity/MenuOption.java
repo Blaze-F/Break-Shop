@@ -14,11 +14,13 @@ import java.util.Set;
 public class MenuOption {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @Column(name = "menu_option_id")
+    private Long MenuOptionId;
     private String name;
     private Long price;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+            @JoinColumn(name = "order_menu_option_id")
     Set<OrderMenuOption> orderMenuOptionSet;
 
     @ManyToOne(fetch = FetchType.LAZY)

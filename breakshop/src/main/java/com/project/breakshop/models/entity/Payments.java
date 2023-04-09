@@ -13,7 +13,6 @@ import javax.persistence.*;
 public class Payments extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "payments_id")
     private Long id;
 
     private String payType;

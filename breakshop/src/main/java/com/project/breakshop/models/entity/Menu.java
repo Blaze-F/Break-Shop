@@ -15,7 +15,6 @@ import java.util.Set;
 public class Menu extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "menu_id")
     private Long id;
 
     @Column(nullable = false)
@@ -25,7 +24,8 @@ public class Menu extends BaseEntity {
     private String photo;
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+            @JoinColumn(name = "menu_option_id")
     Set<MenuOption> menuOptionSet;
 
     @ManyToOne(fetch = FetchType.LAZY)

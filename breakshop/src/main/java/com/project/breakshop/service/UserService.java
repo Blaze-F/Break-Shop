@@ -37,8 +37,7 @@ public class UserService {
             throw new DuplicatedIdException("Same id exists email: " + request.getEmail());
         }
         UserDTO encryptedUser = encryptUser(request);
-        User userTemp = modelMapper.map(encryptedUser, User.class);
-        userRepository.save(userTemp);
+        userRepository.save(modelMapper.map(encryptedUser, User.class));
     }
 
     public boolean isExistsEmail(String email) {

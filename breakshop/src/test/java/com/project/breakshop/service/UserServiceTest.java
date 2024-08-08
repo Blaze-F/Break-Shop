@@ -13,7 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 
 import javax.swing.text.html.Option;
 import java.util.Optional;
@@ -30,6 +32,8 @@ class UserServiceTest {
     @InjectMocks
     UserService userService;
 
+    @Spy
+    ModelMapper modelMapper = new ModelMapper();
     UserDTO user;
 
     User userEntity;
@@ -40,22 +44,37 @@ class UserServiceTest {
 
     @BeforeEach
     public void makeUser() {
+        request = SignupRequest.builder()
+                .password(PasswordEncrypter.encrypt("123"))
+                .email("tjdrnr05571@naver.com")
+                .name("이성국")
+                .phone("010-1234-1234")
+                .address("서울시")
+                .build();
         user = UserDTO.builder()
                 .id(1L)
-            .password(PasswordEncrypter.encrypt("123"))
-            .email("tjdrnr05571@naver.com")
-            .name("이성국")
-            .phone("010-1234-1234")
-            .address("서울시")
-            .level(UserLevel.ROLE_USER)
-            .build();
+                .password(PasswordEncrypter.encrypt("123"))
+                .email("tjdrnr05571@naver.com")
+                .name("이성국")
+                .phone("010-1234-1234")
+                .address("서울시")
+                .level(UserLevel.ROLE_USER)
+                .build();
+        userEntity = User.builder().id(1L)
+                .password(PasswordEncrypter.encrypt("123"))
+                .email("tjdrnr05571@naver.com")
+                .name("이성국")
+                .phone("010-1234-1234")
+                .address("서울시")
+                .level(UserLevel.ROLE_USER)
+                .build();
     }
 
     @Test
     @DisplayName("회원가입에 성공합니다")
     public void signUpTestWhenSuccess() {
         when(userRepository.existsByEmail(user.getEmail())).thenReturn(false);
-        doNothing().when(userRepository).save(any(User.class));
+        when(userRepository.save(any(User.class))).thenReturn(userEntity);
 
         userService.signUp(request);
 
@@ -96,11 +115,10 @@ class UserServiceTest {
     @DisplayName("유저 삭제합니다")
     public void deleteUserTestWhenSuccess() {
         when(userRepository.existsByEmail(user.getEmail())).thenReturn(true);
-        doNothing().when(userRepository).delete(userEntity);
 
         userService.deleteUser(user.getEmail());
 
-        verify(userRepository).delete(userEntity);
+        verify(userRepository).deleteByEmail(anyString());
     }
 
     @Test
@@ -126,12 +144,14 @@ class UserServiceTest {
     @Test
     @DisplayName("아이디와 비밀번호로 유저를 찾습니다")
     public void findUserByIdAndPasswordTestWhenSuccess() {
-        when(userRepository.findById(user.getId())).thenReturn(userOptional);
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(userEntity));
 
-        assertEquals(userService.findUserByEmailAndPassword(user.getEmail(), "123"),
-            Optional.ofNullable(user));
+        Optional<UserDTO> actualUserDTO = userService.findUserByEmailAndPassword(userEntity.getEmail(), "123");
 
-        verify(userRepository).findById(user.getId());
+        assertTrue(actualUserDTO.isPresent());
+        assertTrue(actualUserDTO.get() instanceof UserDTO);
+
+        verify(userRepository).findByEmail(userEntity.getEmail());
     }
 
     @Test
@@ -140,7 +160,7 @@ class UserServiceTest {
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.empty());
 
         assertEquals(userService.findUserByEmailAndPassword(user.getEmail(), user.getPassword()),
-            Optional.empty());
+                Optional.empty());
 
         verify(userRepository).findByEmail(any(String.class));
     }
@@ -148,10 +168,10 @@ class UserServiceTest {
     @Test
     @DisplayName("아이디와 비밀번호로 유저 찾기에 실패합니다 : 주어진 유저 비밀번호 오류")
     public void findUserByIdAndPasswordTestWhenFailBecausePasswordError() {
-        when(userRepository.findById(user.getId())).thenReturn(userOptional);
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.of(userEntity));
 
         assertEquals(userService.findUserByEmailAndPassword(user.getEmail(), "not same password"),
-            Optional.empty());
+                Optional.empty());
 
         verify(userRepository).findByEmail(any(String.class));
     }

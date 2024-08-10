@@ -1,7 +1,7 @@
 package com.project.breakshop.service;
+
 import com.project.breakshop.exception.StoreNameAlreadyExistException;
 import com.project.breakshop.models.DTO.OrderDTO;
-import com.project.breakshop.models.DTO.OrderDTO.OrderStatus;
 import com.project.breakshop.models.DTO.OrderReceiptDTO;
 import com.project.breakshop.models.DTO.PushMessageDTO;
 import com.project.breakshop.models.DTO.StoreDTO;
@@ -24,6 +24,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
+
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -78,7 +79,6 @@ public class StoreService {
                 storeCategoryRepository.save(storeCategory);
             }
             StoreCategory storeCategory = storeCategoryRepository.getByName(storeCreateRequest.getCategoryName()).get();
-            //TODO 다른 부분도 modelmapper가 orm에 맞게 객체 매핑이 안될시 해당 코드처럼 빌더형태로 변경할 것.
             Store storeEntity = Store.builder()
                     .storeCategory(storeCategory)
                     .address(storeCreateRequest.getAddress())
@@ -129,10 +129,7 @@ public class StoreService {
     public void approveOrder(long orderId) {
         Order orderEntity = orderRepository.findById(orderId).get();
         OrderDTO orderDTO = modelMapper.map(orderEntity, OrderDTO.class);
-        orderDTO.setOrderStatus(OrderStatus.APPROVED_ORDER);
-        orderRepository.save(modelMapper.map(orderDTO, Order.class));
-
-        //TODO 해당 로직 정상 작동여부 확인할 것. 의심됨
+        orderRepository.approveOrder(Order.OrderStatus.APPROVED_ORDER, orderEntity.getId());
 
         OrderReceiptDTO orderReceipt = orderRepository.selectOrderReceipt(orderId);
         deliveryService.registerStandbyOrderWhenOrderApprove(orderId, orderReceipt);

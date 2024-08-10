@@ -45,19 +45,10 @@ public class RiderService {
         deliveryDAO.insertStandbyRiderWhenStartWork(rider);
     }
 
-    //
+
     public void sendMessageToStandbyRidersInSameArea(String address, PushMessageDTO pushMessage) {
         Set<String> tokenSet = deliveryDAO.selectStandbyRiderTokenList(address);
-//        List<Message> messages = tokenSet.stream().map(token -> Message.builder()
-//            .putData("title", pushMessage.getTitle())
-//            .putData("content", pushMessage.getContent())
-//            .putData("orderReceipt", pushMessage.getOrderReceipt().toString())
-//            .putData("createdAt", pushMessage.getCreatedAt())
-//            .setToken(token)
-//            .build())
-//            .collect(Collectors.toList());
-//
-//        //pushService.sendMessages(messages);
+
     }
 
 }

@@ -35,7 +35,7 @@ public class RiderServiceTest {
     public void init() {
         riderDTO = RiderDTO.builder()
             .id("일산라이더")
-            .name("이성국")
+            .name("장수기")
             .phone("010-1111-1111")
             .address("경기도 고양시 일산동")
             .fcmToken("JH1234")
@@ -56,7 +56,7 @@ public class RiderServiceTest {
     @DisplayName("라이더가 출근할 시 지역별 라이더 대기 목록에 등록하는데 아이디 값을 누락하고 요청하여 실패한다")
     public void registerStandbyRiderWhenStartWorkTestFailBecauseEmptyId() {
         riderDTO = RiderDTO.builder()
-            .name("이성국")
+            .name("장수기")
             .build();
         doThrow(IllegalArgumentException.class).when(deliveryDAO)
             .insertStandbyRiderWhenStartWork(any(RiderDTO.class));
@@ -111,7 +111,7 @@ public class RiderServiceTest {
     @DisplayName("라이더가 퇴근할 시 지역별 라이더 대기 목록에서 삭제할 때 아이디를 누락하여 보내면 실패한다")
     public void deleteStandbyRiderWhenStopWorkTestFailBecauseEmptyId() {
         riderDTO = RiderDTO.builder()
-            .name("이성국")
+            .name("장수기")
             .phone("010-1111-1111")
             .address("경기도 고양시 일산동")
             .fcmToken("JH1234")
@@ -130,7 +130,7 @@ public class RiderServiceTest {
     public void deleteStandbyRiderWhenStopWorkTestFailBecauseEmptyAddress() {
         riderDTO = RiderDTO.builder()
             .id("rider")
-            .name("이성국")
+            .name("장수기")
             .phone("010-1111-1111")
             .fcmToken("JH1234")
             .build();
@@ -143,20 +143,19 @@ public class RiderServiceTest {
         verify(deliveryDAO).deleteStandbyRiderWhenStopWork(any(RiderDTO.class));
     }
 
-    //TODO
     @Test
     @DisplayName("라이더가 주문완료된 음식에 배차 요청을 하는데 성공한다")
     public void acceptStandbyOrderTest() {
         doNothing().when(deliveryDAO)
             .updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
-        when(orderRepository.updateStandbyOrderToDelivering(anyLong(), any(String.class), any(
-                Order.OrderStatus.class))).thenReturn(anyInt());
+        when(orderRepository
+                .updateStandbyOrderToDelivering(anyLong(), any(String.class), any(Order.OrderStatus.class)))
+                .thenReturn(1);
 
         riderService.acceptStandbyOrder(1L, riderDTO);
 
         verify(deliveryDAO).updateStandbyOrderToDelivering(anyLong(), any(RiderDTO.class));
-        verify(orderRepository).updateStandbyOrderToDelivering(eq(anyLong()), any(String.class), any(
-            Order.OrderStatus.class));
+        verify(orderRepository).updateStandbyOrderToDelivering(anyLong(), any(String.class), any(Order.OrderStatus.class));
     }
 
     @Test

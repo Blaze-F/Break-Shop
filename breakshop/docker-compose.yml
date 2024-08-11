@@ -54,6 +54,7 @@ services:
 
   breakshop:
     image: breakshop
+    build: .
     container_name: breakshop
     ports:
       - "8090:8090"

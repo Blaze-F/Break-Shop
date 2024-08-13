@@ -1,4 +1,4 @@
-package com.project.breakshop.service;
+package com.project.breakshop.service.interfaces;
 
 public interface PayService {
 

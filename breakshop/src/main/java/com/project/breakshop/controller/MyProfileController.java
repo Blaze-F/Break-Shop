@@ -3,7 +3,7 @@ package com.project.breakshop.controller;
 
 import com.project.breakshop.annotation.CurrentUserId;
 import com.project.breakshop.annotation.LoginCheck;
-import com.project.breakshop.service.LoginService;
+import com.project.breakshop.service.interfaces.LoginService;
 import com.project.breakshop.service.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

@@ -46,7 +46,9 @@ spring:
         format_sql: true
         dialect: org.hibernate.dialect.MySQL8Dialect
         globally_quoted_identifiers: true
-    database: mysql
+        jdbc:
+          time_zone: UTC+9
+          database: mysql
   # Miscellaneous
   mvc:
     pathmatch:
@@ -65,5 +67,6 @@ springdoc:
   show-actuator: true
   default-consumes-media-type: application/json
   default-produces-media-type: application/json
+
 
 

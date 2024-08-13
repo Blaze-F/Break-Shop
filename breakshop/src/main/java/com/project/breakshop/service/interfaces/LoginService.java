@@ -1,4 +1,4 @@
-package com.project.breakshop.service;
+package com.project.breakshop.service.interfaces;
 
 /*
  *  로그인 하는 로직은 여러 Controller에서 쓰일 수 있기 때문에 LoginService로 구현하였습니다.

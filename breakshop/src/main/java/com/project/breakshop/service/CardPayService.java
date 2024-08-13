@@ -3,6 +3,7 @@ package com.project.breakshop.service;
 import com.project.breakshop.models.DTO.PayDTO;
 import com.project.breakshop.models.entity.Payments;
 import com.project.breakshop.models.repository.PaymentsRepository;
+import com.project.breakshop.service.interfaces.PayService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;

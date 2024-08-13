@@ -4,7 +4,7 @@ import com.project.breakshop.models.DTO.PayDTO;
 import com.project.breakshop.service.CardPayService;
 import com.project.breakshop.service.DepositPayService;
 import com.project.breakshop.service.NaverPayService;
-import com.project.breakshop.service.PayService;
+import com.project.breakshop.service.interfaces.PayService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 

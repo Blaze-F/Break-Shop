@@ -1,5 +1,6 @@
 package com.project.breakshop.service;
 
+import com.project.breakshop.service.interfaces.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,6 @@ import javax.servlet.http.HttpSession;
  *  이러한 스코프 차이 때문에 Spring이 HttpSession 인스턴스를 동적 프록시로 생성하여 주입합니다.
  *  이러한 기법은 Scoped Proxy라고 합니다.
  * */
-//TODO
 @Service
 @RequiredArgsConstructor
 public class SessionLoginService implements LoginService {

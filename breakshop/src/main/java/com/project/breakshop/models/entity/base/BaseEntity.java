@@ -1,14 +1,12 @@
 package com.project.breakshop.models.entity.base;
 
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-import org.hibernate.annotations.Type;
+
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.Date;
 
 /**
  *
@@ -16,18 +14,15 @@ import java.util.Date;
 */
 
 @MappedSuperclass
+@EntityListeners(AuditingEntityListener.class)
 public abstract class BaseEntity {
 
-    @Column(name = "MODIFIED_DATE", insertable = false, updatable = false)
-    @Generated(GenerationTime.ALWAYS)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "MODIFIED_DATE")
     @LastModifiedDate
-    private Date modifiedDate;
+    private LocalDateTime modifiedDate;
 
-    @Column(name = "CREATED_DATE", insertable = false)
-    @Generated(GenerationTime.INSERT)
-    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "CREATED_DATE", updatable = false)
     @CreatedDate
-    private Date createdDate;
-
+    private LocalDateTime createdDate;
 }
+

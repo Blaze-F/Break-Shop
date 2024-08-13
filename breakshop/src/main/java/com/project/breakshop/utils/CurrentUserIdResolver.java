@@ -2,7 +2,7 @@ package com.project.breakshop.utils;
 
 
 import com.project.breakshop.annotation.CurrentUserId;
-import com.project.breakshop.service.LoginService;
+import com.project.breakshop.service.interfaces.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.stereotype.Component;

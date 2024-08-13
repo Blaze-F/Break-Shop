@@ -52,6 +52,14 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+tasks.withType(Test).configureEach {
+    // 테스트 실패 시 빌드를 실패로 처리
+    ignoreFailures = false
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
+}
+
 jar {
     enabled = false
 }

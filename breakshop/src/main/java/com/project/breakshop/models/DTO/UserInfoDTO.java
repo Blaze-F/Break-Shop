@@ -2,13 +2,12 @@ package com.project.breakshop.models.DTO;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Builder
 @Setter
+@NoArgsConstructor
 public class UserInfoDTO {
 
     public String id;

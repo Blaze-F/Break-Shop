@@ -11,6 +11,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.TransactionSynchronization;
 import org.springframework.transaction.support.TransactionSynchronizationAdapter;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
@@ -37,62 +38,72 @@ public class OrderService {
     private final StoreRepository storeRepository;
     private final ModelMapper modelMapper;
 
-    @Transactional
-    public OrderReceiptDTO registerOrder(String userId, long storeId, PayDTO.PayType payType) {
 
-        User userEntity = userRepository.findById(Long.parseLong(userId)).get();
-        UserInfoDTO user = modelMapper.map(userEntity, UserInfoDTO.class);
-        Store store = storeRepository.findById(storeId).get();
-        OrderDTO orderDTO = getOrderDTO(user, storeId);
-        List<CartItemDTO> cartList;
+    @Transactional(rollbackFor = Exception.class)
+    public OrderReceiptDTO registerOrder(String userId, long storeId, PayDTO.PayType payType) {
+        // 사용자 엔티티를 가져와서 UserInfoDTO로 변환
+        User userEntity = userRepository.findById(Long.parseLong(userId))
+                .orElseThrow(() -> new RuntimeException("사용자를 찾을 수 없습니다"));
+        UserInfoDTO userInfoDTO = modelMapper.map(userEntity, UserInfoDTO.class);
+
+        // 상점 엔티티를 가져옴
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new RuntimeException("상점을 찾을 수 없습니다"));
+
+        // OrderDTO를 생성하고 장바구니 항목을 가져옴
+        OrderDTO orderDTO = getOrderDTO(userInfoDTO, storeId);
+        List<CartItemDTO> cartList = cartItemDAO.getCartAndDelete(userId);
         List<OrderMenuDTO> orderMenuList = new ArrayList<>();
         List<OrderMenuOptionDTO> orderMenuOptionList = new ArrayList<>();
         OrderReceiptDTO orderReceipt;
 
-        cartList = cartItemDAO.getCartAndDelete(userId);
+        try {
+            // Order 엔티티를 먼저 생성
+            Order beforePaidOrder = Order.builder()
+                    .orderStatus(Order.OrderStatus.BEFORE_ORDER)
+                    .address(orderDTO.getAddress())
+                    .totalPrice(0L) // 현재는 가격이 0으로 설정
+                    .user(userEntity)
+                    .store(store)
+                    .build();
 
-        //오더 캔슬시 카트 아이템을 롤백하는 로직
-        restoreCartListOnOrderRollback(userId, cartList);
+            beforePaidOrder = orderRepository.save(beforePaidOrder);
 
-        long totalPrice = orderTransactionService
-            .order(orderDTO, cartList, orderMenuList, orderMenuOptionList);
-        orderTransactionService.pay(payType, totalPrice, orderDTO.getId());
+            //DTO 에 ID 정보 저장
+            orderDTO.setId(beforePaidOrder.getId());
 
-        orderDTO.setOrderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER);
-        //TODO 이부분도 USER 엔티티 부분 제대로 매핑되었는지 확인해야할듯
-        //TODO Redis Cluster 부분 해결되어야 제대로 작동될 로직임.
-        //TODO payments 옵션 어디로 가는지 나중에 확인 바람.
-        Order order = Order.builder()
-                .orderStatus(Order.OrderStatus.APPROVED_ORDER)
-                .address(orderDTO.getAddress())
-                //.orderMenuOptions()
-                .totalPrice(totalPrice)
-                .user(userEntity)
-                .address(orderDTO.getAddress())
-                .store(store)
-                .build();
-        orderRepository.save(order);
+            // 총 가격 계산
+            long totalPrice = orderTransactionService.order(orderDTO, cartList, orderMenuList, orderMenuOptionList);
+            orderDTO.setTotalPrice(totalPrice);
 
-        orderReceipt = getOrderReceipt(orderDTO, cartList, totalPrice, storeId,
-            user);
+            // 결제 진행
+            orderTransactionService.pay(payType, totalPrice, orderDTO.getId());
 
-        return orderReceipt;
+            // 주문 상태 업데이트
+            orderDTO.setOrderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER);
+
+            Order updatedOrder = modelMapper.map(orderDTO, Order.class);
+            // 모든 변경 사항을 한 번에 저장
+            orderRepository.save(updatedOrder);
+
+            // 영수증 생성
+            orderReceipt = getOrderReceipt(orderDTO, cartList, totalPrice, storeId, userInfoDTO);
+
+            return orderReceipt;
+        } catch (Exception e) {
+            // 실패 시 장바구니 변경 롤백
+            cartItemDAO.insertMenuList(userId, cartList);
+            throw e; // 트랜잭션 롤백을 위해 예외를 다시 발생
+        }
     }
-    private void restoreCartListOnOrderRollback(String userId, List<CartItemDTO> cartList) {
-        TransactionSynchronizationManager.registerSynchronization(
-                //TODO Deprecated
-            new TransactionSynchronizationAdapter() {
-                @Override
-                public void afterCompletion(int status) {
-                    if (status == STATUS_ROLLED_BACK) {
-                        cartItemDAO.insertMenuList(userId, cartList);
-                    }
-                }
-            });
-    }
+
+
+
+
 
     private OrderDTO getOrderDTO(UserInfoDTO userInfo, long storeId) {
         return OrderDTO.builder()
+                .id(1L)
             .address(userInfo.getAddress())
             .userId(userInfo.getId())
             .orderStatus(OrderDTO.OrderStatus.BEFORE_ORDER)
@@ -101,18 +112,28 @@ public class OrderService {
     }
 
     private OrderReceiptDTO getOrderReceipt(OrderDTO orderDTO, List<CartItemDTO> cartList,
-        long totalPrice, long storeId, UserInfoDTO userInfo) {
+                                            long totalPrice, long storeId, UserInfoDTO userInfo) {
 
-        Store store = storeRepository.findById(storeId).get();
-        StoreInfoDTO storeInfo = modelMapper.map(store, StoreInfoDTO.class);
+        // Store 객체를 가져온 후 StoreInfoDTO로 매핑
+        Store store = storeRepository.findById(storeId)
+                .orElseThrow(() -> new RuntimeException("Store not found"));
+
+        StoreInfoDTO storeInfo = StoreInfoDTO.builder()
+                .storeId(store.getId())
+                .name(store.getName())
+                .phone(store.getPhone())
+                .address(store.getAddress())
+                .build();
+
+        // OrderReceiptDTO를 빌더 패턴으로 생성
         return OrderReceiptDTO.builder()
-            .orderId(orderDTO.getId())
-            .orderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER.toString())
-            .userInfo(userInfo)
-            .totalPrice(totalPrice)
-            .storeInfo(storeInfo)
-            .cartList(cartList)
-            .build();
+                .orderId(orderDTO.getId())
+                .orderStatus(OrderDTO.OrderStatus.COMPLETE_ORDER.toString())
+                .userInfo(userInfo)
+                .totalPrice(totalPrice)
+                .storeInfo(storeInfo)
+                .cartList(cartList)
+                .build();
     }
 
     public OrderReceiptDTO getOrderInfoByOrderId(long orderId) {

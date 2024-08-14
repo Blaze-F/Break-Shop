@@ -246,4 +246,20 @@ public class StoreServiceTest {
             .sendMessageToStandbyRidersInSameArea(any(String.class), any(PushMessageDTO.class));
     }
 
+    @Test
+    @DisplayName("가게 오픈 테스트")
+    public void validateMyStoreOpen() {
+        storeService.openMyStore(1L);
+
+        verify(storeRepository).openMyStore(anyLong());
+    }
+
+    @Test
+    @DisplayName("가게 닫음 테스트")
+    public void validateMyStoreClose() {
+        storeService.closeMyStore(1L);
+
+        verify(storeRepository).closeMyStore(anyLong());
+    }
+
 }

@@ -168,3 +168,4 @@ build/
 .idea/**
 /breakshop/.idea/
 /.idea/
+/breakshop/jacoco

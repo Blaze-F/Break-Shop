@@ -19,10 +19,7 @@ repositories {
     mavenCentral()
 }
 
-
-
 dependencies {
-
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.jetbrains:annotations:20.1.0'
@@ -31,59 +28,57 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
-
-    // https://mvnrepository.com/artifact/org.springframework/spring-jdbc
     implementation 'org.springframework:spring-jdbc:5.3.14'
     implementation 'mysql:mysql-connector-java:8.0.32'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-jpa
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.6.0'
-    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
     implementation 'org.modelmapper:modelmapper:3.1.1'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    // https://mvnrepository.com/artifact/io.scalajs.npm/bcrypt
     implementation 'io.scalajs.npm:bcrypt_sjs0.6_2.12:1.0.2-4'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
     implementation 'com.google.firebase:firebase-admin:9.1.1'
-    // https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-ui
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.15'
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis:2.7.5'
-	testImplementation 'org.mockito:mockito-junit-jupiter:3.11.1'
-	testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
-
-
+    testImplementation 'org.mockito:mockito-junit-jupiter:3.11.1'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.7.2'
 }
+
 test {
     useJUnitPlatform()
-    // finalizedBy : 이(test) 작업에 대해 주어진 종료자 작업을 추가
-    finalizedBy jacocoTestReport // test 작업이 끝나고 jacocoTestReport를 실행
+    finalizedBy jacocoTestReport
 }
 
 jacoco {
     toolVersion = "0.8.8"
-    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
 }
+
 jacocoTestReport {
+    additionalSourceDirs.setFrom(files("src/main/java"))
+    sourceDirectories.setFrom(files("src/main/java"))
+    classDirectories.setFrom(
+            fileTree('build/classes/java/main').exclude(
+                    'com.project.breakshop.controller/**' ,
+                    'com.project.breakshop.utils/**',
+                    'com/project/breakshop/exception/**',
+                    'com/project/breakshop/models/**',
+                    'com/project/breakshop/annotation/**',
+                    'com/project/breakshop/config/**',
+                    'com/project/breakshop/somepackage/**',
+                    '**/BreakshopApplication.class'
+            )
+    )
     reports {
         xml.required = true
         csv.required = true
-        // 리포트의 저장 경로를 설정합니다.
-        html.destination file("jacoco/jacocoHtml")
-        xml.destination file("jacoco/jacoco.xml")
+        html.destination = file("jacoco/jacocoHtml")
+        xml.destination = file("jacoco/jacoco.xml")
     }
-    // dependsOn : 이 작업에 지정된 종속성을 추가
-    dependsOn test // jacocoTestReport 에 test라는 종속성을 추가
-    finalizedBy 'jacocoTestCoverageVerification'
+    dependsOn test
 }
 
 jacocoTestCoverageVerification {
     violationRules {
-
         rule {
             enabled = true
-            //코드 버커리지 체크 기준
             element = 'CLASS'
-
             limit {
                 counter = 'METHOD'
                 value = 'COVEREDRATIO'
@@ -92,20 +87,3 @@ jacocoTestCoverageVerification {
         }
     }
 }
-
-tasks.withType(Test).configureEach {
-    // 테스트 실패 시 빌드를 실패로 처리
-    ignoreFailures = false
-    testLogging {
-        events "passed", "skipped", "failed"
-    }
-}
-
-jar {
-    enabled = false
-}
-
-tasks.named('test') {
-
-}
-targetCompatibility = JavaVersion.VERSION_11

@@ -55,8 +55,8 @@ jacocoTestReport {
     sourceDirectories.setFrom(files("src/main/java"))
     classDirectories.setFrom(
             fileTree('build/classes/java/main').exclude(
-                    'com.project.breakshop.controller/**' ,
-                    'com.project.breakshop.utils/**',
+                    'com/project/breakshop/controller/**' ,
+                    'com/project/breakshop/utils/**',
                     'com/project/breakshop/exception/**',
                     'com/project/breakshop/models/**',
                     'com/project/breakshop/annotation/**',

@@ -15,8 +15,12 @@
 1인 개발 / 2023-01-13 ~
 
 ## 프로젝트 구성 
+
+![Untitled-2024-04-11-1741](https://github.com/user-attachments/assets/d41901b9-3d7f-4740-a5f6-8ec7c7572d9d)
+
 ### ERD
 ![image](https://user-images.githubusercontent.com/101803254/230019582-34e2f982-dfb4-483b-8d7e-95dbdd967dab.png)
+
 
 
 ## 어떻게 실행하나요?

@@ -41,6 +41,12 @@ docker compose up -d
 - Mysql
 - Docker
 
+## 테스트
+
+비즈니스 로직 테스트 커버리지 약 70%를 유지중입니다
+![image](https://github.com/user-attachments/assets/563b33be-a0f7-491c-a177-ae4328e38b60)
+
+빌드시 자동으로 테스트 코드를 실행하며 리포트 경로는는 /jacoco/jacocoHtml/index.html 입니다.
 
 ## API 설명
 
